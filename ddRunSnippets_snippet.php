@@ -1,7 +1,7 @@
 <?php
 /**
- * ddRunSnippets.php
- * @version 2.0 (2012-03-10)
+ * ddRunSnippets
+ * @version 2.1 (2012-03-18)
  * 
  * Запускает необходимые сниппеты с необходимыми параметрами.
  * Если нужно запустить несколько сниппетов, просто указывайте параметры как snipName0, snipName1 и т.д. (snipParams и snipValues соответственно).
@@ -11,6 +11,8 @@
  * @param snipValues {separated string} - Значения параметров, которые нужно передать (в соответствии с именами), разделённые через '##'. Используйте +ddresultN+ (где N - номер сниппета) для подстановки результата выполнения предыдущего сниппета.
  * @param tpl {string: chunkName} - Чанк для вывода результатов. Доступные плэйсхолдеры: [+ddresultN+] (где N - номер сниппета).
  * @param placeholders {separated string} - Дополнительные данные, которые необходимо передать в чанк «tpl». Формат: строка, разделённая '::' между парой ключ-значение и '||' между парами.
+ * @param toPlaceholder {0; 1} - Возвращать ли результат в плэйсхолдер «placeholderName». По умолчанию: 0.
+ * @param placeholderName {string} - Имя плэйсхолдера при возврате через 'toPlaceholder'. По умолчанию: 'ddRunSnippets'.
  * 
  * @copyright 2011–2012, DivanDesign
  * http://www.DivanDesign.ru
@@ -70,5 +72,10 @@ if (isset($tpl) && $tpl != ''){
 	$result = $result['ddresult'.($i - 1)];
 }
 
-return $result;
+//Если надо, выводим в плэйсхолдер
+if (isset($toPlaceholder) && $toPlaceholder == '1'){
+	$modx->setPlaceholder(isset($placeholderName) ? $placeholderName : 'ddRunSnippets', $result);
+}else{
+	return $result;
+}
 ?>

@@ -5,6 +5,7 @@ Snippet runs necessary snippets with necessary params. Capabilities:
 * Run a few snippets consequentially.
 * Snippets results can be sent into parameters names and/or into other snippets values (can repeat this as much as you like).
 * The snippet result can be returned into the chunk `tpl`, have transferring additional data through the parameter `placeholders`.
+* Final result can be returned into placeholder (see the `toPlaceholder` and the `placeholderName` params).
 
 See the documentation for a more complete picture.
 
@@ -22,7 +23,7 @@ See the documentation for a more complete picture.
 Elements → Snippets: Create a new snippet with the following data:
 
 1. Snippet name: `ddRunSnippets`.
-2. Description: `<b>2.0</b> Snippet runs necessary snippets with necessary params.`.
+2. Description: `<b>2.1</b> Snippet runs necessary snippets with necessary params.`.
 3. Category: `Core`.
 4. Parse DocBlock: `no`.
 5. Snippet code (php): Insert content of the `ddRunSnippets_snippet.php` file from the archive.
@@ -61,6 +62,18 @@ If needs to run a few snippets just set the parameters as `snipName0`, `snipName
 		Format: string, separated by `'::'` between a pair of key-value, and `'||'` between the pairs.
 	* Valid values: `stringSeparated`
 	* Default value: —
+	
+* `toPlaceholder`
+	* Desctription: Return final result into placeholder `placeholderName`.
+	* Valid values:
+		* `0`
+		* `1`
+	* Default value: `0`
+	
+* `placeholderName`
+	* Desctription: Name of placeholder if results returns into placeholder (`toPlaceholder` == `1`).
+	* Valid values: `string`
+	* Default value: `'ddRunSnippets'`
 
 
 ## [Home page →](https://code.divandesign.biz/modx/ddrunsnippets)

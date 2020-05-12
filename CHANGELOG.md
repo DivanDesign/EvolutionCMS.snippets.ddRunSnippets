@@ -1,6 +1,10 @@
 # (MODX)EvolutionCMS.snippets.ddRunSnippets changelog
 
 
+## Version 2.1 (2012-03-18)
+* \+ Added the ability to return final result into placeholder (params `toPlaceholder` and `placeholderName`).
+
+
 ## Version 2.0 (2012-03-10)
 * \+ Snippet redeveloped to run few snippets.
 * \* Large amount of code changes.
