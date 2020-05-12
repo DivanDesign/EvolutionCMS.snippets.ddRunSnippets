@@ -1,7 +1,7 @@
 <?php
 /**
  * ddRunSnippets
- * @version 2.2 (2012-04-09)
+ * @version 2.3 (2012-08-20)
  * 
  * @see README.md
  * 
@@ -25,18 +25,8 @@ while(isset($ddParams['snipName'.$i])){
 	//Если имена параметров и их значения заданы
 	if (isset($ddParams['snipParams'.$i]) && isset($ddParams['snipValues'.$i])){
 		//Подставляем в названия параметров и в значения (смотря куда надо) результат работы предыдущего сниппета
-		$ddParams['snipParams'.$i] = ddTools::parseText([
-			'text' => $ddParams['snipParams'.$i],
-			'data' => $resArr,
-			'placeholderPrefix' => '+',
-			'placeholderSuffix' => '+'
-		]);//str_replace('+ddresult+', $resArr, $ddParams['snipParams'.$i]);
-		$ddParams['snipValues'.$i] = ddTools::parseText([
-			'text' => $ddParams['snipValues'.$i],
-			'data' => $resArr,
-			'placeholderPrefix' => '+',
-			'placeholderSuffix' => '+'
-		]);//str_replace('+ddresult+', $resArr, $ddParams['snipValues'.$i]);
+		$ddParams['snipParams'.$i] = ddTools::parseText($ddParams['snipParams'.$i], $resArr, '+', '+');//str_replace('+ddresult+', $resArr, $ddParams['snipParams'.$i]);
+		$ddParams['snipValues'.$i] = ddTools::parseText($ddParams['snipValues'.$i], $resArr, '+', '+');//str_replace('+ddresult+', $resArr, $ddParams['snipValues'.$i]);
 	
 		//Разбиваем на массивы
 		$ddParams['snipParams'.$i] = explode(',', $ddParams['snipParams'.$i]);
@@ -61,13 +51,21 @@ $glue = isset($glue) ? $glue : '';
 
 //Если задан шаблон для вывода
 if (isset($tpl) && $tpl != ''){
-	//Если есть дополнительные данные
-	if (isset($placeholders)){
-		//Разбиваем их
-		$resArr = array_merge($resArr, ddTools::explodeAssoc($placeholders));
-	}
 	
-	$result .= $modx->parseChunk($tpl, $resArr, '[+','+]');
+	//Убиваем пустые результаты TODO: Подумать, возможно, сделать параметрально
+	if(!function_exists('ddArrayFilterEmpty')){function ddArrayFilterEmpty($el){return !empty($el);}}
+	$resArr = array_filter($resArr, 'ddArrayFilterEmpty');
+	
+	//Если есть хоть один результат
+	if (count($resArr) > 0){
+		//Если есть дополнительные данные
+		if (isset($placeholders)){
+			//Разбиваем их
+			$resArr = array_merge($resArr, ddTools::explodeAssoc($placeholders));
+		}
+		
+		$result .= $modx->parseChunk($tpl, $resArr, '[+','+]');
+	}
 //Если шаблон не задан
 }else{
 	//Если надо вывести всё
