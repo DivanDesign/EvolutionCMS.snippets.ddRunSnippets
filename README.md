@@ -23,7 +23,7 @@ See the documentation for a more complete picture.
 Elements → Snippets: Create a new snippet with the following data:
 
 1. Snippet name: `ddRunSnippets`.
-2. Description: `<b>2.3</b> Snippet runs necessary snippets with necessary params.`.
+2. Description: `<b>2.4</b> Snippet runs necessary snippets with necessary params.`.
 3. Category: `Core`.
 4. Parse DocBlock: `no`.
 5. Snippet code (php): Insert content of the `ddRunSnippets_snippet.php` file from the archive.
@@ -80,6 +80,11 @@ If needs to run a few snippets just set the parameters as `snipName0`, `snipName
 	* Desctription: String for joining results (with returning without a template).
 	* Valid values: `string`
 	* Default value: —
+	
+* `resultPrefix`
+	* Desctription: Snippet return placeholders prefix (is used in `snipParams`, `snipValues`, `tpl`).
+	* Valid values: `string`
+	* Default value: `'ddresult'`
 	
 * `toPlaceholder`
 	* Desctription: Return final result into placeholder `placeholderName`.

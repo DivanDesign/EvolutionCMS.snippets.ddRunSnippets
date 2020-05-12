@@ -1,6 +1,10 @@
 # (MODX)EvolutionCMS.snippets.ddRunSnippets changelog
 
 
+## Version 2.4 (2012-10-24)
+* \+ The feature allowing snippet return placeholder prefix to be changed has been added (`resultPrefix` parameter with default value equals `'ddresult'`).
+
+
 ## Version 2.3 (2012-08-20)
 * \* Added processing of empty results outputting by template (empty results will be removed).
 

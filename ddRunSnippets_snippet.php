@@ -1,7 +1,7 @@
 <?php
 /**
  * ddRunSnippets
- * @version 2.3 (2012-08-20)
+ * @version 2.4 (2012-10-24)
  * 
  * @see README.md
  * 
@@ -12,6 +12,8 @@
 
 //Подключаем modx.ddTools
 require_once $modx->config['base_path'].'assets/snippets/ddTools/modx.ddtools.class.php';
+
+$resultPrefix = isset($resultPrefix) ? $resultPrefix : 'ddresult';
 
 $resArr = array();
 $result = '';
@@ -25,8 +27,8 @@ while(isset($ddParams['snipName'.$i])){
 	//Если имена параметров и их значения заданы
 	if (isset($ddParams['snipParams'.$i]) && isset($ddParams['snipValues'.$i])){
 		//Подставляем в названия параметров и в значения (смотря куда надо) результат работы предыдущего сниппета
-		$ddParams['snipParams'.$i] = ddTools::parseText($ddParams['snipParams'.$i], $resArr, '+', '+');//str_replace('+ddresult+', $resArr, $ddParams['snipParams'.$i]);
-		$ddParams['snipValues'.$i] = ddTools::parseText($ddParams['snipValues'.$i], $resArr, '+', '+');//str_replace('+ddresult+', $resArr, $ddParams['snipValues'.$i]);
+		$ddParams['snipParams'.$i] = ddTools::parseText($ddParams['snipParams'.$i], $resArr, '+', '+');
+		$ddParams['snipValues'.$i] = ddTools::parseText($ddParams['snipValues'.$i], $resArr, '+', '+');
 	
 		//Разбиваем на массивы
 		$ddParams['snipParams'.$i] = explode(',', $ddParams['snipParams'.$i]);
@@ -38,9 +40,9 @@ while(isset($ddParams['snipName'.$i])){
 	
 	//Если что-то передали
 	if ($snipParamsArr){
-		$resArr['ddresult'.$i] = $modx->runSnippet($ddParams['snipName'.$i], $snipParamsArr);
+		$resArr[$resultPrefix.$i] = $modx->runSnippet($ddParams['snipName'.$i], $snipParamsArr);
 	}else{
-		$resArr['ddresult'.$i] = $modx->runSnippet($ddParams['snipName'.$i]);
+		$resArr[$resultPrefix.$i] = $modx->runSnippet($ddParams['snipName'.$i]);
 	}
 	
 	if ($i === '') $i = 0; else $i++;
@@ -75,13 +77,13 @@ if (isset($tpl) && $tpl != ''){
 		//Перебираем массив номеров результатов сниппетов
 		foreach ($num as $n){
 			//Если номер не номер или такого элемента нет
-			if (!is_numeric($n) || !$resArr['ddresult'.$n]){
+			if (!is_numeric($n) || !$resArr[$resultPrefix.$n]){
 				//Тупо выводим последний
 				$n = $i - 1;
 			}
-		
+			
 			//Выводим нужный
-			$result .= $resArr['ddresult'.$n];
+			$result .= $resArr[$resultPrefix.$n];
 		}
 	}
 }
