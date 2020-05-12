@@ -1,0 +1,34 @@
+{
+	"name": "dd/evolutioncms-snippets-ddrunsnippets",
+	"type": "modxevo-snippet",
+	"version": "1.0.0",
+	"description": "Описание сниппета.",
+	"keywords": [
+		"modx",
+		"modx evo",
+		"modx evolution",
+		"evo",
+		"evo cms",
+		"evolutioncms",
+		"evolution cms",
+		"dd group",
+		"dd studio",
+		"divandesign",
+		"ddrunsnippets"
+	],
+	"homepage": "https://code.divandesign.biz/modx/ddrunsnippets",
+	"authors": [
+		{
+			"name": "DD Group",
+			"email": "code@DivanDesign.biz",
+			"homepage": "https://code.divandesign.biz",
+			"role": "Owner"
+		},
+		{
+			"name": "Ilyas Ronef",
+			"email": "ilyas@DivanDesign.ru",
+			"homepage": "https://ronef.ru",
+			"role": "Developer"
+		}
+	]
+}
