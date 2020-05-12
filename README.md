@@ -12,7 +12,7 @@ See the documentation for a more complete picture.
 
 ## Requires
 
-* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.1
+* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.2
 
 
 ## Documentation
@@ -23,7 +23,7 @@ See the documentation for a more complete picture.
 Elements → Snippets: Create a new snippet with the following data:
 
 1. Snippet name: `ddRunSnippets`.
-2. Description: `<b>2.1</b> Snippet runs necessary snippets with necessary params.`.
+2. Description: `<b>2.2</b> Snippet runs necessary snippets with necessary params.`.
 3. Category: `Core`.
 4. Parse DocBlock: `no`.
 5. Snippet code (php): Insert content of the `ddRunSnippets_snippet.php` file from the archive.
@@ -74,6 +74,24 @@ If needs to run a few snippets just set the parameters as `snipName0`, `snipName
 	* Desctription: Name of placeholder if results returns into placeholder (`toPlaceholder` == `1`).
 	* Valid values: `string`
 	* Default value: `'ddRunSnippets'`
+	
+* `num`
+	* Desctription: Snippet number(s), result of which have to be returned (with returning without a template).
+	* Valid values:
+		* `stringCommaSeparated`
+		* `'last'`
+		* `'all'`
+	* Default value: `'last'`
+	
+* `num[$i]`
+	* Desctription: Snippet number.
+	* Valid values: `integer`
+	* Default value: —
+	
+* `glue`
+	* Desctription: String for joining results (with returning without a template).
+	* Valid values: `string`
+	* Default value: —
 
 
 ## [Home page →](https://code.divandesign.biz/modx/ddrunsnippets)

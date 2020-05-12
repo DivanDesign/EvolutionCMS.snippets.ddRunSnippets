@@ -1,6 +1,11 @@
 # (MODX)EvolutionCMS.snippets.ddRunSnippets changelog
 
 
+## Version 2.2 (2012-04-09)
+* \* Attention! (MODX)EvolutionCMS.libraries.ddTools >= 0.2 is required.
+* \+ Added the ability to return a few snippets results at random through the separator with returning without a template (params `num` and `glue`).
+
+
 ## Version 2.1 (2012-03-18)
 * \+ Added the ability to return final result into placeholder (params `toPlaceholder` and `placeholderName`).
 
