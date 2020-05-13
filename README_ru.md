@@ -12,7 +12,8 @@
 
 ## Использует
 
-* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.2
+* PHP >= 5.4
+* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.16.2
 
 
 ## Документация
@@ -23,7 +24,7 @@
 Элементы → Сниппеты: Создайте новый сниппет со следующими параметрами:
 
 1. Название сниппета: `ddRunSnippets`.
-2. Описание: `<b>2.5b</b> Сниппет запускает необходимые сниппеты с необходимыми параметрами.`.
+2. Описание: `<b>2.5.1b</b> Сниппет запускает необходимые сниппеты с необходимыми параметрами.`.
 3. Категория: `Core`.
 4. Анализировать DocBlock: `no`.
 5. Код сниппета (php): Вставьте содержимое файла `ddRunSnippets_snippet.php` из архива.

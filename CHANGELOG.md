@@ -1,6 +1,12 @@
 # (MODX)EvolutionCMS.snippets.ddRunSnippets changelog
 
 
+## Version 2.5.1b (2016-12-28)
+* \* Attention! (MODX)EvolutionCMS.libraries.ddTools >= 0.16.1 is required.
+* \* Compatibility with the new (MODX)EvolutionCMS.libraries.ddTools.
+* \* Minor changes.
+
+
 ## Version 2.5b (2013-04-19)
 * \+ The alias setting feature for snippets results are now available (`snipName` parameter).
 * \* A few small fixes.
