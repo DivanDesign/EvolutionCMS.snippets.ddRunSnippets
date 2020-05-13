@@ -1,13 +1,13 @@
 <?php
 /**
  * ddRunSnippets
- * @version 2.5.1b (2016-12-28)
+ * @version 3.0 (2020-05-13)
  * 
  * @see README.md
  * 
  * @link https://code.divandesign.biz/modx/ddrunsnippets
  * 
- * @copyright 2011–2016 DD Group {@link https://DivanDesign.biz }
+ * @copyright 2011–2020 DD Group {@link https://DivanDesign.biz }
  */
 
 global $modx;
