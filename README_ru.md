@@ -75,6 +75,53 @@
 	* Значение по умолчанию: —
 
 
+### Примеры
+
+
+#### Базовый пример
+
+```
+[[ddRunSnippets?
+	&snippets=`{
+		"someSnippet": {
+			"exampleParam": "Какое-то значение параметра."
+		},
+		"otherSnippet": {
+			"someParam": "[+someSnippet+]"
+		},
+		"anotherSnippet": {
+			"[+otherSnippet+]": "[+someSnippet+]"
+		}
+	}`
+	&tpl=`@CODE:[+anotherSnippet+]`
+]]
+```
+
+
+#### Использование псевдонимаов в именах сниппетов
+
+```
+[[ddRunSnippets?
+	&snippets=`{
+		"someSnippet=snippet1": {
+			"exampleParam": "Какое-то значение параметра."
+		},
+		"someSnippet=snippet2": {
+			"exampleParam": "Ещё какое-то значение параметра.",
+			"exampleParam2": "[+snippet1+]"
+		},
+		"anotherSnippet": {
+			"someParam": "[+snippet2+]",
+			"[+snippet1+]": "[+snippet2+]"
+		}
+	}`
+	&tpl=`@CODE:[+anotherSnippet+]`
+]]
+```
+
+Мы вызвали сниппет `someSnippet` дважды с разными параметрами, используя два разных псевдонима для каждого вызова: `snippet1` и `snippet2`.
+
+
 ## [Home page →](https://code.divandesign.biz/modx/ddrunsnippets)
 
 

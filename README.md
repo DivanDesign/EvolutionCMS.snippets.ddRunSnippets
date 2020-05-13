@@ -79,6 +79,53 @@ Elements → Snippets: Create a new snippet with the following data:
 	* Default value: —
 
 
+### Examples
+
+
+#### Basic example
+
+```
+[[ddRunSnippets?
+	&snippets=`{
+		"someSnippet": {
+			"exampleParam": "Example value."
+		},
+		"otherSnippet": {
+			"someParam": "[+someSnippet+]"
+		},
+		"anotherSnippet": {
+			"[+otherSnippet+]": "[+someSnippet+]"
+		}
+	}`
+	&tpl=`@CODE:[+anotherSnippet+]`
+]]
+```
+
+
+#### Use alias in snippet names
+
+```
+[[ddRunSnippets?
+	&snippets=`{
+		"someSnippet=snippet1": {
+			"exampleParam": "First example value."
+		},
+		"someSnippet=snippet2": {
+			"exampleParam": "Second example value.",
+			"exampleParam2": "[+snippet1+]"
+		},
+		"anotherSnippet": {
+			"someParam": "[+snippet2+]",
+			"[+snippet1+]": "[+snippet2+]"
+		}
+	}`
+	&tpl=`@CODE:[+anotherSnippet+]`
+]]
+```
+
+We called snippet `someSnippet` twice with different parameters using two different aliases for each call: `snippet1` and `snippet2`.
+
+
 ## [Home page →](https://code.divandesign.biz/modx/ddrunsnippets)
 
 
