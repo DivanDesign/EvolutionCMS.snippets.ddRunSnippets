@@ -23,7 +23,7 @@ See the documentation for a more complete picture.
 Elements → Snippets: Create a new snippet with the following data:
 
 1. Snippet name: `ddRunSnippets`.
-2. Description: `<b>3.0</b> Snippet runs necessary snippets with necessary params.`.
+2. Description: `<b>3.1</b> Snippet runs necessary snippets with necessary params.`.
 3. Category: `Core`.
 4. Parse DocBlock: `no`.
 5. Snippet code (php): Insert content of the `ddRunSnippets_snippet.php` file from the archive.
@@ -51,7 +51,8 @@ Elements → Snippets: Create a new snippet with the following data:
 	* Desctription: A snippet parameter, when the key is the parameter name and the value is the parameter value.
 		* Use `[+snippetName+]` for substitution by any previous snippet execution result in the parameter name or value (where `snippetName` is the snippet name).
 		* Or use `[+snippetAlias+]` if specified (e. g. `docs` if the snippet name set as `Ditto=docs`).
-	* Valid values: `string`
+	* Valid values:
+		* `mixed` — as opposed to standard CMS calling you can pass not only string parameters to the snippet, any types are supported
 	* Default value: —
 	
 * `tpl`
