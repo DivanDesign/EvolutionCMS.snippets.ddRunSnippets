@@ -1,6 +1,11 @@
 # (MODX)EvolutionCMS.snippets.ddRunSnippets changelog
 
 
+## Version 2.5b (2013-04-19)
+* \+ The alias setting feature for snippets results are now available (`snipName` parameter).
+* \* A few small fixes.
+
+
 ## Version 2.4 (2012-10-24)
 * \+ The feature allowing snippet return placeholder prefix to be changed has been added (`resultPrefix` parameter with default value equals `'ddresult'`).
 

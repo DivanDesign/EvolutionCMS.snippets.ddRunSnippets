@@ -1,13 +1,13 @@
 <?php
 /**
  * ddRunSnippets
- * @version 2.4 (2012-10-24)
+ * @version 2.5b (2013-04-19)
  * 
  * @see README.md
  * 
  * @link https://code.divandesign.biz/modx/ddrunsnippets
  * 
- * @copyright 2011–2012 DD Group {@link https://DivanDesign.biz }
+ * @copyright 2011–2013 DD Group {@link https://DivanDesign.biz }
  */
 
 //Подключаем modx.ddTools
@@ -24,6 +24,8 @@ $ddParams = $params;
 $i = isset($ddParams['snipName']) ? '' : 0;
 
 while(isset($ddParams['snipName'.$i])){
+	$snipParamsArr = array();
+	
 	//Если имена параметров и их значения заданы
 	if (isset($ddParams['snipParams'.$i]) && isset($ddParams['snipValues'.$i])){
 		//Подставляем в названия параметров и в значения (смотря куда надо) результат работы предыдущего сниппета
@@ -33,16 +35,32 @@ while(isset($ddParams['snipName'.$i])){
 		//Разбиваем на массивы
 		$ddParams['snipParams'.$i] = explode(',', $ddParams['snipParams'.$i]);
 		$ddParams['snipValues'.$i] = explode('##', $ddParams['snipValues'.$i]);
-		
+	
 		//Если размеры массивов параметров и значений совпадают
-		if (count($ddParams['snipParams'.$i]) == count($ddParams['snipValues'.$i])) $snipParamsArr = array_combine($ddParams['snipParams'.$i], $ddParams['snipValues'.$i]);
+		if (count($ddParams['snipParams'.$i]) == count($ddParams['snipValues'.$i])){
+			$snipParamsArr = array_combine($ddParams['snipParams'.$i], $ddParams['snipValues'.$i]);
+		}
+	}
+	
+	$snipAlias = $resultPrefix.$i;
+	$snipName = $ddParams['snipName'.$i];
+	
+	//Если задан псевдоним результата сниппета
+	if (strpos($snipName, '::') !== false){
+		$temp = explode('::', $snipName);
+		
+		$snipName = $temp[0];
+		
+		if ($temp[1] != ''){
+			$snipAlias = $temp[1];
+		}
 	}
 	
 	//Если что-то передали
-	if ($snipParamsArr){
-		$resArr[$resultPrefix.$i] = $modx->runSnippet($ddParams['snipName'.$i], $snipParamsArr);
+	if (count($snipParamsArr) > 0){
+		$resArr[$snipAlias] = $modx->runSnippet($snipName, $snipParamsArr);
 	}else{
-		$resArr[$resultPrefix.$i] = $modx->runSnippet($ddParams['snipName'.$i]);
+		$resArr[$snipAlias] = $modx->runSnippet($snipName);
 	}
 	
 	if ($i === '') $i = 0; else $i++;
@@ -76,14 +94,19 @@ if (isset($tpl) && $tpl != ''){
 	}else{
 		//Перебираем массив номеров результатов сниппетов
 		foreach ($num as $n){
-			//Если номер не номер или такого элемента нет
-			if (!is_numeric($n) || !$resArr[$resultPrefix.$n]){
-				//Тупо выводим последний
-				$n = $i - 1;
+			//Если передан именно номер сниппета
+			if (is_numeric($n)){
+				$n = $resultPrefix.$n;
 			}
 			
-			//Выводим нужный
-			$result .= $resArr[$resultPrefix.$n];
+			//Если надо просто последний или такого элемента нет
+			if ($n == 'last' || !isset($resArr[$n])){
+				//Тупо выводим последний
+				$result = end($resArr);
+			}else{
+				//Выводим нужный
+				$result .= $resArr[$n];
+			}
 		}
 	}
 }

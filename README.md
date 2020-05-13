@@ -23,7 +23,7 @@ See the documentation for a more complete picture.
 Elements → Snippets: Create a new snippet with the following data:
 
 1. Snippet name: `ddRunSnippets`.
-2. Description: `<b>2.4</b> Snippet runs necessary snippets with necessary params.`.
+2. Description: `<b>2.5b</b> Snippet runs necessary snippets with necessary params.`.
 3. Category: `Core`.
 4. Parse DocBlock: `no`.
 5. Snippet code (php): Insert content of the `ddRunSnippets_snippet.php` file from the archive.
@@ -34,19 +34,23 @@ Elements → Snippets: Create a new snippet with the following data:
 If needs to run a few snippets just set the parameters as `snipName0`, `snipName1`, etc (`snipParams` & `snipValues` respectively).
 
 * `snipName[$i]`
-	* Desctription: Snippet name to run.
+	* Desctription: Snippet name to run.  
+		By default a snippet result will be equal to `+ddresultN+` (where `N` — number of the snippet) in parameters and chunk.
+		But also you can set custom snippet aliases in this parameter using `'::'` delimiter (e. g. `Ditto::docs`).
 	* Valid values: `stringSnippetName`
 	* **Required**
 	
 * `snipParams[$i]`
 	* Desctription: Params names to be transfered.  
 		Use `+ddresultN+` (where `N` — number of the snippet) for substitution by any previous snippet execution result.
+		Or use aliases specified in `snipName`.
 	* Valid values: `stringCommaSeparated`
 	* Default value: —
 	
 * `snipValues[$i]`
 	* Desctription: Parameters values to be transfered (according to names), separated by `'##'`.  
 		Use `+ddresultN+` (where `N` — number of the snippet) for substitution by any previous snippet execution result.
+		Or use aliases specified in `snipName`.
 	* Valid values: `stringSeparated`
 	* Default value: —
 	
@@ -54,6 +58,7 @@ If needs to run a few snippets just set the parameters as `snipName0`, `snipName
 	* Desctription: Chunk for output results.  
 		Available placeholders:
 		* `[+ddresultN+]` — a snippet result (where `N` — number of the snippet).
+		* `[+snippetAlias+]` — you also can use aliases specified in `snipName.
 	* Valid values: `stringChunkName`
 	* Default value: —
 	
