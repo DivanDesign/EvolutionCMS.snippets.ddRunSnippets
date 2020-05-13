@@ -1,6 +1,10 @@
 # (MODX)EvolutionCMS.snippets.ddRunSnippets changelog
 
 
+## Version 3.1 (2020-05-14)
+* \+ Parameters → `snippets->{$snippetName}->{$paramName}`: As opposed to standard CMS calling you can pass not only string parameters to the snippet, any types are supported.
+
+
 ## Version 3.0 (2020-05-13)
 * \* Attention! Backward compatibility is broken.
 * \* Attention! (MODX)EvolutionCMS.libraries.ddTools >= 0.35.1 is required (not tested in older versions).
