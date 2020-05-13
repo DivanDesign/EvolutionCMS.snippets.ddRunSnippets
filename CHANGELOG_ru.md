@@ -1,6 +1,13 @@
 # (MODX)EvolutionCMS.snippets.ddRunSnippets changelog
 
 
+## Версия 3.0 (2020-05-13)
+* \* Внимание! Обратная совместимость нарушена.
+* \* Внимание! Требуется (MODX)EvolutionCMS.libraries.ddTools >= 0.35.1 (не тестировался с более старыми версиями).
+* \* Сниппет полностью переработан, см. README.
+* \+ README → Документация → Примеры.
+
+
 ## Версия 2.5.1b (2016-12-28)
 * \* Внимание! Требуется (MODX)EvolutionCMS.libraries.ddTools >= 0.16.1.
 * \* Совместимость с новой версией (MODX)EvolutionCMS.libraries.ddTools.
