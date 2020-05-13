@@ -16,6 +16,9 @@ require_once(
 	'assets/libs/ddTools/modx.ddtools.class.php'
 );
 
+//The snippet must return an empty string even if result is absent
+$snippetResult = '';
+
 $resultPrefix =
 	isset($resultPrefix) ?
 	$resultPrefix :
@@ -23,7 +26,6 @@ $resultPrefix =
 ;
 
 $resArr = [];
-$result = '';
 
 //Все параметры сниппета (скопируем, чтобы в глобал не срать)
 $ddParams = $params;
@@ -158,7 +160,7 @@ if (
 			);
 		}
 		
-		$result .= $modx->parseChunk(
+		$snippetResult .= $modx->parseChunk(
 			$tpl,
 			$resArr,
 			'[+',
@@ -174,7 +176,7 @@ if (
 			$num
 		)
 	){
-		$result .= implode(
+		$snippetResult .= implode(
 			$glue,
 			$resArr
 		);
@@ -195,10 +197,10 @@ if (
 				!isset($resArr[$n])
 			){
 				//Тупо выводим последний
-				$result = end($resArr);
+				$snippetResult = end($resArr);
 			}else{
 				//Выводим нужный
-				$result .= $resArr[$n];
+				$snippetResult .= $resArr[$n];
 			}
 		}
 	}
@@ -215,9 +217,11 @@ if (
 			$placeholderName :
 			'ddRunSnippets'
 		),
-		$result
+		$snippetResult
 	);
-}else{
-	return $result;
+	
+	$snippetResult = '';
 }
+
+return $snippetResult;
 ?>
