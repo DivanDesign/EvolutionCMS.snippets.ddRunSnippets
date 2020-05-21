@@ -1,7 +1,7 @@
 <?php
 /**
  * ddRunSnippets
- * @version 3.1 (2020-05-14)
+ * @version 3.1.1 (2020-05-21)
  * 
  * @see README.md
  * 
@@ -17,6 +17,14 @@ require_once(
 	$modx->getConfig('base_path') .
 	'assets/libs/ddTools/modx.ddtools.class.php'
 );
+
+//Backward compatibility
+extract(\ddTools::verifyRenamedParams([
+	'params' => $params,
+	'compliance' => [
+		'tpl_placeholders' => 'placeholders'
+	]
+]));
 
 //The snippet must return an empty string even if result is absent
 $snippetResult = '';
@@ -121,11 +129,11 @@ if (!empty($snippetResultArray)){
 			//Если есть хоть один результат
 			if (!empty($snippetResultArray)){
 				//Если есть дополнительные данные
-				if (isset($placeholders)){
+				if (isset($tpl_placeholders)){
 					//Разбиваем их
 					$snippetResultArray = array_merge(
 						$snippetResultArray,
-						\ddTools::explodeAssoc($placeholders)
+						\ddTools::encodedStringToArray($tpl_placeholders)
 					);
 				}
 				
