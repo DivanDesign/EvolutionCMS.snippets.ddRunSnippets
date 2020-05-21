@@ -133,7 +133,7 @@ if (!empty($snippetResultArray)){
 					//Разбиваем их
 					$snippetResultArray = array_merge(
 						$snippetResultArray,
-						\ddTools::explodeAssoc($tpl_placeholders)
+						\ddTools::encodedStringToArray($tpl_placeholders)
 					);
 				}
 				
