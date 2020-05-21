@@ -1,6 +1,12 @@
 # (MODX)EvolutionCMS.snippets.ddRunSnippets changelog
 
 
+## Version 3.1.1 (2020-05-21)
+* \* Parameters → `tpl_placeholders`:
+	* \* Renamed from `placeholders` (with backward compatibility).
+	* \* Truly supports JSON and QueryString.
+
+
 ## Version 3.1 (2020-05-14)
 * \+ Parameters → `snippets->{$snippetName}->{$paramName}`: As opposed to standard CMS calling you can pass not only string parameters to the snippet, any types are supported.
 
