@@ -127,6 +127,28 @@ Elements → Snippets: Create a new snippet with the following data:
 We called snippet `someSnippet` twice with different parameters using two different aliases for each call: `snippet1` and `snippet2`.
 
 
+#### Pass objects and arrays as snippet params
+
+As opposed to standard CMS calling you can pass not only string parameters to a snippet, any types are supported.
+
+```
+[[ddRunSnippets?
+	&snippets=`{
+		"someSnippet": {
+			"exampleParam1": {
+				"objectField": "“exampleParam1” is an object, not a string.",
+				"otherField": true
+			},
+			"exampleParam2": [
+				"“exampleParam2” is an array, not a string",
+				2.71
+			]
+		}
+	}`
+]]
+```
+
+
 ## [Home page →](https://code.divandesign.biz/modx/ddrunsnippets)
 
 

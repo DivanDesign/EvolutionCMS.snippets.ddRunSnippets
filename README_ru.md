@@ -123,6 +123,28 @@
 Мы вызвали сниппет `someSnippet` дважды с разными параметрами, используя два разных псевдонима для каждого вызова: `snippet1` и `snippet2`.
 
 
+#### Передача объектов и массивов в качестве параметров сниппета
+
+В отличие от стандартного вызова CMS вы можете передавать не только строковые параметры, поддерживаютя любые типы.
+
+```
+[[ddRunSnippets?
+	&snippets=`{
+		"someSnippet": {
+			"exampleParam1": {
+				"objectField": "Параметр «exampleParam1» — объект, не строка.",
+				"anotherField": true
+			},
+			"exampleParam2": [
+				"Параметр «exampleParam2» — массив, не строка.",
+				2.71
+			]
+		}
+	}`
+]]
+```
+
+
 ## [Home page →](https://code.divandesign.biz/modx/ddrunsnippets)
 
 
