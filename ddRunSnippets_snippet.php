@@ -30,7 +30,10 @@ extract(\ddTools::verifyRenamedParams([
 $snippetResult = '';
 $snippetResultArray = [];
 
-$snippets = \ddTools::encodedStringToArray($snippets);
+$snippets = \DDTools\ObjectTools::convertType([
+	'object' => $snippets,
+	'type' => 'objectArray'
+]);
 
 foreach (
 	$snippets as

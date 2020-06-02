@@ -12,7 +12,7 @@
 ## Использует
 
 * PHP >= 5.4
-* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.35.1 (не тестировался с более старыми версиями)
+* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.38.1
 
 
 ## Документация

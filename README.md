@@ -12,7 +12,7 @@ See the documentation for a more complete picture.
 ## Requires
 
 * PHP >= 5.4
-* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.35.1 (not tested in older versions)
+* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.38.1
 
 
 ## Documentation
