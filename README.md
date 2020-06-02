@@ -149,6 +149,29 @@ As opposed to standard CMS calling you can pass not only string parameters to a 
 ```
 
 
+#### Using results of previous snippets in object-values of parameters
+
+```
+[[ddRunSnippets?
+	&snippets=`{
+		"someSnippet": {
+			"exampleParam": "Example value."
+		},
+		"otherSnippet": {
+			"exampleParam1": {
+				"objectField": "“exampleParam1” is an object, not a string.",
+				"otherField": "So, “someSnippet” result will be replace the [+someSnippet+] placeholder here.",
+				"anotherField": {
+					"deepField": "Snipepts results placeholders will work fine independent of object depth.",
+					"otherDeepField": "[+someSnippet+] works here."
+				}
+			}
+		}
+	}`
+]]
+```
+
+
 ## [Home page →](https://code.divandesign.biz/modx/ddrunsnippets)
 
 

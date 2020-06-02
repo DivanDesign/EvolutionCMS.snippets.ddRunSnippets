@@ -145,6 +145,29 @@
 ```
 
 
+#### Использование результатов выполнения предыдущих сниппетов в объектах-значениях параметров
+
+```
+[[ddRunSnippets?
+	&snippets=`{
+		"someSnippet": {
+			"exampleParam": "Какое-то значение параметра."
+		},
+		"otherSnippet": {
+			"exampleParam1": {
+				"objectField": "Параметр «exampleParam1» — объект, не строка.",
+				"otherField": "При этом, результат выполнения сниппета «someSnippet» будет подставлен место плейсхолдера [+someSnippet+] сюда.",
+				"anotherField": {
+					"deepField": "Плейсхолдеры результатов сниппетов будут работать вне зависимости от глубины объектов параметров.",
+					"otherDeepField": "[+someSnippet+] подставится и сюда."
+				}
+			}
+		}
+	}`
+]]
+```
+
+
 ## [Home page →](https://code.divandesign.biz/modx/ddrunsnippets)
 
 
