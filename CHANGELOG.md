@@ -1,6 +1,13 @@
 # (MODX)EvolutionCMS.snippets.ddRunSnippets changelog
 
 
+## Version 3.2 (2020-06-03)
+* \* Attention! (MODX)EvolutionCMS.libraries.ddTools >= 0.38.1 is required.
+* \+ Parameters → `snippets->{$snippetName}->{$paramName}`: Placeholders of previous snippet executions results also works in object-values of parameters in any depth.
+* \* Refactoring.
+* \+ README → Documentation → Examples → Pass objects and arrays as snippet params.
+
+
 ## Version 3.1.1 (2020-05-21)
 * \* Parameters → `tpl_placeholders`:
 	* \* Renamed from `placeholders` (with backward compatibility).

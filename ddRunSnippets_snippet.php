@@ -1,7 +1,7 @@
 <?php
 /**
  * ddRunSnippets
- * @version 3.1.1 (2020-05-21)
+ * @version 3.2 (2020-06-03)
  * 
  * @see README.md
  * 
