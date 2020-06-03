@@ -12,7 +12,7 @@ See the documentation for a more complete picture.
 ## Requires
 
 * PHP >= 5.4
-* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.35.1 (not tested in older versions)
+* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.38.1
 
 
 ## Documentation
@@ -23,7 +23,7 @@ See the documentation for a more complete picture.
 Elements → Snippets: Create a new snippet with the following data:
 
 1. Snippet name: `ddRunSnippets`.
-2. Description: `<b>3.1.1</b> Snippet runs necessary snippets with necessary params.`.
+2. Description: `<b>3.2</b> Snippet runs necessary snippets with necessary params.`.
 3. Category: `Core`.
 4. Parse DocBlock: `no`.
 5. Snippet code (php): Insert content of the `ddRunSnippets_snippet.php` file from the archive.
@@ -125,6 +125,51 @@ Elements → Snippets: Create a new snippet with the following data:
 ```
 
 We called snippet `someSnippet` twice with different parameters using two different aliases for each call: `snippet1` and `snippet2`.
+
+
+#### Pass objects and arrays as snippet params
+
+As opposed to standard CMS calling you can pass not only string parameters to a snippet, any types are supported.
+
+```
+[[ddRunSnippets?
+	&snippets=`{
+		"someSnippet": {
+			"exampleParam1": {
+				"objectField": "“exampleParam1” is an object, not a string.",
+				"otherField": true
+			},
+			"exampleParam2": [
+				"“exampleParam2” is an array, not a string",
+				2.71
+			]
+		}
+	}`
+]]
+```
+
+
+#### Using results of previous snippets in object-values of parameters
+
+```
+[[ddRunSnippets?
+	&snippets=`{
+		"someSnippet": {
+			"exampleParam": "Example value."
+		},
+		"otherSnippet": {
+			"exampleParam1": {
+				"objectField": "“exampleParam1” is an object, not a string.",
+				"otherField": "So, “someSnippet” result will be replace the [+someSnippet+] placeholder here.",
+				"anotherField": {
+					"deepField": "Snipepts results placeholders will work fine independent of object depth.",
+					"otherDeepField": "[+someSnippet+] works here."
+				}
+			}
+		}
+	}`
+]]
+```
 
 
 ## [Home page →](https://code.divandesign.biz/modx/ddrunsnippets)

@@ -1,7 +1,7 @@
 <?php
 /**
  * ddRunSnippets
- * @version 3.1.1 (2020-05-21)
+ * @version 3.2 (2020-06-03)
  * 
  * @see README.md
  * 
@@ -30,7 +30,10 @@ extract(\ddTools::verifyRenamedParams([
 $snippetResult = '';
 $snippetResultArray = [];
 
-$snippets = \ddTools::encodedStringToArray($snippets);
+$snippets = \DDTools\ObjectTools::convertType([
+	'object' => $snippets,
+	'type' => 'objectArray'
+]);
 
 foreach (
 	$snippets as
@@ -84,23 +87,52 @@ foreach (
 				$aSnippetParams[$aSnippetParamName] = $aSnippetParamValue;
 			}
 			
+			$isASnippetParamValueString = is_string($aSnippetParamValue);
+			
+			//If the value is not a string
+			if (!$isASnippetParamValueString){
+				//We need to convert it to a string for replacing preverious snippets results
+				$aSnippetParamValue = \DDTools\ObjectTools::convertType([
+					'object' => $aSnippetParamValue,
+					'type' => 'stringJsonAuto'
+				]);
+			}
+			
+			$aSnippetParamValueParsed = $aSnippetParamValue;
+			
 			//If parameter value contains placeholders
 			if (
-				is_string($aSnippetParamValue) &&
 				strpos(
 					$aSnippetParamValue,
 					'[+'
 				) !== false
 			){
 				//Replace to previous snippets results
-				$aSnippetParamValue = \ddTools::parseText([
+				$aSnippetParamValueParsed = \ddTools::parseText([
 					'text' => $aSnippetParamValue,
 					'data' => $snippetResultArray,
 					'mergeAll' => false
 				]);
-				
+			}
+			
+			//If something changed after parsing
+			if ($aSnippetParamValueParsed != $aSnippetParamValue){
 				//Save parameter with the new value
-				$aSnippetParams[$aSnippetParamName] = $aSnippetParamValue;
+				$aSnippetParams[$aSnippetParamName] = $aSnippetParamValueParsed;
+			//Nothing changed after parsing but the value was converted before
+			}else if (!$isASnippetParamValueString){
+				//Prevent back converstion because it's no needed
+				$isASnippetParamValueString = true;
+			}
+			
+			//If the value was converted before from object to JSON
+			if (!$isASnippetParamValueString){
+				//Convert it back
+				//Получается тройная конверсия туда-сюда-обратно. Как-то нехорошо, но что делать?
+				$aSnippetParams[$aSnippetParamName] = \DDTools\ObjectTools::convertType([
+					'object' => $aSnippetParams[$aSnippetParamName],
+					'type' => 'ojbectAuto'
+				]);
 			}
 		}
 		
