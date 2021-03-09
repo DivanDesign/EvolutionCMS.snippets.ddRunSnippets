@@ -120,7 +120,7 @@ foreach (
 				//Save parameter with the new value
 				$aSnippetParams[$aSnippetParamName] = $aSnippetParamValueParsed;
 			//Nothing changed after parsing but the value was converted before
-			}else if (!$isASnippetParamValueString){
+			}elseif (!$isASnippetParamValueString){
 				//Prevent back converstion because it's no needed
 				$isASnippetParamValueString = true;
 			}
