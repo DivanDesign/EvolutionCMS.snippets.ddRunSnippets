@@ -185,11 +185,12 @@ if (!empty($snippetResultArray)){
 			if (!empty($snippetResultArray)){
 				//Если есть дополнительные данные
 				if (!empty($params->tpl_placeholders)){
-					//Разбиваем их
-					$snippetResultArray = array_merge(
-						$snippetResultArray,
-						$params->tpl_placeholders
-					);
+					$snippetResultArray = \DDTools\ObjectTools::extend([
+						'objects' => [
+							$snippetResultArray,
+							$params->tpl_placeholders
+						]
+					]);
 				}
 				
 				$snippetResult .= \ddTools::parseText([
