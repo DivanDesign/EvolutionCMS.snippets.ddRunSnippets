@@ -11,8 +11,8 @@ See the documentation for a more complete picture.
 
 ## Requires
 
-* PHP >= 5.4
-* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.38.1
+* PHP >= 5.6
+* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.49.1
 
 
 ## Documentation

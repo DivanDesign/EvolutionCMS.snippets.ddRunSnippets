@@ -12,31 +12,49 @@
 
 global $modx;
 
+//# Include
 //Include (MODX)EvolutionCMS.libraries.ddTools
 require_once(
 	$modx->getConfig('base_path') .
 	'assets/libs/ddTools/modx.ddtools.class.php'
 );
 
-//Backward compatibility
-extract(\ddTools::verifyRenamedParams([
+
+//# Prepare params
+//Renaming params with backward compatibility
+$params = \ddTools::verifyRenamedParams([
 	'params' => $params,
 	'compliance' => [
 		'tpl_placeholders' => 'placeholders'
-	]
-]));
+	],
+	'returnCorrectedOnly' => false
+]);
 
+$params = \DDTools\ObjectTools::extend([
+	'objects' => [
+		//Defaults
+		(object) [
+			'snippets' => [],
+			'tpl' => null,
+			'tpl_placeholders' => null
+		],
+		$params
+	]
+]);
+
+$params->snippets = \DDTools\ObjectTools::convertType([
+	'object' => $params->snippets,
+	'type' => 'objectArray'
+]);
+
+
+//# Run
 //The snippet must return an empty string even if result is absent
 $snippetResult = '';
 $snippetResultArray = [];
 
-$snippets = \DDTools\ObjectTools::convertType([
-	'object' => $snippets,
-	'type' => 'objectArray'
-]);
-
 foreach (
-	$snippets as
+	$params->snippets as
 	$aSnippetName =>
 	$aSnippetParams
 ){
@@ -147,9 +165,9 @@ foreach (
 
 if (!empty($snippetResultArray)){
 	//Если задан шаблон для вывода
-	if (isset($tpl)){
+	if (!is_null($params->tpl)){
 		//If template is not empty (if set as empty, the empty string must be returned)
-		if ($tpl != ''){
+		if ($params->tpl != ''){
 			//Remove empty results
 			$snippetResultArray = array_filter(
 				$snippetResultArray,
@@ -161,16 +179,16 @@ if (!empty($snippetResultArray)){
 			//Если есть хоть один результат
 			if (!empty($snippetResultArray)){
 				//Если есть дополнительные данные
-				if (isset($tpl_placeholders)){
+				if (!empty($params->tpl_placeholders)){
 					//Разбиваем их
 					$snippetResultArray = array_merge(
 						$snippetResultArray,
-						\ddTools::encodedStringToArray($tpl_placeholders)
+						\ddTools::encodedStringToArray($params->tpl_placeholders)
 					);
 				}
 				
 				$snippetResult .= \ddTools::parseText([
-					'text' => $modx->getTpl($tpl),
+					'text' => $modx->getTpl($params->tpl),
 					'data' => $snippetResultArray
 				]);
 			}
