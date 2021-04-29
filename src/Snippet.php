@@ -125,10 +125,10 @@ class Snippet extends \DDTools\Snippet {
 	
 	/**
 	 * parseObject
-	 * @version 1.0 (2021-04-30)
+	 * @version 1.1 (2021-04-30)
 	 * 
 	 * @param $params {stdClass|arrayAssociative|stringJsonObject|stringHjsonObject|stringQueryFormatted} @required
-	 * @param $params->object {arrayAssociative} — Source object. @required
+	 * @param $params->object {stdClass|arrayAssociative} — Source object. @required
 	 * @param $params->data {stdClass|arrayAssociative|stringJsonObject|stringHjsonObject|stringQueryFormatted} — Data has to be replaced in keys and values of `$params->object`. @required
 	 * 
 	 * @return {arrayAssociative}
@@ -139,10 +139,16 @@ class Snippet extends \DDTools\Snippet {
 			'type' => 'objectStdClass'
 		]);
 		
+		$isResultObject = is_object($params->object);
+		
 		//Extend is needed to prevent references
 		$result = \DDTools\ObjectTools::extend([
 			'objects' => [
-				[],
+				(
+					$isResultObject ?
+					new \stdClass() :
+					[]
+				),
 				$params->object
 			]
 		]);
@@ -160,7 +166,11 @@ class Snippet extends \DDTools\Snippet {
 				) !== false
 			){
 				//Remove unprepared name
-				unset($result[$propName]);
+				if ($isResultObject){
+					unset($result->{$propName});
+				}else{
+					unset($result[$propName]);
+				}
 				
 				//Replace placeholders
 				$propName = \ddTools::parseText([
@@ -170,7 +180,11 @@ class Snippet extends \DDTools\Snippet {
 				]);
 				
 				//Save parameter with the new name
-				$result[$propName] = $propValue;
+				if ($isResultObject){
+					$result->{$propName} = $propValue;
+				}else{
+					$result[$propName] = $propValue;
+				}
 			}
 			
 			$isPropValueString = is_string($propValue);
@@ -204,7 +218,11 @@ class Snippet extends \DDTools\Snippet {
 			//If something changed after parsing
 			if ($propValueParsed != $propValue){
 				//Save parameter with the new value
-				$result[$propName] = $propValueParsed;
+				if ($isResultObject){
+					$result->{$propName} = $propValueParsed;
+				}else{
+					$result[$propName] = $propValueParsed;
+				}
 				//Nothing changed after parsing but the value was converted before
 			}elseif (!$isPropValueString){
 				//Prevent back converstion because it's no needed
@@ -215,10 +233,17 @@ class Snippet extends \DDTools\Snippet {
 			if (!$isPropValueString){
 				//Convert it back
 				//Получается тройная конверсия туда-сюда-обратно. Как-то нехорошо, но что делать?
-				$result[$propName] = \DDTools\ObjectTools::convertType([
-					'object' => $result[$propName],
-					'type' => 'ojbectAuto'
-				]);
+				if ($isResultObject){
+					$result->{$propName} = \DDTools\ObjectTools::convertType([
+						'object' => $result->{$propName},
+						'type' => 'ojbectAuto'
+					]);
+				}else{
+					$result[$propName] = \DDTools\ObjectTools::convertType([
+						'object' => $result[$propName],
+						'type' => 'ojbectAuto'
+					]);
+				}
 			}
 		}
 		
