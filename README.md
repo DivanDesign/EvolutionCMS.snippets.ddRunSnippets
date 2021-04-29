@@ -4,7 +4,7 @@ Snippet runs necessary snippets with necessary params. Capabilities:
 
 * Run a few snippets consequentially.
 * Snippets results can be sent into parameters names and/or into other snippets values (can repeat this as much as you like).
-* The snippet result can be returned into the chunk `tpl`, have transferring additional data through the parameter `placeholders`.
+* The snippet result can be returned into the chunk `tpl`, have transferring additional data through the parameter `tpl_placeholders`.
 
 See the documentation for a more complete picture.
 
@@ -27,7 +27,7 @@ See the documentation for a more complete picture.
 ##### 1. Elements → Snippets: Create a new snippet with the following data
 
 1. Snippet name: `ddRunSnippets`.
-2. Description: `<b>3.2</b> Snippet runs necessary snippets with necessary params.`.
+2. Description: `<b>3.3</b> Snippet runs necessary snippets with necessary params.`.
 3. Category: `Core`.
 4. Parse DocBlock: `no`.
 5. Snippet code (php): Insert content of the `ddRunSnippets_snippet.php` file from the archive.
