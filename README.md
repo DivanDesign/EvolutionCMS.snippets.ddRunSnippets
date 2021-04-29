@@ -223,7 +223,11 @@ require_once(
 ```
 
 
-## [Home page →](https://code.divandesign.biz/modx/ddrunsnippets)
+## Links
+
+* [Home page](https://code.divandesign.biz/modx/ddrunsnippets)
+* [Telegram chat](https://t.me/dd_code)
+* [Packagist](https://packagist.org/packages/dd/evolutioncms-snippets-ddrunsnippets)
 
 
 <link rel="stylesheet" type="text/css" href="https://DivanDesign.ru/assets/files/ddMarkdown.css" />
