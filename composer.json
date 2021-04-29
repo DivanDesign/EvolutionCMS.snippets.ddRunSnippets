@@ -1,7 +1,7 @@
 {
 	"name": "dd/evolutioncms-snippets-ddrunsnippets",
 	"type": "modxevo-snippet",
-	"version": "3.2.0",
+	"version": "3.3.0",
 	"description": "Snippet runs necessary snippets with necessary params.",
 	"keywords": [
 		"modx",
@@ -19,6 +19,9 @@
 		"run nested snippets"
 	],
 	"homepage": "https://code.divandesign.biz/modx/ddrunsnippets",
+	"support": {
+		"chat": "https://t.me/dd_code"
+	},
 	"authors": [
 		{
 			"name": "DD Group",
@@ -34,7 +37,7 @@
 		}
 	],
 	"require": {
-		"php": ">=5.4.0",
-		"dd/evolutioncms-libraries-ddtools": ">=0.38.1"
+		"php": ">=5.6.0",
+		"dd/evolutioncms-libraries-ddtools": ">=0.49.1"
 	}
 }

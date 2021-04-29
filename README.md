@@ -4,15 +4,15 @@ Snippet runs necessary snippets with necessary params. Capabilities:
 
 * Run a few snippets consequentially.
 * Snippets results can be sent into parameters names and/or into other snippets values (can repeat this as much as you like).
-* The snippet result can be returned into the chunk `tpl`, have transferring additional data through the parameter `placeholders`.
+* The snippet result can be returned into the chunk `tpl`, have transferring additional data through the parameter `tpl_placeholders`.
 
 See the documentation for a more complete picture.
 
 
 ## Requires
 
-* PHP >= 5.4
-* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.38.1
+* PHP >= 5.6
+* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.49.1
 
 
 ## Documentation
@@ -20,13 +20,45 @@ See the documentation for a more complete picture.
 
 ### Installation
 
-Elements → Snippets: Create a new snippet with the following data:
+
+#### Manually
+
+
+##### 1. Elements → Snippets: Create a new snippet with the following data
 
 1. Snippet name: `ddRunSnippets`.
-2. Description: `<b>3.2</b> Snippet runs necessary snippets with necessary params.`.
+2. Description: `<b>3.3</b> Snippet runs necessary snippets with necessary params.`.
 3. Category: `Core`.
 4. Parse DocBlock: `no`.
 5. Snippet code (php): Insert content of the `ddRunSnippets_snippet.php` file from the archive.
+
+
+##### 2. Elements → Manage Files
+
+1. Create a new folder `assets/snippets/ddRunSnippets/`.
+2. Extract the archive to the folder (except `ddRunSnippets_snippet.php`).
+
+
+#### Using [(MODX)EvolutionCMS.libraries.ddInstaller](https://github.com/DivanDesign/EvolutionCMS.libraries.ddInstaller)
+
+Just run the following PHP code in your sources or [Console](https://github.com/vanchelo/MODX-Evolution-Ajax-Console):
+
+```php
+//Include (MODX)EvolutionCMS.libraries.ddInstaller
+require_once(
+	$modx->getConfig('base_path') .
+	'assets/libs/ddInstaller/require.php'
+);
+
+//Install (MODX)EvolutionCMS.snippets.ddRunSnippets
+\DDInstaller::install([
+	'url' => 'https://github.com/DivanDesign/EvolutionCMS.snippets.ddRunSnippets',
+	'type' => 'snippet'
+]);
+```
+
+* If `ddRunSnippets` is not exist on your site, `ddInstaller` will just install it.
+* If `ddRunSnippets` is already exist on your site, `ddInstaller` will check it version and update it if needed.
 
 
 ### Parameters description
@@ -35,7 +67,11 @@ Elements → Snippets: Create a new snippet with the following data:
 	* Desctription: List of snippets to be run. Snippets are called in accordance with the specified order.
 	* Valid values:
 		* `stringJsonObject` — as [JSON](https://en.wikipedia.org/wiki/JSON)
+		* `stringHjsonObject` — as [HJSON](https://hjson.github.io/)
 		* `stringQueryFormated` — as [Query string](https://en.wikipedia.org/wiki/Query_string)
+		* It can also be set as a native PHP object or array (e. g. for calls through `$modx->runSnippet`):
+			* `arrayAssociative`
+			* `object`
 	* **Required**
 	
 * `snippets->{$snippetName}`
@@ -54,6 +90,12 @@ Elements → Snippets: Create a new snippet with the following data:
 	* Valid values:
 		* `mixed` — as opposed to standard CMS calling you can pass not only string parameters to the snippet, any types are supported
 	* Default value: —
+	
+* `snippets_parseResults`
+	* Desctription: Parse result of each snippet by CMS parser.  
+		Immediately after running each snippet, its result will be parsed by `$modx->parseDocumentSource()`.
+	* Valid values: `boolean`
+	* Default value: `false`
 	
 * `tpl`
 	* Desctription: Chunk for output results.  
@@ -76,7 +118,11 @@ Elements → Snippets: Create a new snippet with the following data:
 		* `{"some": ["one", "two"] }` => `[+some.0+]`, `[+some.1+]`.
 	* Valid values:
 		* `stringJsonObject` — as [JSON](https://en.wikipedia.org/wiki/JSON)
+		* `stringHjsonObject` — as [HJSON](https://hjson.github.io/)
 		* `stringQueryFormated` — as [Query string](https://en.wikipedia.org/wiki/Query_string)
+		* It can also be set as a native PHP object or array (e. g. for calls through `$modx->runSnippet`):
+			* `arrayAssociative`
+			* `object`
 	* Default value: —
 
 
@@ -172,7 +218,41 @@ As opposed to standard CMS calling you can pass not only string parameters to a 
 ```
 
 
-## [Home page →](https://code.divandesign.biz/modx/ddrunsnippets)
+#### Run the snippet through `\DDTools\Snippet::runSnippet` without DB and eval
+
+```php
+//Include (MODX)EvolutionCMS.libraries.ddTools
+require_once(
+	$modx->getConfig('base_path') .
+	'assets/libs/ddTools/modx.ddtools.class.php'
+);
+
+//Run (MODX)EvolutionCMS.snippets.ddRunSnippets
+\DDTools\Snippet::runSnippet([
+	'name' => 'ddRunSnippets',
+	'params' => [
+		'snippets' => [
+			'someSnippet' => [
+				'exampleParam' => 'Example value.'
+			],
+			'otherSnippet' => [
+				'someParam' => '[+someSnippet+]'
+			],
+			'anotherSnippet' => [
+				'[+otherSnippet+]' => '[+someSnippet+]'
+			]
+		],
+		'tpl' => '@CODE:[+anotherSnippet+]'
+	]
+]);
+```
+
+
+## Links
+
+* [Home page](https://code.divandesign.biz/modx/ddrunsnippets)
+* [Telegram chat](https://t.me/dd_code)
+* [Packagist](https://packagist.org/packages/dd/evolutioncms-snippets-ddrunsnippets)
 
 
 <link rel="stylesheet" type="text/css" href="https://DivanDesign.ru/assets/files/ddMarkdown.css" />

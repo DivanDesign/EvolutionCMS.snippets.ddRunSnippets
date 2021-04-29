@@ -1,6 +1,20 @@
 # (MODX)EvolutionCMS.snippets.ddRunSnippets changelog
 
 
+## Версия 3.3 (2021-04-29)
+* \* Внимание! Требуется PHP >= 5.6.
+* \* Внимание! Требуется (MODX)EvolutionCMS.libraries.ddTools >= 0.49.1.
+* \+ Параметры:
+	* \+ `snippets_parseResults`: Новый параметр. Добавляет возможность парсить результат каждого сниппета парсером CMS.
+	* \+ `snippets`, `tpl_placeholders`: Также может быть задан, как [HJSON](https://hjson.github.io/) или как нативный PHP объект или массив (например, для вызовов через `$modx->runSnippet`).
+* \+ Запустить сниппет без DB и eval можно через `\DDTools\Snippet::runSnippet` (см. примеры в README).
+* \+ `\ddRunSnippets\Snippet`: Новый класс. Весь код сниппета перенесён туда.
+* \+ README:
+	* \+ Документация → Установка → Используя (MODX)EvolutionCMS.libraries.ddInstaller.
+	* \+ Ссылки.
+* \+ Composer.json → `support`.
+
+
 ## Версия 3.2 (2020-06-03)
 * \* Внимание! Требуется (MODX)EvolutionCMS.libraries.ddTools >= 0.38.1
 * \+ Параметры → `snippets->{$snippetName}->{$paramName}`: Плейсхолдеры предыдущих вызовов сниппетов также работают в параметрах-объектах на любой глубине.
