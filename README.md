@@ -66,6 +66,12 @@ See the documentation for a more complete picture.
 		* `mixed` — as opposed to standard CMS calling you can pass not only string parameters to the snippet, any types are supported
 	* Default value: —
 	
+* `snippets_parseResults`
+	* Desctription: Parse result of each snippet by CMS parser.  
+		Immediately after running each snippet, its result will be parsed by `$modx->parseDocumentSource()`.
+	* Valid values: `boolean`
+	* Default value: `false`
+	
 * `tpl`
 	* Desctription: Chunk for output results.  
 		If not set, all snippets results will be returned joined by `''`.  

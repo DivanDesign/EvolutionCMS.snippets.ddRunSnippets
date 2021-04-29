@@ -8,12 +8,14 @@ class Snippet extends \DDTools\Snippet {
 		$params = [
 			//Defaults
 			'snippets' => [],
+			'snippets_parseResults' => false,
 			'tpl' => null,
-			'tpl_placeholders' => []
+			'tpl_placeholders' => [],
 		],
 		
 		$paramsTypes = [
 			'snippets' => 'objectArray',
+			'snippets_parseResults' => 'boolean',
 			'tpl_placeholders' => 'objectArray'
 		],
 		
@@ -24,7 +26,7 @@ class Snippet extends \DDTools\Snippet {
 	
 	/**
 	 * run
-	 * @version 1.0 (2021-04-29)
+	 * @version 1.1 (2021-04-29)
 	 * 
 	 * @return {string}
 	 */
@@ -141,6 +143,10 @@ class Snippet extends \DDTools\Snippet {
 				);
 			}else{
 				$resultArray[$aSnippetAlias] = \ddTools::$modx->runSnippet($aSnippetName);
+			}
+			
+			if ($this->params->snippets_parseResults){
+				$resultArray[$aSnippetAlias] = \ddTools::parseSource($resultArray[$aSnippetAlias]);
 			}
 		}
 		
