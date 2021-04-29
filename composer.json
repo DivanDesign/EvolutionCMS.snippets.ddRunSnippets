@@ -19,6 +19,9 @@
 		"run nested snippets"
 	],
 	"homepage": "https://code.divandesign.biz/modx/ddrunsnippets",
+	"support": {
+		"chat": "https://t.me/dd_code"
+	},
 	"authors": [
 		{
 			"name": "DD Group",
