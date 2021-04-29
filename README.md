@@ -20,13 +20,20 @@ See the documentation for a more complete picture.
 
 ### Installation
 
-Elements → Snippets: Create a new snippet with the following data:
+
+#### 1. Elements → Snippets: Create a new snippet with the following data
 
 1. Snippet name: `ddRunSnippets`.
 2. Description: `<b>3.2</b> Snippet runs necessary snippets with necessary params.`.
 3. Category: `Core`.
 4. Parse DocBlock: `no`.
 5. Snippet code (php): Insert content of the `ddRunSnippets_snippet.php` file from the archive.
+
+
+#### 2. Elements → Manage Files
+
+1. Create a new folder `assets/snippets/ddRunSnippets/`.
+2. Extract the archive to the folder (except `ddRunSnippets_snippet.php`).
 
 
 ### Parameters description
@@ -177,6 +184,36 @@ As opposed to standard CMS calling you can pass not only string parameters to a 
 		}
 	}`
 ]]
+```
+
+
+#### Run the snippet through `\DDTools\Snippet::runSnippet` without DB and eval
+
+```php
+//Include (MODX)EvolutionCMS.libraries.ddTools
+require_once(
+	$modx->getConfig('base_path') .
+	'assets/libs/ddTools/modx.ddtools.class.php'
+);
+
+//Run (MODX)EvolutionCMS.snippets.ddRunSnippets
+\DDTools\Snippet::runSnippet([
+	'name' => 'ddRunSnippets',
+	'params' => [
+		'snippets' => [
+			'someSnippet' => [
+				'exampleParam' => 'Example value.'
+			],
+			'otherSnippet' => [
+				'someParam' => '[+someSnippet+]'
+			],
+			'anotherSnippet' => [
+				'[+otherSnippet+]' => '[+someSnippet+]'
+			]
+		],
+		'tpl' => '@CODE:[+anotherSnippet+]'
+	]
+]);
 ```
 
 
