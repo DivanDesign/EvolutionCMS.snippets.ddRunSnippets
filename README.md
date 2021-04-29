@@ -21,7 +21,10 @@ See the documentation for a more complete picture.
 ### Installation
 
 
-#### 1. Elements → Snippets: Create a new snippet with the following data
+#### Manually
+
+
+##### 1. Elements → Snippets: Create a new snippet with the following data
 
 1. Snippet name: `ddRunSnippets`.
 2. Description: `<b>3.2</b> Snippet runs necessary snippets with necessary params.`.
@@ -30,10 +33,32 @@ See the documentation for a more complete picture.
 5. Snippet code (php): Insert content of the `ddRunSnippets_snippet.php` file from the archive.
 
 
-#### 2. Elements → Manage Files
+##### 2. Elements → Manage Files
 
 1. Create a new folder `assets/snippets/ddRunSnippets/`.
 2. Extract the archive to the folder (except `ddRunSnippets_snippet.php`).
+
+
+#### Using [(MODX)EvolutionCMS.libraries.ddInstaller](https://github.com/DivanDesign/EvolutionCMS.libraries.ddInstaller)
+
+Just run the following PHP code in your sources or [Console](https://github.com/vanchelo/MODX-Evolution-Ajax-Console):
+
+```php
+//Include (MODX)EvolutionCMS.libraries.ddInstaller
+require_once(
+	$modx->getConfig('base_path') .
+	'assets/libs/ddInstaller/require.php'
+);
+
+//Install (MODX)EvolutionCMS.snippets.ddRunSnippets
+\DDInstaller::install([
+	'url' => 'https://github.com/DivanDesign/EvolutionCMS.snippets.ddRunSnippets',
+	'type' => 'snippet'
+]);
+```
+
+* If `ddRunSnippets` is not exist on your site, `ddInstaller` will just install it.
+* If `ddRunSnippets` is already exist on your site, `ddInstaller` will check it version and update it if needed.
 
 
 ### Parameters description
