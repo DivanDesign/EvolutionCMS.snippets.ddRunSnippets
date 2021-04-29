@@ -36,7 +36,7 @@ $params = \DDTools\ObjectTools::extend([
 		(object) [
 			'snippets' => [],
 			'tpl' => null,
-			'tpl_placeholders' => null
+			'tpl_placeholders' => []
 		],
 		$params
 	]
@@ -44,6 +44,11 @@ $params = \DDTools\ObjectTools::extend([
 
 $params->snippets = \DDTools\ObjectTools::convertType([
 	'object' => $params->snippets,
+	'type' => 'objectArray'
+]);
+
+$params->tpl_placeholders = \DDTools\ObjectTools::convertType([
+	'object' => $params->tpl_placeholders,
 	'type' => 'objectArray'
 ]);
 
@@ -183,7 +188,7 @@ if (!empty($snippetResultArray)){
 					//Разбиваем их
 					$snippetResultArray = array_merge(
 						$snippetResultArray,
-						\ddTools::encodedStringToArray($params->tpl_placeholders)
+						$params->tpl_placeholders
 					);
 				}
 				
