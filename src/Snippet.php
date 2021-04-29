@@ -125,7 +125,7 @@ class Snippet extends \DDTools\Snippet {
 	
 	/**
 	 * parseObject
-	 * @version 1.1 (2021-04-30)
+	 * @version 1.2 (2021-04-30)
 	 * 
 	 * @param $params {stdClass|arrayAssociative|stringJsonObject|stringHjsonObject|stringQueryFormatted} @required
 	 * @param $params->object {stdClass|arrayAssociative} — Source object. @required
@@ -187,63 +187,36 @@ class Snippet extends \DDTools\Snippet {
 				}
 			}
 			
-			$isPropValueString = is_string($propValue);
-			
-			//If the value is not a string
-			if (!$isPropValueString){
-				//We need to convert it to a string for replacing placeholders
-				$propValue = \DDTools\ObjectTools::convertType([
-					'object' => $propValue,
-					'type' => 'stringJsonAuto'
-				]);
-			}
-			
-			$propValueParsed = $propValue;
-			
-			//If parameter value contains placeholders
 			if (
+				is_object($propValue) ||
+				is_array($propValue)
+			){
+				//Start recursion
+				$propValue = $this->parseObject([
+					'object' => $propValue,
+					'data' => $params->data
+				]);
+			}elseif (
+				is_string($propValue) &&
+				//If parameter value contains placeholders
 				strpos(
 					$propValue,
 					'[+'
 				) !== false
 			){
 				//Replace placeholders
-				$propValueParsed = \ddTools::parseText([
+				$propValue = \ddTools::parseText([
 					'text' => $propValue,
 					'data' => $params->data,
 					'mergeAll' => false
 				]);
 			}
 			
-			//If something changed after parsing
-			if ($propValueParsed != $propValue){
-				//Save parameter with the new value
-				if ($isResultObject){
-					$result->{$propName} = $propValueParsed;
-				}else{
-					$result[$propName] = $propValueParsed;
-				}
-				//Nothing changed after parsing but the value was converted before
-			}elseif (!$isPropValueString){
-				//Prevent back converstion because it's no needed
-				$isPropValueString = true;
-			}
-			
-			//If the value was converted before from object to JSON
-			if (!$isPropValueString){
-				//Convert it back
-				//Получается тройная конверсия туда-сюда-обратно. Как-то нехорошо, но что делать?
-				if ($isResultObject){
-					$result->{$propName} = \DDTools\ObjectTools::convertType([
-						'object' => $result->{$propName},
-						'type' => 'ojbectAuto'
-					]);
-				}else{
-					$result[$propName] = \DDTools\ObjectTools::convertType([
-						'object' => $result[$propName],
-						'type' => 'ojbectAuto'
-					]);
-				}
+			//Save parameter with the new value
+			if ($isResultObject){
+				$result->{$propName} = $propValue;
+			}else{
+				$result[$propName] = $propValue;
 			}
 		}
 		
