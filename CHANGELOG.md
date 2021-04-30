@@ -1,6 +1,10 @@
 # (MODX)EvolutionCMS.snippets.ddRunSnippets changelog
 
 
+## Version 3.4 (2021-04-30)
+* \+ Conversion to JSON and back is not used for nested objects anymore, recursion is used instead. So, you don't have to care about correct JSON format in result of each snippet when placeholders are used in object-values of parameters in any depth.
+
+
 ## Version 3.3 (2021-04-29)
 * \* Attention! PHP >= 5.6 is required.
 * \* Attention! (MODX)EvolutionCMS.libraries.ddTools >= 0.49.1 is required.
