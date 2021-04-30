@@ -3,7 +3,7 @@ namespace ddRunSnippets;
 
 class Snippet extends \DDTools\Snippet {
 	protected
-		$version = '3.3.0',
+		$version = '3.4.0',
 		
 		$params = [
 			//Defaults
@@ -26,7 +26,7 @@ class Snippet extends \DDTools\Snippet {
 	
 	/**
 	 * run
-	 * @version 1.1 (2021-04-29)
+	 * @version 1.1.1 (2021-04-30)
 	 * 
 	 * @return {string}
 	 */
@@ -62,80 +62,10 @@ class Snippet extends \DDTools\Snippet {
 			//If snippet parameters are passed
 			if (is_array($aSnippetParams)){
 				//Fill parameters with previous snippets execution results
-				foreach (
-					$aSnippetParams as
-					$aSnippetParamName =>
-					$aSnippetParamValue
-				){
-					//If parameter name contains placeholders
-					if (
-						strpos(
-							$aSnippetParamName,
-							'[+'
-						) !== false
-					){
-						//Remove unprepared name
-						unset($aSnippetParams[$aSnippetParamName]);
-						
-						//Replace to previous snippets results
-						$aSnippetParamName = \ddTools::parseText([
-							'text' => $aSnippetParamName,
-							'data' => $resultArray,
-							'mergeAll' => false
-						]);
-						
-						//Save parameter with the new name
-						$aSnippetParams[$aSnippetParamName] = $aSnippetParamValue;
-					}
-					
-					$isASnippetParamValueString = is_string($aSnippetParamValue);
-					
-					//If the value is not a string
-					if (!$isASnippetParamValueString){
-						//We need to convert it to a string for replacing preverious snippets results
-						$aSnippetParamValue = \DDTools\ObjectTools::convertType([
-							'object' => $aSnippetParamValue,
-							'type' => 'stringJsonAuto'
-						]);
-					}
-					
-					$aSnippetParamValueParsed = $aSnippetParamValue;
-					
-					//If parameter value contains placeholders
-					if (
-						strpos(
-							$aSnippetParamValue,
-							'[+'
-						) !== false
-					){
-						//Replace to previous snippets results
-						$aSnippetParamValueParsed = \ddTools::parseText([
-							'text' => $aSnippetParamValue,
-							'data' => $resultArray,
-							'mergeAll' => false
-						]);
-					}
-					
-					//If something changed after parsing
-					if ($aSnippetParamValueParsed != $aSnippetParamValue){
-						//Save parameter with the new value
-						$aSnippetParams[$aSnippetParamName] = $aSnippetParamValueParsed;
-						//Nothing changed after parsing but the value was converted before
-					}elseif (!$isASnippetParamValueString){
-						//Prevent back converstion because it's no needed
-						$isASnippetParamValueString = true;
-					}
-					
-					//If the value was converted before from object to JSON
-					if (!$isASnippetParamValueString){
-						//Convert it back
-						//Получается тройная конверсия туда-сюда-обратно. Как-то нехорошо, но что делать?
-						$aSnippetParams[$aSnippetParamName] = \DDTools\ObjectTools::convertType([
-							'object' => $aSnippetParams[$aSnippetParamName],
-							'type' => 'ojbectAuto'
-						]);
-					}
-				}
+				$aSnippetParams = $this->parseObject([
+					'object' => $aSnippetParams,
+					'data' => $resultArray
+				]);
 				
 				$resultArray[$aSnippetAlias] = \ddTools::$modx->runSnippet(
 					$aSnippetName,
@@ -187,6 +117,106 @@ class Snippet extends \DDTools\Snippet {
 					'',
 					$resultArray
 				);
+			}
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * parseObject
+	 * @version 1.2 (2021-04-30)
+	 * 
+	 * @param $params {stdClass|arrayAssociative|stringJsonObject|stringHjsonObject|stringQueryFormatted} @required
+	 * @param $params->object {stdClass|arrayAssociative} — Source object. @required
+	 * @param $params->data {stdClass|arrayAssociative|stringJsonObject|stringHjsonObject|stringQueryFormatted} — Data has to be replaced in keys and values of `$params->object`. @required
+	 * 
+	 * @return {arrayAssociative}
+	 */
+	private function parseObject($params){
+		$params = \DDTools\ObjectTools::convertType([
+			'object' => $params,
+			'type' => 'objectStdClass'
+		]);
+		
+		$isResultObject = is_object($params->object);
+		
+		//Extend is needed to prevent references
+		$result = \DDTools\ObjectTools::extend([
+			'objects' => [
+				(
+					$isResultObject ?
+					new \stdClass() :
+					[]
+				),
+				$params->object
+			]
+		]);
+		
+		foreach (
+			$result as
+			$propName =>
+			$propValue
+		){
+			//If prop name contains placeholders
+			if (
+				strpos(
+					$propName,
+					'[+'
+				) !== false
+			){
+				//Remove unprepared name
+				if ($isResultObject){
+					unset($result->{$propName});
+				}else{
+					unset($result[$propName]);
+				}
+				
+				//Replace placeholders
+				$propName = \ddTools::parseText([
+					'text' => $propName,
+					'data' => $params->data,
+					'mergeAll' => false
+				]);
+				
+				//Save parameter with the new name
+				if ($isResultObject){
+					$result->{$propName} = $propValue;
+				}else{
+					$result[$propName] = $propValue;
+				}
+			}
+			
+			if (
+				is_object($propValue) ||
+				is_array($propValue)
+			){
+				//Start recursion
+				$propValue = $this->parseObject([
+					'object' => $propValue,
+					'data' => $params->data
+				]);
+			}elseif (
+				is_string($propValue) &&
+				//If parameter value contains placeholders
+				strpos(
+					$propValue,
+					'[+'
+				) !== false
+			){
+				//Replace placeholders
+				$propValue = \ddTools::parseText([
+					'text' => $propValue,
+					'data' => $params->data,
+					'mergeAll' => false
+				]);
+			}
+			
+			//Save parameter with the new value
+			if ($isResultObject){
+				$result->{$propName} = $propValue;
+			}else{
+				$result[$propName] = $propValue;
 			}
 		}
 		
