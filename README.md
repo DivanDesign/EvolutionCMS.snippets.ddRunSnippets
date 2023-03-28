@@ -130,19 +130,24 @@ require_once(
 
 ## Examples
 
+All examples are written using [HJSON](https://hjson.github.io/), but if you want you can use vanilla JSON instead.
+
 
 ### Basic example
 
 ```
 [[ddRunSnippets?
 	&snippets=`{
-		"someSnippet": {
-			"exampleParam": "Example value."
-		},
-		"otherSnippet": {
-			"someParam": "[+someSnippet+]"
-		},
-		"anotherSnippet": {
+		someSnippet: {
+			exampleParam: Example value.
+		}
+		
+		otherSnippet: {
+			someParam: "[+someSnippet+]"
+		}
+		
+		anotherSnippet: {
+			//Results of previous snippets can be used both in parameters names and their values
 			"[+otherSnippet+]": "[+someSnippet+]"
 		}
 	}`
@@ -156,15 +161,20 @@ require_once(
 ```
 [[ddRunSnippets?
 	&snippets=`{
-		"someSnippet=snippet1": {
-			"exampleParam": "First example value."
-		},
-		"someSnippet=snippet2": {
-			"exampleParam": "Second example value.",
-			"exampleParam2": "[+snippet1+]"
-		},
-		"anotherSnippet": {
-			"someParam": "[+snippet2+]",
+		//Run “someSnippet” and save it's result as “snippet1”
+		someSnippet=snippet1: {
+			exampleParam: First example value.
+		}
+		
+		//Run “someSnippet” and save it's result as “snippet2”
+		someSnippet=snippet2: {
+			exampleParam: Second example value.
+			//Placeholder “[+snippet1+]” will be replaced to results of previous “someSnippet” call
+			exampleParam2: "[+snippet1+]"
+		}
+		
+		anotherSnippet: {
+			someParam: "[+snippet2+]"
 			"[+snippet1+]": "[+snippet2+]"
 		}
 	}`
@@ -182,13 +192,16 @@ As opposed to standard CMS calling you can pass not only string parameters to a 
 ```
 [[ddRunSnippets?
 	&snippets=`{
-		"someSnippet": {
-			"exampleParam1": {
-				"objectField": "“exampleParam1” is an object, not a string.",
-				"otherField": true
-			},
-			"exampleParam2": [
-				"“exampleParam2” is an array, not a string",
+		someSnippet: {
+			//Object as parameter value
+			exampleParam1: {
+				objectField: “exampleParam1” is an object, not a string.
+				otherField: true
+			}
+			
+			//Array as parameter value
+			exampleParam2: [
+				“exampleParam2” is an array, not a string
 				2.71
 			]
 		}
@@ -202,16 +215,17 @@ As opposed to standard CMS calling you can pass not only string parameters to a 
 ```
 [[ddRunSnippets?
 	&snippets=`{
-		"someSnippet": {
-			"exampleParam": "Example value."
-		},
-		"otherSnippet": {
-			"exampleParam1": {
-				"objectField": "“exampleParam1” is an object, not a string.",
-				"otherField": "So, “someSnippet” result will be replace the [+someSnippet+] placeholder here.",
-				"anotherField": {
-					"deepField": "Snipepts results placeholders will work fine independent of object depth.",
-					"otherDeepField": "[+someSnippet+] works here."
+		someSnippet: {
+			exampleParam: Example value.
+		}
+		
+		otherSnippet: {
+			exampleParam1: {
+				objectField: “exampleParam1” is an object, not a string.
+				otherField: So, “someSnippet” result will be replace the [+someSnippet+] placeholder here.
+				anotherField: {
+					deepField: Snipepts results placeholders will work fine independent of object depth.
+					otherDeepField: The palceholder [+someSnippet+] works here too.
 				}
 			}
 		}

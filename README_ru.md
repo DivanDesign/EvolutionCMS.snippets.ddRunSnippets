@@ -126,19 +126,24 @@ require_once(
 
 ## Примеры
 
+Все примеры написаны с использованием [HJSON](https://hjson.github.io/), но вместо него можно также использвоать обычный JSON.
+
 
 ### Базовый пример
 
 ```
 [[ddRunSnippets?
 	&snippets=`{
-		"someSnippet": {
-			"exampleParam": "Какое-то значение параметра."
-		},
-		"otherSnippet": {
-			"someParam": "[+someSnippet+]"
-		},
-		"anotherSnippet": {
+		someSnippet: {
+			exampleParam: Какое-то значение параметра.
+		}
+		
+		otherSnippet: {
+			someParam: "[+someSnippet+]"
+		}
+		
+		anotherSnippet: {
+			//Результаты предыдущих сниппетов могут быть использованы как в именах параметров, так и в их значениях
 			"[+otherSnippet+]": "[+someSnippet+]"
 		}
 	}`
@@ -152,15 +157,20 @@ require_once(
 ```
 [[ddRunSnippets?
 	&snippets=`{
-		"someSnippet=snippet1": {
-			"exampleParam": "Какое-то значение параметра."
-		},
-		"someSnippet=snippet2": {
-			"exampleParam": "Ещё какое-то значение параметра.",
-			"exampleParam2": "[+snippet1+]"
-		},
-		"anotherSnippet": {
-			"someParam": "[+snippet2+]",
+		//Запускаем «someSnippet» и сохраняем его результат как «snippet1»
+		someSnippet=snippet1: {
+			exampleParam: Какое-то значение параметра.
+		}
+		
+		//Запускаем «someSnippet» и сохраняем его результат как «snippet2»
+		someSnippet=snippet2: {
+			exampleParam: Ещё какое-то значение параметра.
+			//Плейсхолдер «[+snippet1+]» будет заменён на результат предыдущего вызова «someSnippet»
+			exampleParam2: "[+snippet1+]"
+		}
+		
+		anotherSnippet: {
+			someParam: "[+snippet2+]"
 			"[+snippet1+]": "[+snippet2+]"
 		}
 	}`
@@ -178,13 +188,16 @@ require_once(
 ```
 [[ddRunSnippets?
 	&snippets=`{
-		"someSnippet": {
-			"exampleParam1": {
-				"objectField": "Параметр «exampleParam1» — объект, не строка.",
-				"anotherField": true
-			},
-			"exampleParam2": [
-				"Параметр «exampleParam2» — массив, не строка.",
+		someSnippet: {
+			//Объект в качестве значения параметра
+			exampleParam1: {
+				objectField: Параметр «exampleParam1» — объект, не строка.
+				anotherField: true
+			}
+			
+			//Массив в качестве значения параметра
+			exampleParam2: [
+				Параметр «exampleParam2» — массив, не строка.
 				2.71
 			]
 		}
@@ -198,16 +211,16 @@ require_once(
 ```
 [[ddRunSnippets?
 	&snippets=`{
-		"someSnippet": {
-			"exampleParam": "Какое-то значение параметра."
-		},
-		"otherSnippet": {
-			"exampleParam1": {
-				"objectField": "Параметр «exampleParam1» — объект, не строка.",
-				"otherField": "При этом, результат выполнения сниппета «someSnippet» будет подставлен место плейсхолдера [+someSnippet+] сюда.",
-				"anotherField": {
-					"deepField": "Плейсхолдеры результатов сниппетов будут работать вне зависимости от глубины объектов параметров.",
-					"otherDeepField": "[+someSnippet+] подставится и сюда."
+		someSnippet: {
+			exampleParam: Какое-то значение параметра.
+		}
+		otherSnippet: {
+			exampleParam1: {
+				objectField: Параметр «exampleParam1» — объект, не строка.
+				otherField: При этом, результат выполнения сниппета «someSnippet» будет подставлен место плейсхолдера [+someSnippet+] сюда.
+				anotherField: {
+					deepField: Плейсхолдеры результатов сниппетов будут работать вне зависимости от глубины объектов параметров.
+					otherDeepField: Плейсхолдер [+someSnippet+] подставится и сюда.
 				}
 			}
 		}
