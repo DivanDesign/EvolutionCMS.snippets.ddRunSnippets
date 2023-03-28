@@ -20,16 +20,13 @@ Please give us feedback via [Telegram chat](https://t.me/dd_code) if this is cri
 * [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.49.1
 
 
-## Documentation
+## Installation
 
 
-### Installation
+### Manually
 
 
-#### Manually
-
-
-##### 1. Elements → Snippets: Create a new snippet with the following data
+#### 1. Elements → Snippets: Create a new snippet with the following data
 
 1. Snippet name: `ddRunSnippets`.
 2. Description: `<b>3.4</b> Snippet runs necessary snippets with necessary params.`.
@@ -38,13 +35,13 @@ Please give us feedback via [Telegram chat](https://t.me/dd_code) if this is cri
 5. Snippet code (php): Insert content of the `ddRunSnippets_snippet.php` file from the archive.
 
 
-##### 2. Elements → Manage Files
+#### 2. Elements → Manage Files
 
 1. Create a new folder `assets/snippets/ddRunSnippets/`.
 2. Extract the archive to the folder (except `ddRunSnippets_snippet.php`).
 
 
-#### Using [(MODX)EvolutionCMS.libraries.ddInstaller](https://github.com/DivanDesign/EvolutionCMS.libraries.ddInstaller)
+### Using [(MODX)EvolutionCMS.libraries.ddInstaller](https://github.com/DivanDesign/EvolutionCMS.libraries.ddInstaller)
 
 Just run the following PHP code in your sources or [Console](https://github.com/vanchelo/MODX-Evolution-Ajax-Console):
 
@@ -66,7 +63,7 @@ require_once(
 * If `ddRunSnippets` is already exist on your site, `ddInstaller` will check it version and update it if needed.
 
 
-### Parameters description
+## Parameters description
 
 * `snippets`
 	* Desctription: List of snippets to be run. Snippets are called in accordance with the specified order.
@@ -131,10 +128,10 @@ require_once(
 	* Default value: —
 
 
-### Examples
+## Examples
 
 
-#### Basic example
+### Basic example
 
 ```
 [[ddRunSnippets?
@@ -154,7 +151,7 @@ require_once(
 ```
 
 
-#### Use alias in snippet names
+### Use alias in snippet names
 
 ```
 [[ddRunSnippets?
@@ -178,7 +175,7 @@ require_once(
 We called snippet `someSnippet` twice with different parameters using two different aliases for each call: `snippet1` and `snippet2`.
 
 
-#### Pass objects and arrays as snippet params
+### Pass objects and arrays as snippet params
 
 As opposed to standard CMS calling you can pass not only string parameters to a snippet, any types are supported.
 
@@ -200,7 +197,7 @@ As opposed to standard CMS calling you can pass not only string parameters to a 
 ```
 
 
-#### Using results of previous snippets in object-values of parameters
+### Using results of previous snippets in object-values of parameters
 
 ```
 [[ddRunSnippets?
@@ -223,7 +220,7 @@ As opposed to standard CMS calling you can pass not only string parameters to a 
 ```
 
 
-#### Run the snippet through `\DDTools\Snippet::runSnippet` without DB and eval
+### Run the snippet through `\DDTools\Snippet::runSnippet` without DB and eval
 
 ```php
 //Include (MODX)EvolutionCMS.libraries.ddTools
