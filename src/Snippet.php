@@ -26,7 +26,7 @@ class Snippet extends \DDTools\Snippet {
 	
 	/**
 	 * run
-	 * @version 1.1.1 (2021-04-30)
+	 * @version 2.0 (2023-03-29)
 	 * 
 	 * @return {string}
 	 */
@@ -67,12 +67,14 @@ class Snippet extends \DDTools\Snippet {
 					'data' => $resultArray
 				]);
 				
-				$resultArray[$aSnippetAlias] = \ddTools::$modx->runSnippet(
-					$aSnippetName,
-					$aSnippetParams
-				);
+				$resultArray[$aSnippetAlias] = \DDTools\Snippet::runSnippet([
+					'name' => $aSnippetName,
+					'params' => $aSnippetParams
+				]);
 			}else{
-				$resultArray[$aSnippetAlias] = \ddTools::$modx->runSnippet($aSnippetName);
+				$resultArray[$aSnippetAlias] = \DDTools\Snippet::runSnippet([
+					'name' => $aSnippetName
+				]);
 			}
 			
 			if ($this->params->snippets_parseResults){
@@ -131,7 +133,7 @@ class Snippet extends \DDTools\Snippet {
 	 * @param $params->object {stdClass|arrayAssociative} — Source object. @required
 	 * @param $params->data {stdClass|arrayAssociative|stringJsonObject|stringHjsonObject|stringQueryFormatted} — Data has to be replaced in keys and values of `$params->object`. @required
 	 * 
-	 * @return {arrayAssociative}
+	 * @return {arrayAssociative|stdClass}
 	 */
 	private function parseObject($params){
 		$params = \DDTools\ObjectTools::convertType([

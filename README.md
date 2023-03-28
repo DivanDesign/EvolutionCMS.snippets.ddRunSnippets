@@ -8,6 +8,11 @@ Snippet runs necessary snippets with necessary params. Capabilities:
 
 See the documentation for a more complete picture.
 
+___
+☝ Please note that snippets are run through `\DDTools\Snippet::runSnippet`.
+This increases performance and saves server resources, but unfortunately you can't run snippets that do not use `\DDTools\Snippet`.
+Please give us feedback via [Telegram chat](https://t.me/dd_code) if this is critical.
+
 
 ## Requires
 
@@ -69,7 +74,7 @@ require_once(
 		* `stringJsonObject` — as [JSON](https://en.wikipedia.org/wiki/JSON)
 		* `stringHjsonObject` — as [HJSON](https://hjson.github.io/)
 		* `stringQueryFormated` — as [Query string](https://en.wikipedia.org/wiki/Query_string)
-		* It can also be set as a native PHP object or array (e. g. for calls through `$modx->runSnippet`):
+		* It can also be set as a native PHP object or array (e. g. for calls through `\DDTools\Snippet::runSnippet`):
 			* `arrayAssociative`
 			* `object`
 	* **Required**
@@ -77,7 +82,7 @@ require_once(
 * `snippets->{$snippetName}`
 	* Desctription: A snippet, when the key is the snippet name and the value is the snippet parameters.
 		* By default a snippet result will be equal to `[+snippetName+]` in parameters and chunk (where `snippetName` is the snippet name).
-		* But also you can set custom snippet aliases in this parameter using the `'='` delimiter (e. g. `Ditto=docs`).
+		* But also you can set custom snippet aliases in this parameter using the `'='` delimiter (e. g. `ddGetDocuments=docs`).
 	* Valid values:
 		* `object` — an object with snippet parameters (see below)
 		* `boolean` — for simple snippet calls without parameters or if you need to use default parameters, you can just pass `true`
@@ -86,7 +91,7 @@ require_once(
 * `snippets->{$snippetName}->{$paramName}`
 	* Desctription: A snippet parameter, when the key is the parameter name and the value is the parameter value.
 		* Use `[+snippetName+]` for substitution by any previous snippet execution result in the parameter name or value (where `snippetName` is the snippet name).
-		* Or use `[+snippetAlias+]` if specified (e. g. `docs` if the snippet name set as `Ditto=docs`).
+		* Or use `[+snippetAlias+]` if specified (e. g. `docs` if the snippet name set as `ddGetDocuments=docs`).
 	* Valid values:
 		* `mixed` — as opposed to standard CMS calling you can pass not only string parameters to the snippet, any types are supported
 	* Default value: —
@@ -120,7 +125,7 @@ require_once(
 		* `stringJsonObject` — as [JSON](https://en.wikipedia.org/wiki/JSON)
 		* `stringHjsonObject` — as [HJSON](https://hjson.github.io/)
 		* `stringQueryFormated` — as [Query string](https://en.wikipedia.org/wiki/Query_string)
-		* It can also be set as a native PHP object or array (e. g. for calls through `$modx->runSnippet`):
+		* It can also be set as a native PHP object or array (e. g. for calls through `\DDTools\Snippet::runSnippet`):
 			* `arrayAssociative`
 			* `object`
 	* Default value: —
