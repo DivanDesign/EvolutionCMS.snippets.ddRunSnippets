@@ -65,6 +65,9 @@ require_once(
 
 ## Parameters description
 
+
+### Snippets execution parameters
+
 * `snippets`
 	* Desctription: List of snippets to be run. Snippets are called in accordance with the specified order.
 	* Valid values:
@@ -98,7 +101,10 @@ require_once(
 		Immediately after running each snippet, its result will be parsed by `$modx->parseDocumentSource()`.
 	* Valid values: `boolean`
 	* Default value: `false`
-	
+
+
+### Output parameters
+
 * `tpl`
 	* Desctription: Chunk for output results.  
 		If not set, all snippets results will be returned joined by `''`.  
