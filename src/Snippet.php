@@ -19,10 +19,6 @@ class Snippet extends \DDTools\Snippet {
 			'snippets' => 'objectArray',
 			'snippets_parseResults' => 'boolean',
 			'outputterParams' => 'objectStdClass'
-		],
-		
-		$renamedParamsCompliance = [
-			'tpl_placeholders' => 'placeholders'
 		]
 	;
 	
