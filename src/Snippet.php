@@ -10,7 +10,7 @@ class Snippet extends \DDTools\Snippet {
 			'snippets' => [],
 			'snippets_parseResults' => false,
 			'outputterParams' => [
-				'tpl' => null,
+				'tpl' => '',
 				'placeholders' => [],
 			]
 		],
@@ -56,7 +56,7 @@ class Snippet extends \DDTools\Snippet {
 	}
 	/**
 	 * run
-	 * @version 2.1 (2023-03-29)
+	 * @version 3.0 (2023-03-29)
 	 * 
 	 * @return {string}
 	 */
@@ -112,42 +112,37 @@ class Snippet extends \DDTools\Snippet {
 			}
 		}
 		
-		if (!empty($resultArray)){
-			$resultArray['ddRunSnippetsResult.all'] = implode(
-				'',
-				$resultArray
+		if (
+			!empty($resultArray) &&
+			//If template is not empty (if set as empty, the empty string must be returned)
+			!empty($this->params->outputterParams->tpl)
+		){
+			//Remove empty results
+			$resultArray = array_filter(
+				$resultArray,
+				function($aSnippetResult){
+					return $aSnippetResult != '';
+				}
 			);
 			
-			//Если задан шаблон для вывода
-			if (!is_null($this->params->outputterParams->tpl)){
-				//If template is not empty (if set as empty, the empty string must be returned)
-				if ($this->params->outputterParams->tpl != ''){
-					//Remove empty results
-					$resultArray = array_filter(
+			//Если есть хоть один не пустой результат
+			if (!empty($resultArray)){
+				$resultArray['ddRunSnippetsResult.all'] = implode(
+					'',
+					$resultArray
+				);
+				
+				$resultArray = \DDTools\ObjectTools::extend([
+					'objects' => [
 						$resultArray,
-						function($aSnippetResult){
-							return $aSnippetResult != '';
-						}
-					);
-					
-					//Если есть хоть один результат
-					if (!empty($resultArray)){
-						$resultArray = \DDTools\ObjectTools::extend([
-							'objects' => [
-								$resultArray,
-								$this->params->outputterParams->placeholders
-							]
-						]);
-						
-						$result .= \ddTools::parseText([
-							'text' => \ddTools::$modx->getTpl($this->params->outputterParams->tpl),
-							'data' => $resultArray
-						]);
-					}
-				}
-			//Если шаблон не задан
-			}else{
-				$result .= $resultArray['ddRunSnippetsResult.all'];
+						$this->params->outputterParams->placeholders
+					]
+				]);
+				
+				$result .= \ddTools::parseText([
+					'text' => \ddTools::$modx->getTpl($this->params->outputterParams->tpl),
+					'data' => $resultArray
+				]);
 			}
 		}
 		

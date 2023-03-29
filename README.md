@@ -118,9 +118,6 @@ require_once(
 	
 * `outputterParams->tpl`
 	* Desctription: Chunk for output results.  
-		If not set, all snippets results will be returned joined by `''`.  
-		If set as empty string, nothing will be returned (`''`).
-		
 		Available placeholders:
 		* `[+`_snippetName_`+]` — a snippet result (where `snippetName` is a snippet name)
 		* `[+ddRunSnippetsResult.all+]` — results of all executed snippets combined by `''`
@@ -128,7 +125,8 @@ require_once(
 	* Valid values:
 		* `stringChunkName`
 		* `string` — use inline templates starting with `@CODE:`
-	* Default value: —
+		* `''` — all snippets will be executed but nothing will be returned
+	* Default value: `''`
 	
 * `outputterParams->placeholders`
 	* Desctription:
