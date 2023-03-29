@@ -122,7 +122,9 @@ require_once(
 		If set as empty string, nothing will be returned (`''`).
 		
 		Available placeholders:
-		* `[+snippetName+]` — a snippet result (where `snippetName` is a snippet name).
+		* `[+`_snippetName_`+]` — a snippet result (where `snippetName` is a snippet name)
+		* `[+ddRunSnippetsResult.all+]` — results of all executed snippets combined by `''`
+		* `[+`_any placeholders from the `outputterParams->placeholders` parameter_`+]`
 	* Valid values:
 		* `stringChunkName`
 		* `string` — use inline templates starting with `@CODE:`

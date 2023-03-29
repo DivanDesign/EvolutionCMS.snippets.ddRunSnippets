@@ -56,7 +56,7 @@ class Snippet extends \DDTools\Snippet {
 	}
 	/**
 	 * run
-	 * @version 2.0.1 (2023-03-29)
+	 * @version 2.1 (2023-03-29)
 	 * 
 	 * @return {string}
 	 */
@@ -113,6 +113,11 @@ class Snippet extends \DDTools\Snippet {
 		}
 		
 		if (!empty($resultArray)){
+			$resultArray['ddRunSnippetsResult.all'] = implode(
+				'',
+				$resultArray
+			);
+			
 			//Если задан шаблон для вывода
 			if (!is_null($this->params->outputterParams->tpl)){
 				//If template is not empty (if set as empty, the empty string must be returned)
@@ -142,10 +147,7 @@ class Snippet extends \DDTools\Snippet {
 				}
 			//Если шаблон не задан
 			}else{
-				$result .= implode(
-					'',
-					$resultArray
-				);
+				$result .= $resultArray['ddRunSnippetsResult.all'];
 			}
 		}
 		
