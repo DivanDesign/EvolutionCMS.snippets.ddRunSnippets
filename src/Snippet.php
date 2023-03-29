@@ -56,7 +56,7 @@ class Snippet extends \DDTools\Snippet {
 	}
 	/**
 	 * run
-	 * @version 3.0 (2023-03-29)
+	 * @version 3.0.1 (2023-03-30)
 	 * 
 	 * @return {string}
 	 */
@@ -107,7 +107,11 @@ class Snippet extends \DDTools\Snippet {
 				]);
 			}
 			
-			if ($this->params->snippets_parseResults){
+			if (
+				$this->params->snippets_parseResults &&
+				//Only string results can be parsed
+				is_string($resultArray[$aSnippetAlias])
+			){
 				$resultArray[$aSnippetAlias] = \ddTools::parseSource($resultArray[$aSnippetAlias]);
 			}
 		}

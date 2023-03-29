@@ -4,6 +4,7 @@ Snippet runs necessary snippets with necessary params. Capabilities:
 
 * Run a few snippets consequentially.
 * Snippets results can be sent into parameters names and/or into other snippets values (can repeat this as much as you like).
+* Any executed snippet can return either a string or a native PHP array. It is convenient to use with “nested” placeholders (see examples below).
 * The snippet result can be returned into the chunk `outputterParams->tpl`, have transferring additional data through the parameter `outputterParams->placeholders`.
 
 See the documentation for a more complete picture.
@@ -17,7 +18,7 @@ Please give us feedback via [Telegram chat](https://t.me/dd_code) if this is cri
 ## Requires
 
 * PHP >= 5.6
-* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.49.1
+* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.59
 
 
 ## Installation
@@ -83,6 +84,7 @@ require_once(
 	* Desctription: A snippet, when the key is the snippet name and the value is the snippet parameters.
 		* By default a snippet result will be equal to `[+snippetName+]` in parameters and chunk (where `snippetName` is the snippet name).
 		* But also you can set custom snippet aliases in this parameter using the `'='` delimiter (e. g. `ddGetDocuments=docs`).
+		* Every snippet can return either a string or a native PHP array (it is convenient to use with “nested” placeholders, see examples below).
 	* Valid values:
 		* `object` — an object with snippet parameters (see below)
 		* `boolean` — for simple snippet calls without parameters or if you need to use default parameters, you can just pass `true`
@@ -243,6 +245,49 @@ As opposed to standard CMS calling you can pass not only string parameters to a 
 					otherDeepField: The palceholder [+someSnippet+] works here too.
 				}
 			}
+		}
+	}`
+]]
+```
+
+
+### Native PHP arrays as results of snippets and “nested” placeholders
+
+Let the example snippet named `personData` that returs a native PHP array instead of usual string:
+
+```php
+//Just for example let the snippet do nothing but only return an array :)
+return [
+	'name' => 'Tamara Eidelman',
+	'birthdate' => '1959.12.15',
+	'links' => [
+		'youtube' => 'https://youtube.com/c/TamaraEidelmanHistory',
+		'site' => 'https://eidelman.ru'
+	]
+];
+```
+
+Then execute some snippets via ddRunSnippets:
+
+```
+[[ddRunSnippets?
+	&snippets=`{
+		//Run our example snippet that returns a native PHP array (without parameters in this example case)
+		personData: true
+		
+		//Run other snippet
+		someSnippet: {
+			//If we need to pass whole result of the first snippet, just use usual placeholder
+			//ddRunSnippet will convert the native PHP array to JSON in this case
+			personData: "[+personData+]"
+		}
+		
+		//Run another snippet
+		anotherSnippet: {
+			//Also we can use “nested” placeholders to get an item of the snippet result array
+			info: "[+personData.name+], [+personData.birthdate+]"
+			//And it works with depth
+			youtube: "[+personData.links.youtube+]"
 		}
 	}`
 ]]
