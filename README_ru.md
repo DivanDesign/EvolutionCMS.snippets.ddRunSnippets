@@ -4,7 +4,7 @@
 
 * Последовательный запуск нескольких сниппетов.
 * Результаты выполнения сниппетов можно передавать в названия параметров и/или значения других сниппетов (и так сколько угодно).
-* Результат выполнения сниппета можно выводить в чанк `tpl`, передав дополнительные данные через параметр `tpl_placeholders`.
+* Результат выполнения сниппета можно выводить в чанк `outputterParams->tpl`, передав дополнительные данные через параметр `outputterParams->placeholders`.
 
 Для более полного представления смотрите документацию.
 
@@ -104,8 +104,19 @@ require_once(
 
 
 ### Параметры вывода
-
-* `tpl`
+	
+* `outputterParams`
+	* Desctription: Параметры вывода.
+	* Valid values:
+		* `stringJsonObject` — в виде [JSON](https://ru.wikipedia.org/wiki/JSON)
+		* `stringHjsonObject` — в виде [HJSON](https://hjson.github.io/)
+		* `stringQueryFormatted` — в виде [Query string](https://en.wikipedia.org/wiki/Query_string)
+		* Также может быть задан, как нативный PHP объект или массив (например, для вызовов через `\DDTools\Snippet::runSnippet`).
+			* `arrayAssociative`
+			* `object`
+	* Default value: —
+	
+* `outputterParams->tpl`
 	* Описание: Чанк для вывода результатов.    
 		Доступные плейсхолдеры:
 		* `[+snippetName+]` — результат выполнения сниппета (где `snippetName` — имя сниппета).
@@ -114,19 +125,13 @@ require_once(
 		* `string` — передавать код напрямую без чанка можно начиная значение с `@CODE:`
 	* Значение по умолчанию: —
 	
-* `tpl_placeholders`
-	* Описание: Дополнительные данные, которые будут переданы в чанк `tpl`.    
+* `outputterParams->placeholders`
+	* Описание: Дополнительные данные, которые будут переданы в чанк `outputterParams->tpl`.  
 		Вложенные объекты и массивы также поддерживаются:
 		* `{"someOne": "1", "someTwo": "test" }` => `[+someOne+], [+someTwo+]`.
 		* `{"some": {"a": "one", "b": "two"} }` => `[+some.a+]`, `[+some.b+]`.
 		* `{"some": ["one", "two"] }` => `[+some.0+]`, `[+some.1+]`.
-	* Допустимые значения:
-		* `stringJsonObject` — в виде [JSON](https://ru.wikipedia.org/wiki/JSON)
-		* `stringHjsonObject` — в виде [HJSON](https://hjson.github.io/)
-		* `stringQueryFormatted` — в виде [Query string](https://en.wikipedia.org/wiki/Query_string)
-		* Также может быть задан, как нативный PHP объект или массив (например, для вызовов через `\DDTools\Snippet::runSnippet`).
-			* `arrayAssociative`
-			* `object`
+	* Допустимые значения: `object`
 	* Значение по умолчанию: —
 
 
@@ -153,7 +158,9 @@ require_once(
 			"[+otherSnippet+]": "[+someSnippet+]"
 		}
 	}`
-	&tpl=`@CODE:[+anotherSnippet+]`
+	&outputterParams=`{
+		tpl: "@CODE:[+anotherSnippet+]"
+	}`
 ]]
 ```
 
@@ -180,7 +187,9 @@ require_once(
 			"[+snippet1+]": "[+snippet2+]"
 		}
 	}`
-	&tpl=`@CODE:[+anotherSnippet+]`
+	&outputterParams=`{
+		tpl: "@CODE:[+anotherSnippet+]"
+	}`
 ]]
 ```
 
@@ -259,7 +268,9 @@ require_once(
 				'[+otherSnippet+]' => '[+someSnippet+]'
 			]
 		],
-		'tpl' => '@CODE:[+anotherSnippet+]'
+		'outputterParams' => [
+			'tpl' => '@CODE:[+anotherSnippet+]'
+		]
 	]
 ]);
 ```

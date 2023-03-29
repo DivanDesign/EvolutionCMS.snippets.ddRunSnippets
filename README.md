@@ -4,7 +4,7 @@ Snippet runs necessary snippets with necessary params. Capabilities:
 
 * Run a few snippets consequentially.
 * Snippets results can be sent into parameters names and/or into other snippets values (can repeat this as much as you like).
-* The snippet result can be returned into the chunk `tpl`, have transferring additional data through the parameter `tpl_placeholders`.
+* The snippet result can be returned into the chunk `outputterParams->tpl`, have transferring additional data through the parameter `outputterParams->placeholders`.
 
 See the documentation for a more complete picture.
 
@@ -104,33 +104,38 @@ require_once(
 
 
 ### Output parameters
-
-* `tpl`
+	
+* `outputterParams`
+	* Desctription: Parameters to be passed to the specified outputter.
+	* Valid values:
+		* `stringJsonObject` — as [JSON](https://en.wikipedia.org/wiki/JSON)
+		* `stringHjsonObject` — as [HJSON](https://hjson.github.io/)
+		* `stringQueryFormatted` — as [Query string](https://en.wikipedia.org/wiki/Query_string)
+		* It can also be set as native PHP object or array (e. g. for calls through `\DDTools\Snippet::runSnippet` or `$modx->runSnippet`):
+			* `arrayAssociative`
+			* `object`
+	* Default value: —
+	
+* `outputterParams->tpl`
 	* Desctription: Chunk for output results.  
 		If not set, all snippets results will be returned joined by `''`.  
 		If set as empty string, nothing will be returned (`''`).
 		
 		Available placeholders:
-		* `[+snippetName+]` — a snippet result (where `snippetName` is the snippet name).
+		* `[+snippetName+]` — a snippet result (where `snippetName` is a snippet name).
 	* Valid values:
 		* `stringChunkName`
 		* `string` — use inline templates starting with `@CODE:`
 	* Default value: —
 	
-* `tpl_placeholders`
+* `outputterParams->placeholders`
 	* Desctription:
-		Additional data has to be passed into `tpl`.  
+		Additional data has to be passed into `outputterParams->tpl`.  
 		Nested objects and arrays are supported too:
 		* `{"someOne": "1", "someTwo": "test" }` => `[+someOne+], [+someTwo+]`.
 		* `{"some": {"a": "one", "b": "two"} }` => `[+some.a+]`, `[+some.b+]`.
 		* `{"some": ["one", "two"] }` => `[+some.0+]`, `[+some.1+]`.
-	* Valid values:
-		* `stringJsonObject` — as [JSON](https://en.wikipedia.org/wiki/JSON)
-		* `stringHjsonObject` — as [HJSON](https://hjson.github.io/)
-		* `stringQueryFormatted` — as [Query string](https://en.wikipedia.org/wiki/Query_string)
-		* It can also be set as a native PHP object or array (e. g. for calls through `\DDTools\Snippet::runSnippet`):
-			* `arrayAssociative`
-			* `object`
+	* Valid values: `object`
 	* Default value: —
 
 
@@ -157,7 +162,9 @@ All examples are written using [HJSON](https://hjson.github.io/), but if you wan
 			"[+otherSnippet+]": "[+someSnippet+]"
 		}
 	}`
-	&tpl=`@CODE:[+anotherSnippet+]`
+	&outputterParams=`{
+		tpl: "@CODE:[+anotherSnippet+]"
+	}`
 ]]
 ```
 
@@ -184,7 +191,9 @@ All examples are written using [HJSON](https://hjson.github.io/), but if you wan
 			"[+snippet1+]": "[+snippet2+]"
 		}
 	}`
-	&tpl=`@CODE:[+anotherSnippet+]`
+	&outputterParams=`{
+		tpl: "@CODE:[+anotherSnippet+]"
+	}`
 ]]
 ```
 
@@ -264,7 +273,9 @@ require_once(
 				'[+otherSnippet+]' => '[+someSnippet+]'
 			]
 		],
-		'tpl' => '@CODE:[+anotherSnippet+]'
+		'outputterParams' => [
+			'tpl' => '@CODE:[+anotherSnippet+]'
+		]
 	]
 ]);
 ```

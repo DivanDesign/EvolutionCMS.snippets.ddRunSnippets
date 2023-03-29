@@ -9,14 +9,16 @@ class Snippet extends \DDTools\Snippet {
 			//Defaults
 			'snippets' => [],
 			'snippets_parseResults' => false,
-			'tpl' => null,
-			'tpl_placeholders' => [],
+			'outputterParams' => [
+				'tpl' => null,
+				'placeholders' => [],
+			]
 		],
 		
 		$paramsTypes = [
 			'snippets' => 'objectArray',
 			'snippets_parseResults' => 'boolean',
-			'tpl_placeholders' => 'objectArray'
+			'outputterParams' => 'objectStdClass'
 		],
 		
 		$renamedParamsCompliance = [
@@ -25,8 +27,40 @@ class Snippet extends \DDTools\Snippet {
 	;
 	
 	/**
+	 * prepareParams
+	 * @version 1.0 (2023-03-29)
+	 * 
+	 * @param $params {stdClass|arrayAssociative|stringJsonObject|stringHjsonObject|stringQueryFormatted}
+	 * 
+	 * @return {void}
+	 */
+	protected function prepareParams($params = []){
+		parent::prepareParams($params);
+		
+		//Backward compatibility
+		if (
+			\DDTools\ObjectTools::isPropExists([
+				'object' => $this->params,
+				'propName' => 'tpl'
+			])
+		){
+			$this->params->outputterParams->tpl = $this->params->tpl;
+		}
+		if (
+			\DDTools\ObjectTools::isPropExists([
+				'object' => $this->params,
+				'propName' => 'tpl_placeholders'
+			])
+		){
+			$this->params->outputterParams->placeholders = \DDTools\ObjectTools::convertType([
+				'object' => $this->params->tpl_placeholders,
+				'type' => 'objectStdClass'
+			]);
+		}
+	}
+	/**
 	 * run
-	 * @version 2.0 (2023-03-29)
+	 * @version 2.0.1 (2023-03-29)
 	 * 
 	 * @return {string}
 	 */
@@ -84,9 +118,9 @@ class Snippet extends \DDTools\Snippet {
 		
 		if (!empty($resultArray)){
 			//Если задан шаблон для вывода
-			if (!is_null($this->params->tpl)){
+			if (!is_null($this->params->outputterParams->tpl)){
 				//If template is not empty (if set as empty, the empty string must be returned)
-				if ($this->params->tpl != ''){
+				if ($this->params->outputterParams->tpl != ''){
 					//Remove empty results
 					$resultArray = array_filter(
 						$resultArray,
@@ -97,18 +131,15 @@ class Snippet extends \DDTools\Snippet {
 					
 					//Если есть хоть один результат
 					if (!empty($resultArray)){
-						//Если есть дополнительные данные
-						if (!empty($this->params->tpl_placeholders)){
-							$resultArray = \DDTools\ObjectTools::extend([
-								'objects' => [
-									$resultArray,
-									$this->params->tpl_placeholders
-								]
-							]);
-						}
+						$resultArray = \DDTools\ObjectTools::extend([
+							'objects' => [
+								$resultArray,
+								$this->params->outputterParams->placeholders
+							]
+						]);
 						
 						$result .= \ddTools::parseText([
-							'text' => \ddTools::$modx->getTpl($this->params->tpl),
+							'text' => \ddTools::$modx->getTpl($this->params->outputterParams->tpl),
 							'data' => $resultArray
 						]);
 					}
