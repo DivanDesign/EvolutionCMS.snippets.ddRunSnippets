@@ -1,6 +1,27 @@
 # (MODX)EvolutionCMS.snippets.ddRunSnippets changelog
 
 
+## Version 4.0 (2023-03-30)
+* \* Attention! Backward compatibility is broken.
+* \* Attention! (MODX)EvolutionCMS.libraries.ddTools >= 0.59 is required.
+* \* `\DDTools\Snippet::runSnippet` is used instead of `$modx->runSnippet` to run snippets without DB and eval. This increases performance and saves server resources, but unfortunately you can't run snippets that do not use `\DDTools\Snippet`. Please give us feedback via [Telegram chat](https://t.me/dd_code) if this is critical.
+* \+ Any executed snippet can return either a string or a native PHP array. It is convenient to use with “nested” placeholders (see README → Examples).
+* \* Parameters → `outputterParams`:
+	* \* The following parameters have been renamed (with backward compatibility):
+		* \* `tpl` → `outputterParams->tpl`.
+		* \* `tpl_placeholders` → `outputterParams->placeholders`.
+	* \* `outputterParams->tpl`:
+		* \+ Placeholders → `[+ddRunSnippetsResult.all+]`: The new placeholder. Contains results of all executed snippets combined by `''`.
+		* \* Default value: Has been changed to `''` (all snippets will be executed but nothing will be returned).
+	* \- `outputterParams->placeholders`: The outdated parameter name `placeholders` is no longer supported.
+* \* README:
+	* \+ Parameters description: Additional subheadings have been added.
+	* \* Examples:
+		* \+ Some additional comments have been added.
+		* \* HJSON is used for all examples.
+	* \+ Links → GitHub.
+
+
 ## Version 3.4 (2021-04-30)
 * \+ Conversion to JSON and back is not used for nested objects anymore, recursion is used instead. So, you don't have to care about correct JSON format in result of each snippet when placeholders are used in object-values of parameters in any depth.
 
