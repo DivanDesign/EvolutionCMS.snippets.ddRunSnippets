@@ -3,30 +3,60 @@ namespace ddRunSnippets;
 
 class Snippet extends \DDTools\Snippet {
 	protected
-		$version = '3.4.0',
+		$version = '4.0.0',
 		
 		$params = [
 			//Defaults
 			'snippets' => [],
 			'snippets_parseResults' => false,
-			'tpl' => null,
-			'tpl_placeholders' => [],
+			'outputterParams' => [
+				'tpl' => '',
+				'placeholders' => [],
+			]
 		],
 		
 		$paramsTypes = [
 			'snippets' => 'objectArray',
 			'snippets_parseResults' => 'boolean',
-			'tpl_placeholders' => 'objectArray'
-		],
-		
-		$renamedParamsCompliance = [
-			'tpl_placeholders' => 'placeholders'
+			'outputterParams' => 'objectStdClass'
 		]
 	;
 	
 	/**
+	 * prepareParams
+	 * @version 1.0 (2023-03-29)
+	 * 
+	 * @param $params {stdClass|arrayAssociative|stringJsonObject|stringHjsonObject|stringQueryFormatted}
+	 * 
+	 * @return {void}
+	 */
+	protected function prepareParams($params = []){
+		parent::prepareParams($params);
+		
+		//Backward compatibility
+		if (
+			\DDTools\ObjectTools::isPropExists([
+				'object' => $this->params,
+				'propName' => 'tpl'
+			])
+		){
+			$this->params->outputterParams->tpl = $this->params->tpl;
+		}
+		if (
+			\DDTools\ObjectTools::isPropExists([
+				'object' => $this->params,
+				'propName' => 'tpl_placeholders'
+			])
+		){
+			$this->params->outputterParams->placeholders = \DDTools\ObjectTools::convertType([
+				'object' => $this->params->tpl_placeholders,
+				'type' => 'objectStdClass'
+			]);
+		}
+	}
+	/**
 	 * run
-	 * @version 1.1.1 (2021-04-30)
+	 * @version 3.0.1 (2023-03-30)
 	 * 
 	 * @return {string}
 	 */
@@ -67,56 +97,56 @@ class Snippet extends \DDTools\Snippet {
 					'data' => $resultArray
 				]);
 				
-				$resultArray[$aSnippetAlias] = \ddTools::$modx->runSnippet(
-					$aSnippetName,
-					$aSnippetParams
-				);
+				$resultArray[$aSnippetAlias] = \DDTools\Snippet::runSnippet([
+					'name' => $aSnippetName,
+					'params' => $aSnippetParams
+				]);
 			}else{
-				$resultArray[$aSnippetAlias] = \ddTools::$modx->runSnippet($aSnippetName);
+				$resultArray[$aSnippetAlias] = \DDTools\Snippet::runSnippet([
+					'name' => $aSnippetName
+				]);
 			}
 			
-			if ($this->params->snippets_parseResults){
+			if (
+				$this->params->snippets_parseResults &&
+				//Only string results can be parsed
+				is_string($resultArray[$aSnippetAlias])
+			){
 				$resultArray[$aSnippetAlias] = \ddTools::parseSource($resultArray[$aSnippetAlias]);
 			}
 		}
 		
-		if (!empty($resultArray)){
-			//Если задан шаблон для вывода
-			if (!is_null($this->params->tpl)){
-				//If template is not empty (if set as empty, the empty string must be returned)
-				if ($this->params->tpl != ''){
-					//Remove empty results
-					$resultArray = array_filter(
-						$resultArray,
-						function($aSnippetResult){
-							return $aSnippetResult != '';
-						}
-					);
-					
-					//Если есть хоть один результат
-					if (!empty($resultArray)){
-						//Если есть дополнительные данные
-						if (!empty($this->params->tpl_placeholders)){
-							$resultArray = \DDTools\ObjectTools::extend([
-								'objects' => [
-									$resultArray,
-									$this->params->tpl_placeholders
-								]
-							]);
-						}
-						
-						$result .= \ddTools::parseText([
-							'text' => \ddTools::$modx->getTpl($this->params->tpl),
-							'data' => $resultArray
-						]);
-					}
+		if (
+			!empty($resultArray) &&
+			//If template is not empty (if set as empty, the empty string must be returned)
+			!empty($this->params->outputterParams->tpl)
+		){
+			//Remove empty results
+			$resultArray = array_filter(
+				$resultArray,
+				function($aSnippetResult){
+					return $aSnippetResult != '';
 				}
-			//Если шаблон не задан
-			}else{
-				$result .= implode(
+			);
+			
+			//Если есть хоть один не пустой результат
+			if (!empty($resultArray)){
+				$resultArray['ddRunSnippetsResult.all'] = implode(
 					'',
 					$resultArray
 				);
+				
+				$resultArray = \DDTools\ObjectTools::extend([
+					'objects' => [
+						$resultArray,
+						$this->params->outputterParams->placeholders
+					]
+				]);
+				
+				$result .= \ddTools::parseText([
+					'text' => \ddTools::$modx->getTpl($this->params->outputterParams->tpl),
+					'data' => $resultArray
+				]);
 			}
 		}
 		
@@ -131,7 +161,7 @@ class Snippet extends \DDTools\Snippet {
 	 * @param $params->object {stdClass|arrayAssociative} — Source object. @required
 	 * @param $params->data {stdClass|arrayAssociative|stringJsonObject|stringHjsonObject|stringQueryFormatted} — Data has to be replaced in keys and values of `$params->object`. @required
 	 * 
-	 * @return {arrayAssociative}
+	 * @return {arrayAssociative|stdClass}
 	 */
 	private function parseObject($params){
 		$params = \DDTools\ObjectTools::convertType([
