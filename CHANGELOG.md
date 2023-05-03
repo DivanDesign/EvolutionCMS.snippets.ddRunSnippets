@@ -1,6 +1,15 @@
 # (MODX)EvolutionCMS.snippets.ddRunSnippets changelog
 
 
+## Version 4.1 (2023-05-04)
+* \+ Parameters → `snippets->{$snippetName}->runParams->cache`:
+	* \+ The new group of parameters. Allows to cache a snippet result to a specific file (see README).
+	* \+ Created cache files will be automatically deleted by [(MODX)EvolutionCMS.plugins.ddRunSnippets](https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets).
+* \+ Parameters → `snippets->{$snippetName}->runParams->parseResultCompletely`: The new parameter. Allows to completely parse result of required snippet by CMS parser.
+* \* Parameters → `snippets_parseEachResultCompletely`: Has been renamed from `snippets_parseResults` (with backward compatibility).
+* \* Attention! PHP >= 7.4 is required.
+
+
 ## Version 4.0 (2023-03-30)
 * \* Attention! Backward compatibility is broken.
 * \* Attention! (MODX)EvolutionCMS.libraries.ddTools >= 0.59 is required.
@@ -102,5 +111,5 @@
 * \+ The first release.
 
 
-<link rel="stylesheet" type="text/css" href="https://DivanDesign.ru/assets/files/ddMarkdown.css" />
+<link rel="stylesheet" type="text/css" href="https://raw.githack.com/DivanDesign/CSS.ddMarkdown/master/style.min.css" />
 <style>ul{list-style:none;}</style>

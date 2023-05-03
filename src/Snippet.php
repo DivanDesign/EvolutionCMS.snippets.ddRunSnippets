@@ -3,12 +3,12 @@ namespace ddRunSnippets;
 
 class Snippet extends \DDTools\Snippet {
 	protected
-		$version = '4.0.0',
+		$version = '4.1.0',
 		
 		$params = [
 			//Defaults
 			'snippets' => [],
-			'snippets_parseResults' => false,
+			'snippets_parseEachResultCompletely' => false,
 			'outputterParams' => [
 				'tpl' => '',
 				'placeholders' => [],
@@ -17,10 +17,28 @@ class Snippet extends \DDTools\Snippet {
 		
 		$paramsTypes = [
 			'snippets' => 'objectArray',
-			'snippets_parseResults' => 'boolean',
+			'snippets_parseEachResultCompletely' => 'boolean',
 			'outputterParams' => 'objectStdClass'
+		],
+		
+		$renamedParamsCompliance = [
+			'snippets_parseEachResultCompletely' => 'snippets_parseResults'
 		]
 	;
+	
+	private \ddRunSnippets\Cache $cacheObject;
+	
+	/**
+	 * __construct
+	 * @version 1.0 (2023-05-03)
+	 *
+	 * @param $params {stdClass|arrayAssociative|stringJsonObject|stringQueryFormatted}
+	 */
+	public function __construct($params = []){
+		parent::__construct($params);
+		
+		$this->cacheObject = new \ddRunSnippets\Cache();
+	}
 	
 	/**
 	 * prepareParams
@@ -56,7 +74,7 @@ class Snippet extends \DDTools\Snippet {
 	}
 	/**
 	 * run
-	 * @version 3.0.1 (2023-03-30)
+	 * @version 3.2 (2023-05-03)
 	 * 
 	 * @return {string}
 	 */
@@ -89,6 +107,11 @@ class Snippet extends \DDTools\Snippet {
 				$aSnippetAlias = $aSnippetName;
 			}
 			
+			$aRunParams = (object) [
+				'parseResultCompletely' => $this->params->snippets_parseEachResultCompletely
+			];
+			$aSnippetResultFromCache = null;
+			
 			//If snippet parameters are passed
 			if (is_array($aSnippetParams)){
 				//Fill parameters with previous snippets execution results
@@ -97,22 +120,75 @@ class Snippet extends \DDTools\Snippet {
 					'data' => $resultArray
 				]);
 				
-				$resultArray[$aSnippetAlias] = \DDTools\Snippet::runSnippet([
-					'name' => $aSnippetName,
-					'params' => $aSnippetParams
+				$aRunParams = \DDTools\ObjectTools::extend([
+					'objects' => [
+						$aRunParams,
+						\DDTools\ObjectTools::getPropValue([
+							'object' => $aSnippetParams,
+							'propName' => 'runParams'
+						])
+					]
 				]);
-			}else{
-				$resultArray[$aSnippetAlias] = \DDTools\Snippet::runSnippet([
-					'name' => $aSnippetName
-				]);
+				
+				//If cache is used
+				if (
+					\DDTools\ObjectTools::isPropExists([
+						'object' => $aRunParams,
+						'propName' => 'cache'
+					])
+				){
+					$aRunParams->cache = \DDTools\ObjectTools::convertType([
+						'object' => \DDTools\ObjectTools::getPropValue([
+							'object' => $aRunParams,
+							'propName' => 'cache'
+						]),
+						'type' => 'objectStdClass'
+					]);
+					
+					//Validate cache params
+					if (
+						!empty($aRunParams->cache->docId) &&
+						is_numeric($aRunParams->cache->docId) &&
+						!empty($aRunParams->cache->name)
+					){
+						$aSnippetResultFromCache = $this->cacheObject->getCache($aRunParams->cache);
+					}else{
+						//Mark that cache is not used because of invalid parameters
+						$aRunParams->cache = null;
+					}
+				}
 			}
 			
-			if (
-				$this->params->snippets_parseResults &&
-				//Only string results can be parsed
-				is_string($resultArray[$aSnippetAlias])
-			){
-				$resultArray[$aSnippetAlias] = \ddTools::parseSource($resultArray[$aSnippetAlias]);
+			//Use result from cache if exist
+			if (!is_null($aSnippetResultFromCache)){
+				$resultArray[$aSnippetAlias] = $aSnippetResultFromCache;
+			}else{
+				//Run snippet
+				$resultArray[$aSnippetAlias] = \DDTools\Snippet::runSnippet([
+					'name' => $aSnippetName,
+					'params' =>
+						is_array($aSnippetParams) ?
+						$aSnippetParams :
+						[]
+				]);
+				
+				if (
+					$aRunParams->parseResultCompletely &&
+					//Only string results can be parsed
+					is_string($resultArray[$aSnippetAlias])
+				){
+					$resultArray[$aSnippetAlias] = \ddTools::parseSource($resultArray[$aSnippetAlias]);
+				}
+				
+				//Cache file is not exist but cache is used
+				if (!empty($aRunParams->cache)){
+					//Save result to cache
+					$this->cacheObject->createCache([
+						'docId' => $aRunParams->cache->docId,
+						'name' => $aRunParams->cache->name,
+						'data' => $resultArray[$aSnippetAlias],
+					]);
+				}
 			}
 		}
 		

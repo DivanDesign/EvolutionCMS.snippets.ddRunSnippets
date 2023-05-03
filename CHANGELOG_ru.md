@@ -1,6 +1,15 @@
 # (MODX)EvolutionCMS.snippets.ddRunSnippets changelog
 
 
+## Версия 4.1 (2023-05-04)
+* \+ Параметры → `snippets->{$snippetName}->runParams->cache`:
+	* \+ Новая группа параметров. Позволяет кэшировать результат конкретного сниппета в определенный файл (см. README).
+	* \+ Созданные файлы кэша автоматически удаляются при помощи [(MODX)EvolutionCMS.plugins.ddRunSnippets](https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets).
+* \+ Параметры → `snippets->{$snippetName}->runParams->parseResultCompletely`: Новый параметр. Окончательно распарсить результат конкретного сниппета парсером CMS.
+* \* Параметры → `snippets_parseEachResultCompletely`: Переименован из `snippets_parseResults` (с обратной совместимостью).
+* \* Внимание! Требуется PHP >= 7.4.
+
+
 ## Версия 4.0 (2023-03-30)
 * \* Внимание! Обратная совместимость нарушена.
 * \* Внимание! Требуется (MODX)EvolutionCMS.libraries.ddTools >= 0.59.
@@ -102,5 +111,5 @@
 * \+ Первый релиз.
 
 
-<link rel="stylesheet" type="text/css" href="https://DivanDesign.ru/assets/files/ddMarkdown.css" />
+<link rel="stylesheet" type="text/css" href="https://raw.githack.com/DivanDesign/CSS.ddMarkdown/master/style.min.css" />
 <style>ul{list-style:none;}</style>

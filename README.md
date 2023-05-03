@@ -17,8 +17,8 @@ Please give us feedback via [Telegram chat](https://t.me/dd_code) if this is cri
 
 ## Requires
 
-* PHP >= 5.6
-* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.59
+* PHP >= 7.4
+* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.ru/modx/ddtools) >= 0.59
 
 
 ## Installation
@@ -30,7 +30,7 @@ Please give us feedback via [Telegram chat](https://t.me/dd_code) if this is cri
 #### 1. Elements → Snippets: Create a new snippet with the following data
 
 1. Snippet name: `ddRunSnippets`.
-2. Description: `<b>4.0</b> Snippet runs necessary snippets with necessary params.`.
+2. Description: `<b>4.1</b> Snippet runs necessary snippets with necessary params.`.
 3. Category: `Core`.
 4. Parse DocBlock: `no`.
 5. Snippet code (php): Insert content of the `ddRunSnippets_snippet.php` file from the archive.
@@ -40,6 +40,11 @@ Please give us feedback via [Telegram chat](https://t.me/dd_code) if this is cri
 
 1. Create a new folder `assets/snippets/ddRunSnippets/`.
 2. Extract the archive to the folder (except `ddRunSnippets_snippet.php`).
+
+
+#### 3. Install [(MODX)EvolutionCMS.plugins.ddRunSnippets](https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets)
+
+The plugin is required if you want to use the `snippets->{$snippetName}->runParams->cache` parameters.
 
 
 ### Using [(MODX)EvolutionCMS.libraries.ddInstaller](https://github.com/DivanDesign/EvolutionCMS.libraries.ddInstaller)
@@ -57,6 +62,12 @@ require_once(
 \DDInstaller::install([
 	'url' => 'https://github.com/DivanDesign/EvolutionCMS.snippets.ddRunSnippets',
 	'type' => 'snippet'
+]);
+
+//Install (MODX)EvolutionCMS.plugins.ddRunSnippets (it is required if you want to use the `snippets->{$snippetName}->runParams->cache` parameters)
+\DDInstaller::install([
+	'url' => 'https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets',
+	'type' => 'plugin'
 ]);
 ```
 
@@ -98,7 +109,33 @@ require_once(
 		* `mixed` — as opposed to standard CMS calling you can pass not only string parameters to the snippet, any types are supported
 	* Default value: —
 	
-* `snippets_parseResults`
+* `snippets->{$snippetName}->runParams`
+	* Desctription: Additional parameters of snippet running.
+	* Valid values: `object`
+	* Default value: —
+	
+* `snippets->{$snippetName}->runParams->parseResultCompletely`
+	* Desctription: Completely parse result of the snippet by CMS parser.
+	* Valid values: `boolean`
+	* Default value: — (depends on `snippets_parseEachResultCompletely`)
+	
+* `snippets->{$snippetName}->runParams->cache`
+	* Desctription: You can cache snippet result to a specific file.
+	* Valid values: `object`
+	* Default value: —
+	
+* `snippets->{$snippetName}->runParams->cache->docId`
+	* Desctription: Document ID related to cache.  
+		It means that the cache file will be destroyed when the document will be updated or deleted.
+	* Valid values: `string`
+	* **Required**
+	
+* `snippets->{$snippetName}->runParams->cache->name`
+	* Desctription: Unique cache name for the document.
+	* Valid values: `string`
+	* **Required**
+	
+* `snippets_parseEachResultCompletely`
 	* Desctription: Parse result of each snippet by CMS parser.  
 		Immediately after running each snippet, its result will be parsed by `$modx->parseDocumentSource()`.
 	* Valid values: `boolean`
@@ -328,10 +365,10 @@ require_once(
 
 ## Links
 
-* [Home page](https://code.divandesign.biz/modx/ddrunsnippets)
+* [Home page](https://code.divandesign.ru/modx/ddrunsnippets)
 * [Telegram chat](https://t.me/dd_code)
 * [Packagist](https://packagist.org/packages/dd/evolutioncms-snippets-ddrunsnippets)
 * [GitHub](https://github.com/DivanDesign/EvolutionCMS.snippets.ddRunSnippets)
 
 
-<link rel="stylesheet" type="text/css" href="https://DivanDesign.ru/assets/files/ddMarkdown.css" />
+<link rel="stylesheet" type="text/css" href="https://raw.githack.com/DivanDesign/CSS.ddMarkdown/master/style.min.css" />

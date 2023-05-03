@@ -17,8 +17,8 @@ ___
 
 ## Использует
 
-* PHP >= 5.6
-* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.59
+* PHP >= 7.4
+* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.ru/modx/ddtools) >= 0.59
 
 
 ## Установка
@@ -30,7 +30,7 @@ ___
 #### 1. Элементы → Сниппеты: Создайте новый сниппет со следующими параметрами
 
 1. Название сниппета: `ddRunSnippets`.
-2. Описание: `<b>4.0</b> Сниппет запускает необходимые сниппеты с необходимыми параметрами.`.
+2. Описание: `<b>4.1</b> Сниппет запускает необходимые сниппеты с необходимыми параметрами.`.
 3. Категория: `Core`.
 4. Анализировать DocBlock: `no`.
 5. Код сниппета (php): Вставьте содержимое файла `ddRunSnippets_snippet.php` из архива.
@@ -40,6 +40,11 @@ ___
 
 1. Создайте новую папку `assets/snippets/ddRunSnippets/`.
 2. Извлеките содержимое архива в неё (кроме файла `ddRunSnippets_snippet.php`).
+
+
+#### 3. Установите [(MODX)EvolutionCMS.plugins.ddRunSnippets](https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets)
+
+Плагин обязателен, если хотите использовать параметры `snippets->{$snippetName}->runParams->cache`
 
 
 ### Используя [(MODX)EvolutionCMS.libraries.ddInstaller](https://github.com/DivanDesign/EvolutionCMS.libraries.ddInstaller)
@@ -57,6 +62,12 @@ require_once(
 \DDInstaller::install([
 	'url' => 'https://github.com/DivanDesign/EvolutionCMS.snippets.ddRunSnippets',
 	'type' => 'snippet'
+]);
+
+//Установка (MODX)EvolutionCMS.plugins.ddRunSnippets (обязателен, если хотите использовать параметры `snippets->{$snippetName}->runParams->cache`)
+\DDInstaller::install([
+	'url' => 'https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets',
+	'type' => 'plugin'
 ]);
 ```
 
@@ -98,25 +109,51 @@ require_once(
 		* `mixed` — в отличие от стандартного вызова CMS вы можете передавать не только строковые параметры, поддерживаютя любые типы
 	* Значение по умолчанию: —
 	
-* `snippets_parseResults`
-	* Desctription: Парсить результат каждого сниппета парсером CMS.  
+* `snippets->{$snippetName}->runParams`
+	* Описание: Дополнительные параметры запуска сниппета
+	* Допустимые значения: `object`
+	* Значение по умолчанию: —
+	
+* `snippets->{$snippetName}->runParams->parseResultCompletely`
+	* Описание: Окончательно распарсить результат парсером CMS.
+	* Допустимые значения: `boolean`
+	* Значение по умолчанию: — (зависит от `snippets_parseEachResultCompletely`)
+	
+* `snippets->{$snippetName}->runParams->cache`
+	* Описание: Результат выполнения сниппета можно кэшировать в определённый файл.
+	* Допустимые значения: `object`
+	* Значение по умолчанию: —
+	
+* `snippets->{$snippetName}->runParams->cache->docId`
+	* Описание: ID документа, связанного с кэшем.  
+		Это означает, что файл кэша будет уничтожен, когда документ будет обновлен или удален.
+	* Допустимые значения: `string`
+	* **Обязателен**
+	
+* `snippets->{$snippetName}->runParams->cache->name`
+	* Описание: Уникальное имя файла кэша в пределах документа.
+	* Допустимые значения: `string`
+	* **Обязателен**
+	
+* `snippets_parseEachResultCompletely`
+	* Описание: Парсить результат каждого сниппета парсером CMS.  
 		Сразу после запуска каждого сниппета, его результат будет пропущен через `$modx->parseDocumentSource()`.
-	* Valid values: `boolean`
-	* Default value: `false`
+	* Допустимые значения: `boolean`
+	* Значение по умолчанию: `false`
 
 
 ### Параметры вывода
 	
 * `outputterParams`
-	* Desctription: Параметры вывода.
-	* Valid values:
+	* Описание: Параметры вывода.
+	* Допустимые значения:
 		* `stringJsonObject` — в виде [JSON](https://ru.wikipedia.org/wiki/JSON)
 		* `stringHjsonObject` — в виде [HJSON](https://hjson.github.io/)
 		* `stringQueryFormatted` — в виде [Query string](https://en.wikipedia.org/wiki/Query_string)
 		* Также может быть задан, как нативный PHP объект или массив (например, для вызовов через `\DDTools\Snippet::runSnippet`).
 			* `arrayAssociative`
 			* `object`
-	* Default value: —
+	* Значение по умолчанию: —
 	
 * `outputterParams->tpl`
 	* Описание: Чанк для вывода результатов.    
@@ -332,4 +369,4 @@ require_once(
 * [GitHub](https://github.com/DivanDesign/EvolutionCMS.snippets.ddRunSnippets)
 
 
-<link rel="stylesheet" type="text/css" href="https://DivanDesign.ru/assets/files/ddMarkdown.css" />
+<link rel="stylesheet" type="text/css" href="https://raw.githack.com/DivanDesign/CSS.ddMarkdown/master/style.min.css" />
