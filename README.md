@@ -18,7 +18,7 @@ Please give us feedback via [Telegram chat](https://t.me/dd_code) if this is cri
 ## Requires
 
 * PHP >= 7.4
-* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.59
+* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.ru/modx/ddtools) >= 0.59
 
 
 ## Installation
@@ -365,7 +365,7 @@ require_once(
 
 ## Links
 
-* [Home page](https://code.divandesign.biz/modx/ddrunsnippets)
+* [Home page](https://code.divandesign.ru/modx/ddrunsnippets)
 * [Telegram chat](https://t.me/dd_code)
 * [Packagist](https://packagist.org/packages/dd/evolutioncms-snippets-ddrunsnippets)
 * [GitHub](https://github.com/DivanDesign/EvolutionCMS.snippets.ddRunSnippets)
