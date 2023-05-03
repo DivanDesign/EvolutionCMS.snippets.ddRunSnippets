@@ -74,7 +74,7 @@ class Snippet extends \DDTools\Snippet {
 	}
 	/**
 	 * run
-	 * @version 3.1.5 (2023-05-03)
+	 * @version 3.2 (2023-05-03)
 	 * 
 	 * @return {string}
 	 */
@@ -107,7 +107,9 @@ class Snippet extends \DDTools\Snippet {
 				$aSnippetAlias = $aSnippetName;
 			}
 			
-			$aRunParams = (object) [];
+			$aRunParams = (object) [
+				'parseResultCompletely' => $this->params->snippets_parseEachResultCompletely
+			];
 			$aSnippetResultFromCache = null;
 			
 			//If snippet parameters are passed
@@ -171,7 +173,7 @@ class Snippet extends \DDTools\Snippet {
 				]);
 				
 				if (
-					$this->params->snippets_parseEachResultCompletely &&
+					$aRunParams->parseResultCompletely &&
 					//Only string results can be parsed
 					is_string($resultArray[$aSnippetAlias])
 				){

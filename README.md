@@ -103,6 +103,11 @@ require_once(
 	* Valid values: `object`
 	* Default value: —
 	
+* `snippets->{$snippetName}->runParams->parseResultCompletely`
+	* Desctription: Completely parse result of the snippet by CMS parser.
+	* Valid values: `boolean`
+	* Default value: — (depends on `snippets_parseEachResultCompletely`)
+	
 * `snippets->{$snippetName}->runParams->cache`
 	* Desctription: You can cache snippet result to a specific file.
 	* Valid values: `object`

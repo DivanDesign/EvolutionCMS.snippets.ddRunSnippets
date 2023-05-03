@@ -103,6 +103,11 @@ require_once(
 	* Допустимые значения: `object`
 	* Значение по умолчанию: —
 	
+* `snippets->{$snippetName}->runParams->parseResultCompletely`
+	* Описание: Окончательно распарсить результат парсером CMS.
+	* Допустимые значения: `boolean`
+	* Значение по умолчанию: — (зависит от `snippets_parseEachResultCompletely`)
+	
 * `snippets->{$snippetName}->runParams->cache`
 	* Описание: Результат выполнения сниппета можно кэшировать в определённый файл.
 	* Допустимые значения: `object`
