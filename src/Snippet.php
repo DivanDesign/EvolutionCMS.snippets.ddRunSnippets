@@ -74,7 +74,7 @@ class Snippet extends \DDTools\Snippet {
 	}
 	/**
 	 * run
-	 * @version 3.1.4 (2023-05-03)
+	 * @version 3.1.5 (2023-05-03)
 	 * 
 	 * @return {string}
 	 */
@@ -170,6 +170,14 @@ class Snippet extends \DDTools\Snippet {
 						[]
 				]);
 				
+				if (
+					$this->params->snippets_parseEachResultCompletely &&
+					//Only string results can be parsed
+					is_string($resultArray[$aSnippetAlias])
+				){
+					$resultArray[$aSnippetAlias] = \ddTools::parseSource($resultArray[$aSnippetAlias]);
+				}
+				
 				//Cache file is not exist but cache is used
 				if (!empty($aRunParams->cache)){
 					//Save result to cache
@@ -179,14 +187,6 @@ class Snippet extends \DDTools\Snippet {
 						'data' => $resultArray[$aSnippetAlias],
 					]);
 				}
-			}
-			
-			if (
-				$this->params->snippets_parseEachResultCompletely &&
-				//Only string results can be parsed
-				is_string($resultArray[$aSnippetAlias])
-			){
-				$resultArray[$aSnippetAlias] = \ddTools::parseSource($resultArray[$aSnippetAlias]);
 			}
 		}
 		
