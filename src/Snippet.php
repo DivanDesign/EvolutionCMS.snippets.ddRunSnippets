@@ -74,7 +74,7 @@ class Snippet extends \DDTools\Snippet {
 	}
 	/**
 	 * run
-	 * @version 3.1.3 (2023-05-03)
+	 * @version 3.1.4 (2023-05-03)
 	 * 
 	 * @return {string}
 	 */
@@ -155,31 +155,30 @@ class Snippet extends \DDTools\Snippet {
 						$aRunParams->cache = null;
 					}
 				}
-				
-				//Use result from cache if exist
-				if (!is_null($aSnippetResultFromCache)){
-					$resultArray[$aSnippetAlias] = $aSnippetResultFromCache;
-				}else{
-					//Run snippet
-					$resultArray[$aSnippetAlias] = \DDTools\Snippet::runSnippet([
-						'name' => $aSnippetName,
-						'params' => $aSnippetParams
-					]);
-					
-					//Cache file is not exist but cache is used
-					if (!empty($aRunParams->cache)){
-						//Save result to cache
-						$this->cacheObject->createCache([
-							'docId' => $aRunParams->cache->docId,
-							'name' => $aRunParams->cache->name,
-							'data' => $resultArray[$aSnippetAlias],
-						]);
-					}
-				}
+			}
+			
+			//Use result from cache if exist
+			if (!is_null($aSnippetResultFromCache)){
+				$resultArray[$aSnippetAlias] = $aSnippetResultFromCache;
 			}else{
+				//Run snippet
 				$resultArray[$aSnippetAlias] = \DDTools\Snippet::runSnippet([
-					'name' => $aSnippetName
+					'name' => $aSnippetName,
+					'params' =>
+						is_array($aSnippetParams) ?
+						$aSnippetParams :
+						[]
 				]);
+				
+				//Cache file is not exist but cache is used
+				if (!empty($aRunParams->cache)){
+					//Save result to cache
+					$this->cacheObject->createCache([
+						'docId' => $aRunParams->cache->docId,
+						'name' => $aRunParams->cache->name,
+						'data' => $resultArray[$aSnippetAlias],
+					]);
+				}
 			}
 			
 			if (
