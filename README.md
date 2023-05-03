@@ -42,6 +42,11 @@ Please give us feedback via [Telegram chat](https://t.me/dd_code) if this is cri
 2. Extract the archive to the folder (except `ddRunSnippets_snippet.php`).
 
 
+#### 3. Install [(MODX)EvolutionCMS.plugins.ddRunSnippets](https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets)
+
+The plugin is required if you want to use the `snippets->{$snippetName}->runParams->cache` parameters.
+
+
 ### Using [(MODX)EvolutionCMS.libraries.ddInstaller](https://github.com/DivanDesign/EvolutionCMS.libraries.ddInstaller)
 
 Just run the following PHP code in your sources or [Console](https://github.com/vanchelo/MODX-Evolution-Ajax-Console):
@@ -57,6 +62,12 @@ require_once(
 \DDInstaller::install([
 	'url' => 'https://github.com/DivanDesign/EvolutionCMS.snippets.ddRunSnippets',
 	'type' => 'snippet'
+]);
+
+//Install (MODX)EvolutionCMS.plugins.ddRunSnippets (it is required if you want to use the `snippets->{$snippetName}->runParams->cache` parameters)
+\DDInstaller::install([
+	'url' => 'https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets',
+	'type' => 'plugin'
 ]);
 ```
 
