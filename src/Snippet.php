@@ -22,6 +22,20 @@ class Snippet extends \DDTools\Snippet {
 		]
 	;
 	
+	private \ddRunSnippets\Cache $cacheObject;
+	
+	/**
+	 * __construct
+	 * @version 1.0 (2023-05-03)
+	 *
+	 * @param $params {stdClass|arrayAssociative|stringJsonObject|stringQueryFormatted}
+	 */
+	public function __construct($params = []){
+		parent::__construct($params);
+		
+		$this->cacheObject = new \ddRunSnippets\Cache();
+	}
+	
 	/**
 	 * prepareParams
 	 * @version 1.0 (2023-03-29)
@@ -56,7 +70,7 @@ class Snippet extends \DDTools\Snippet {
 	}
 	/**
 	 * run
-	 * @version 3.0.1 (2023-03-30)
+	 * @version 3.1 (2023-05-03)
 	 * 
 	 * @return {string}
 	 */
@@ -97,10 +111,64 @@ class Snippet extends \DDTools\Snippet {
 					'data' => $resultArray
 				]);
 				
-				$resultArray[$aSnippetAlias] = \DDTools\Snippet::runSnippet([
-					'name' => $aSnippetName,
-					'params' => $aSnippetParams
+				$aSnippetResult = null;
+				
+				$aRunParams = \DDTools\ObjectTools::convertType([
+					'object' => \DDTools\ObjectTools::getPropValue([
+						'object' => $aSnippetParams,
+						'propName' => 'runParams'
+					]),
+					'type' => 'objectStdClass'
 				]);
+				
+				//If cache is used
+				if (
+					\DDTools\ObjectTools::isPropExists([
+						'object' => $aRunParams,
+						'propName' => 'cache'
+					])
+				){
+					$aRunParams->cache = \DDTools\ObjectTools::convertType([
+						'object' => \DDTools\ObjectTools::getPropValue([
+							'object' => $aRunParams,
+							'propName' => 'cache'
+						]),
+						'type' => 'objectStdClass'
+					]);
+					
+					//Validate cache params
+					if (
+						!empty($aRunParams->cache->docId) &&
+						is_numeric($aRunParams->cache->docId) &&
+						!empty($aRunParams->cache->name)
+					){
+						$aSnippetResult = $this->cacheObject->getCache($aRunParams->cache);
+					}else{
+						//Mark that cache is not used because of invalid parameters
+						$aRunParams->cache = null;
+					}
+				}
+				
+				//Use result from cache if exist
+				if (!is_null($aSnippetResult)){
+					$resultArray[$aSnippetAlias] = $aSnippetResult;
+				}else{
+					//Run snippet
+					$resultArray[$aSnippetAlias] = \DDTools\Snippet::runSnippet([
+						'name' => $aSnippetName,
+						'params' => $aSnippetParams
+					]);
+					
+					//Cache file is not exist but cache is used
+					if (!empty($aRunParams->cache)){
+						//Save result to cache
+						$this->cacheObject->createCache([
+							'docId' => $aRunParams->cache->docId,
+							'name' => $aRunParams->cache->name,
+							'data' => $resultArray[$aSnippetAlias],
+						]);
+					}
+				}
 			}else{
 				$resultArray[$aSnippetAlias] = \DDTools\Snippet::runSnippet([
 					'name' => $aSnippetName

@@ -17,7 +17,7 @@ ___
 
 ## Использует
 
-* PHP >= 5.6
+* PHP >= 7.4
 * [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.59
 
 
@@ -98,25 +98,46 @@ require_once(
 		* `mixed` — в отличие от стандартного вызова CMS вы можете передавать не только строковые параметры, поддерживаютя любые типы
 	* Значение по умолчанию: —
 	
+* `snippets->{$snippetName}->runParams`
+	* Описание: Дополнительные параметры запуска сниппета
+	* Допустимые значения: `object`
+	* Значение по умолчанию: —
+	
+* `snippets->{$snippetName}->runParams->cache`
+	* Описание: Результат выполнения сниппета можно кэшировать в определённый файл.
+	* Допустимые значения: `object`
+	* Значение по умолчанию: —
+	
+* `snippets->{$snippetName}->runParams->cache->docId`
+	* Описание: ID документа, связанного с кэшем.  
+		Это означает, что файл кэша будет уничтожен, когда документ будет обновлен или удален.
+	* Допустимые значения: `string`
+	* **Обязателен**
+	
+* `snippets->{$snippetName}->runParams->cache->name`
+	* Описание: Уникальное имя файла кэша в пределах документа.
+	* Допустимые значения: `string`
+	* **Обязателен**
+	
 * `snippets_parseResults`
-	* Desctription: Парсить результат каждого сниппета парсером CMS.  
+	* Описание: Парсить результат каждого сниппета парсером CMS.  
 		Сразу после запуска каждого сниппета, его результат будет пропущен через `$modx->parseDocumentSource()`.
-	* Valid values: `boolean`
-	* Default value: `false`
+	* Допустимые значения: `boolean`
+	* Значение по умолчанию: `false`
 
 
 ### Параметры вывода
 	
 * `outputterParams`
-	* Desctription: Параметры вывода.
-	* Valid values:
+	* Описание: Параметры вывода.
+	* Допустимые значения:
 		* `stringJsonObject` — в виде [JSON](https://ru.wikipedia.org/wiki/JSON)
 		* `stringHjsonObject` — в виде [HJSON](https://hjson.github.io/)
 		* `stringQueryFormatted` — в виде [Query string](https://en.wikipedia.org/wiki/Query_string)
 		* Также может быть задан, как нативный PHP объект или массив (например, для вызовов через `\DDTools\Snippet::runSnippet`).
 			* `arrayAssociative`
 			* `object`
-	* Default value: —
+	* Значение по умолчанию: —
 	
 * `outputterParams->tpl`
 	* Описание: Чанк для вывода результатов.    

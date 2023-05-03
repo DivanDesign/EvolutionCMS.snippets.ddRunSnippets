@@ -17,7 +17,7 @@ Please give us feedback via [Telegram chat](https://t.me/dd_code) if this is cri
 
 ## Requires
 
-* PHP >= 5.6
+* PHP >= 7.4
 * [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.biz/modx/ddtools) >= 0.59
 
 
@@ -97,6 +97,27 @@ require_once(
 	* Valid values:
 		* `mixed` — as opposed to standard CMS calling you can pass not only string parameters to the snippet, any types are supported
 	* Default value: —
+	
+* `snippets->{$snippetName}->runParams`
+	* Desctription: Additional parameters of snippet running.
+	* Valid values: `object`
+	* Default value: —
+	
+* `snippets->{$snippetName}->runParams->cache`
+	* Desctription: You can cache snippet result to a specific file.
+	* Valid values: `object`
+	* Default value: —
+	
+* `snippets->{$snippetName}->runParams->cache->docId`
+	* Desctription: Document ID related to cache.  
+		It means that the cache file will be destroyed when the document will be updated or deleted.
+	* Valid values: `string`
+	* **Required**
+	
+* `snippets->{$snippetName}->runParams->cache->name`
+	* Desctription: Unique cache name for the document.
+	* Valid values: `string`
+	* **Required**
 	
 * `snippets_parseResults`
 	* Desctription: Parse result of each snippet by CMS parser.  
