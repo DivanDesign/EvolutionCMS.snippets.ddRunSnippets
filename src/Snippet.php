@@ -74,7 +74,7 @@ class Snippet extends \DDTools\Snippet {
 	}
 	/**
 	 * run
-	 * @version 3.1.2 (2023-05-03)
+	 * @version 3.1.3 (2023-05-03)
 	 * 
 	 * @return {string}
 	 */
@@ -107,6 +107,9 @@ class Snippet extends \DDTools\Snippet {
 				$aSnippetAlias = $aSnippetName;
 			}
 			
+			$aRunParams = (object) [];
+			$aSnippetResultFromCache = null;
+			
 			//If snippet parameters are passed
 			if (is_array($aSnippetParams)){
 				//Fill parameters with previous snippets execution results
@@ -115,14 +118,14 @@ class Snippet extends \DDTools\Snippet {
 					'data' => $resultArray
 				]);
 				
-				$aSnippetResultFromCache = null;
-				
-				$aRunParams = \DDTools\ObjectTools::convertType([
-					'object' => \DDTools\ObjectTools::getPropValue([
-						'object' => $aSnippetParams,
-						'propName' => 'runParams'
-					]),
-					'type' => 'objectStdClass'
+				$aRunParams = \DDTools\ObjectTools::extend([
+					'objects' => [
+						$aRunParams,
+						\DDTools\ObjectTools::getPropValue([
+							'object' => $aSnippetParams,
+							'propName' => 'runParams'
+						])
+					]
 				]);
 				
 				//If cache is used
