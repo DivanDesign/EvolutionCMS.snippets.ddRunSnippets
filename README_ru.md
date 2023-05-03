@@ -119,7 +119,7 @@ require_once(
 	* Допустимые значения: `string`
 	* **Обязателен**
 	
-* `snippets_parseResults`
+* `snippets_parseEachResultCompletely`
 	* Описание: Парсить результат каждого сниппета парсером CMS.  
 		Сразу после запуска каждого сниппета, его результат будет пропущен через `$modx->parseDocumentSource()`.
 	* Допустимые значения: `boolean`

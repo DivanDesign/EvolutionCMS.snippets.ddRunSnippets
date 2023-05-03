@@ -119,7 +119,7 @@ require_once(
 	* Valid values: `string`
 	* **Required**
 	
-* `snippets_parseResults`
+* `snippets_parseEachResultCompletely`
 	* Desctription: Parse result of each snippet by CMS parser.  
 		Immediately after running each snippet, its result will be parsed by `$modx->parseDocumentSource()`.
 	* Valid values: `boolean`

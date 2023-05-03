@@ -8,7 +8,7 @@ class Snippet extends \DDTools\Snippet {
 		$params = [
 			//Defaults
 			'snippets' => [],
-			'snippets_parseResults' => false,
+			'snippets_parseEachResultCompletely' => false,
 			'outputterParams' => [
 				'tpl' => '',
 				'placeholders' => [],
@@ -17,8 +17,12 @@ class Snippet extends \DDTools\Snippet {
 		
 		$paramsTypes = [
 			'snippets' => 'objectArray',
-			'snippets_parseResults' => 'boolean',
+			'snippets_parseEachResultCompletely' => 'boolean',
 			'outputterParams' => 'objectStdClass'
+		],
+		
+		$renamedParamsCompliance = [
+			'snippets_parseEachResultCompletely' => 'snippets_parseResults'
 		]
 	;
 	
@@ -70,7 +74,7 @@ class Snippet extends \DDTools\Snippet {
 	}
 	/**
 	 * run
-	 * @version 3.1 (2023-05-03)
+	 * @version 3.1.1 (2023-05-03)
 	 * 
 	 * @return {string}
 	 */
@@ -176,7 +180,7 @@ class Snippet extends \DDTools\Snippet {
 			}
 			
 			if (
-				$this->params->snippets_parseResults &&
+				$this->params->snippets_parseEachResultCompletely &&
 				//Only string results can be parsed
 				is_string($resultArray[$aSnippetAlias])
 			){
