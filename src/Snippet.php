@@ -74,7 +74,7 @@ class Snippet extends \DDTools\Snippet {
 	}
 	/**
 	 * run
-	 * @version 3.1.1 (2023-05-03)
+	 * @version 3.1.2 (2023-05-03)
 	 * 
 	 * @return {string}
 	 */
@@ -115,7 +115,7 @@ class Snippet extends \DDTools\Snippet {
 					'data' => $resultArray
 				]);
 				
-				$aSnippetResult = null;
+				$aSnippetResultFromCache = null;
 				
 				$aRunParams = \DDTools\ObjectTools::convertType([
 					'object' => \DDTools\ObjectTools::getPropValue([
@@ -146,7 +146,7 @@ class Snippet extends \DDTools\Snippet {
 						is_numeric($aRunParams->cache->docId) &&
 						!empty($aRunParams->cache->name)
 					){
-						$aSnippetResult = $this->cacheObject->getCache($aRunParams->cache);
+						$aSnippetResultFromCache = $this->cacheObject->getCache($aRunParams->cache);
 					}else{
 						//Mark that cache is not used because of invalid parameters
 						$aRunParams->cache = null;
@@ -154,8 +154,8 @@ class Snippet extends \DDTools\Snippet {
 				}
 				
 				//Use result from cache if exist
-				if (!is_null($aSnippetResult)){
-					$resultArray[$aSnippetAlias] = $aSnippetResult;
+				if (!is_null($aSnippetResultFromCache)){
+					$resultArray[$aSnippetAlias] = $aSnippetResultFromCache;
 				}else{
 					//Run snippet
 					$resultArray[$aSnippetAlias] = \DDTools\Snippet::runSnippet([
