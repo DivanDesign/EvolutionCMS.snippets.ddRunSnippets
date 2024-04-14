@@ -1,6 +1,12 @@
 # (MODX)EvolutionCMS.snippets.ddRunSnippets changelog
 
 
+## Version 4.1.1 (2024-04-14)
+* \* Parameters → `outputterParams->tpl`: Snippet placeholders will be replaced even with empty results.
+* \* `\ddTools::getTpl` is used instead of `$modx->getTpl` (means a bit less bugs).
+* \* Attention! (MODX)EvolutionCMS.libraries.ddTools >= 0.60 is required.
+
+
 ## Version 4.1 (2023-05-04)
 * \+ Parameters → `snippets->{$snippetName}->runParams->cache`:
 	* \+ The new group of parameters. Allows to cache a snippet result to a specific file (see README).

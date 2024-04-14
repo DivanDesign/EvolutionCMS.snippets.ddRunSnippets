@@ -1,7 +1,7 @@
 {
 	"name": "dd/evolutioncms-snippets-ddrunsnippets",
 	"type": "modxevo-snippet",
-	"version": "4.1.0",
+	"version": "4.1.1",
 	"description": "Snippet runs necessary snippets with necessary params.",
 	"keywords": [
 		"modx",
