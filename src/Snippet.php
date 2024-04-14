@@ -3,7 +3,7 @@ namespace ddRunSnippets;
 
 class Snippet extends \DDTools\Snippet {
 	protected
-		$version = '4.1.0',
+		$version = '4.1.1',
 		
 		$params = [
 			//Defaults
@@ -74,7 +74,7 @@ class Snippet extends \DDTools\Snippet {
 	}
 	/**
 	 * run
-	 * @version 3.2 (2023-05-03)
+	 * @version 3.2.2 (2024-04-14)
 	 * 
 	 * @return {string}
 	 */
@@ -197,16 +197,18 @@ class Snippet extends \DDTools\Snippet {
 			//If template is not empty (if set as empty, the empty string must be returned)
 			!empty($this->params->outputterParams->tpl)
 		){
-			//Remove empty results
-			$resultArray = array_filter(
-				$resultArray,
-				function($aSnippetResult){
-					return $aSnippetResult != '';
-				}
-			);
-			
 			//Если есть хоть один не пустой результат
-			if (!empty($resultArray)){
+			if (
+				!empty(
+					//Remove empty results
+					array_filter(
+						$resultArray,
+						function($aSnippetResult){
+							return $aSnippetResult != '';
+						}
+					)
+				)
+			){
 				$resultArray['ddRunSnippetsResult.all'] = implode(
 					'',
 					$resultArray
@@ -220,7 +222,7 @@ class Snippet extends \DDTools\Snippet {
 				]);
 				
 				$result .= \ddTools::parseText([
-					'text' => \ddTools::$modx->getTpl($this->params->outputterParams->tpl),
+					'text' => \ddTools::getTpl($this->params->outputterParams->tpl),
 					'data' => $resultArray
 				]);
 			}

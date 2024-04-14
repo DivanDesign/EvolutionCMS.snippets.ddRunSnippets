@@ -1,6 +1,12 @@
 # (MODX)EvolutionCMS.snippets.ddRunSnippets changelog
 
 
+## Версия 4.1.1 (2024-04-14)
+* \* Параметры → `outputterParams->tpl`: Плейсхолдеры сниппетов будут заменены даже если сниппет вернул пустой результат.
+* \* `\ddTools::getTpl` используется вместо `$modx->getTpl` (стало чуть меньше багов).
+* \* Внимание! Требуется (MODX)EvolutionCMS.libraries.ddTools >= 0.60.
+
+
 ## Версия 4.1 (2023-05-04)
 * \+ Параметры → `snippets->{$snippetName}->runParams->cache`:
 	* \+ Новая группа параметров. Позволяет кэшировать результат конкретного сниппета в определенный файл (см. README).
