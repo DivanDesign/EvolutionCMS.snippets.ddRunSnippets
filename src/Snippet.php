@@ -233,7 +233,7 @@ class Snippet extends \DDTools\Snippet {
 	
 	/**
 	 * parseObject
-	 * @version 1.2 (2021-04-30)
+	 * @version 1.2.1 (2024-07-13)
 	 * 
 	 * @param $params {stdClass|arrayAssociative|stringJsonObject|stringHjsonObject|stringQueryFormatted} @required
 	 * @param $params->object {stdClass|arrayAssociative} — Source object. @required
@@ -284,7 +284,7 @@ class Snippet extends \DDTools\Snippet {
 				$propName = \ddTools::parseText([
 					'text' => $propName,
 					'data' => $params->data,
-					'mergeAll' => false
+					'isCompletelyParsingEnabled' => false
 				]);
 				
 				//Save parameter with the new name
@@ -316,7 +316,7 @@ class Snippet extends \DDTools\Snippet {
 				$propValue = \ddTools::parseText([
 					'text' => $propValue,
 					'data' => $params->data,
-					'mergeAll' => false
+					'isCompletelyParsingEnabled' => false
 				]);
 			}
 			
