@@ -125,17 +125,17 @@ class Cache {
 	
 	/**
 	 * clearCache
-	 * @version 2.0 (2024-07-29)
+	 * @version 2.0.1 (2024-07-29)
 	 * 
 	 * @param Clear cache files for specified document or every documents.
 	 * 
-	 * @param $params {stdClass|arrayAssociative} — Parameters, the pass-by-name style is used. Default: —.
+	 * @param [$params] {stdClass|arrayAssociative} — Parameters, the pass-by-name style is used.
 	 * @param $params->resourceId {integer|null} — Document ID related to cache. Default: null (cache of all docs will be cleared).
 	 * 
 	 * @return {void}
 	 */
-	public function clearCache($params): void {
-		\DDTools\ObjectTools::extend([
+	public function clearCache($params = []): void {
+		$params = \DDTools\ObjectTools::extend([
 			'objects' => [
 				(object) [
 					'resourceId' => null,
