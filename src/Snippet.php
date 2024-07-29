@@ -74,7 +74,7 @@ class Snippet extends \DDTools\Snippet {
 	}
 	/**
 	 * run
-	 * @version 3.2.4 (2024-07-29)
+	 * @version 3.2.5 (2024-07-29)
 	 * 
 	 * @return {string}
 	 */
@@ -192,7 +192,7 @@ class Snippet extends \DDTools\Snippet {
 				}
 				
 				//Cache file is not exist but cache is used
-				if (!empty($aRunParams->cache)){
+				if (!\ddTools::isEmpty($aRunParams->cache)){
 					//Save result to cache
 					$this->cacheObject->createCache([
 						'resourceId' => $aRunParams->cache->resourceId,
@@ -204,13 +204,13 @@ class Snippet extends \DDTools\Snippet {
 		}
 		
 		if (
-			!empty($resultArray)
+			!\ddTools::isEmpty($resultArray)
 			//If template is not empty (if set as empty, the empty string must be returned)
 			&& !empty($this->params->outputterParams->tpl)
 		){
 			//Если есть хоть один не пустой результат
 			if (
-				!empty(
+				!\ddTools::isEmpty(
 					//Remove empty results
 					array_filter(
 						$resultArray,
