@@ -54,20 +54,20 @@ Just run the following PHP code in your sources or [Console](https://github.com/
 ```php
 //Include (MODX)EvolutionCMS.libraries.ddInstaller
 require_once(
-	$modx->getConfig('base_path') .
-	'assets/libs/ddInstaller/require.php'
+	$modx->getConfig('base_path')
+	. 'assets/libs/ddInstaller/require.php'
 );
 
 //Install (MODX)EvolutionCMS.snippets.ddRunSnippets
 \DDInstaller::install([
 	'url' => 'https://github.com/DivanDesign/EvolutionCMS.snippets.ddRunSnippets',
-	'type' => 'snippet'
+	'type' => 'snippet',
 ]);
 
 //Install (MODX)EvolutionCMS.plugins.ddRunSnippets (it is required if you want to use the `snippets->{$snippetName}->runParams->cache` parameters)
 \DDInstaller::install([
 	'url' => 'https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets',
-	'type' => 'plugin'
+	'type' => 'plugin',
 ]);
 ```
 
@@ -299,8 +299,8 @@ return [
 	'birthdate' => '1959.12.15',
 	'links' => [
 		'youtube' => 'https://youtube.com/c/TamaraEidelmanHistory',
-		'site' => 'https://eidelman.ru'
-	]
+		'site' => 'https://eidelman.ru',
+	],
 ];
 ```
 
@@ -336,8 +336,8 @@ Then execute some snippets via ddRunSnippets:
 ```php
 //Include (MODX)EvolutionCMS.libraries.ddTools
 require_once(
-	$modx->getConfig('base_path') .
-	'assets/libs/ddTools/modx.ddtools.class.php'
+	$modx->getConfig('base_path')
+	. 'assets/libs/ddTools/modx.ddtools.class.php'
 );
 
 //Run (MODX)EvolutionCMS.snippets.ddRunSnippets
@@ -346,19 +346,19 @@ require_once(
 	'params' => [
 		'snippets' => [
 			'someSnippet' => [
-				'exampleParam' => 'Example value.'
+				'exampleParam' => 'Example value.',
 			],
 			'otherSnippet' => [
-				'someParam' => '[+someSnippet+]'
+				'someParam' => '[+someSnippet+]',
 			],
 			'anotherSnippet' => [
-				'[+otherSnippet+]' => '[+someSnippet+]'
-			]
+				'[+otherSnippet+]' => '[+someSnippet+]',
+			],
 		],
 		'outputterParams' => [
-			'tpl' => '@CODE:[+anotherSnippet+]'
-		]
-	]
+			'tpl' => '@CODE:[+anotherSnippet+]',
+		],
+	],
 ]);
 ```
 

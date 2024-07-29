@@ -54,20 +54,20 @@ ___
 ```php
 //Подключение (MODX)EvolutionCMS.libraries.ddInstaller
 require_once(
-	$modx->getConfig('base_path') .
-	'assets/libs/ddInstaller/require.php'
+	$modx->getConfig('base_path')
+	. 'assets/libs/ddInstaller/require.php'
 );
 
 //Установка (MODX)EvolutionCMS.snippets.ddRunSnippets
 \DDInstaller::install([
 	'url' => 'https://github.com/DivanDesign/EvolutionCMS.snippets.ddRunSnippets',
-	'type' => 'snippet'
+	'type' => 'snippet',
 ]);
 
 //Установка (MODX)EvolutionCMS.plugins.ddRunSnippets (обязателен, если хотите использовать параметры `snippets->{$snippetName}->runParams->cache`)
 \DDInstaller::install([
 	'url' => 'https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets',
-	'type' => 'plugin'
+	'type' => 'plugin',
 ]);
 ```
 
@@ -297,8 +297,8 @@ return [
 	'birthdate' => '1959.12.15',
 	'links' => [
 		'youtube' => 'https://youtube.com/c/TamaraEidelmanHistory',
-		'site' => 'https://eidelman.ru'
-	]
+		'site' => 'https://eidelman.ru',
+	],
 ];
 ```
 
@@ -334,8 +334,8 @@ return [
 ```php
 //Подключение (MODX)EvolutionCMS.libraries.ddTools
 require_once(
-	$modx->getConfig('base_path') .
-	'assets/libs/ddTools/modx.ddtools.class.php'
+	$modx->getConfig('base_path')
+	. 'assets/libs/ddTools/modx.ddtools.class.php'
 );
 
 //Запуск (MODX)EvolutionCMS.snippets.ddRunSnippets
@@ -344,19 +344,19 @@ require_once(
 	'params' => [
 		'snippets' => [
 			'someSnippet' => [
-				'exampleParam' => 'Какое-то значение параметра.'
+				'exampleParam' => 'Какое-то значение параметра.',
 			],
 			'otherSnippet' => [
-				'someParam' => '[+someSnippet+]'
+				'someParam' => '[+someSnippet+]',
 			],
 			'anotherSnippet' => [
-				'[+otherSnippet+]' => '[+someSnippet+]'
-			]
+				'[+otherSnippet+]' => '[+someSnippet+]',
+			],
 		],
 		'outputterParams' => [
-			'tpl' => '@CODE:[+anotherSnippet+]'
-		]
-	]
+			'tpl' => '@CODE:[+anotherSnippet+]',
+		],
+	],
 ]);
 ```
 
