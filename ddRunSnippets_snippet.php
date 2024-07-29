@@ -7,7 +7,7 @@
  * 
  * @link https://code.divandesign.ru/modx/ddrunsnippets
  * 
- * @copyright 2011–2024 Ronef {@link https://Ronef.ru }
+ * @copyright 2011–2024 Ronef {@link https://Ronef.me }
  */
 
 //Include (MODX)EvolutionCMS.libraries.ddTools
