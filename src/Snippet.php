@@ -74,7 +74,7 @@ class Snippet extends \DDTools\Snippet {
 	}
 	/**
 	 * run
-	 * @version 3.2.3 (2024-07-29)
+	 * @version 3.2.4 (2024-07-29)
 	 * 
 	 * @return {string}
 	 */
@@ -146,10 +146,19 @@ class Snippet extends \DDTools\Snippet {
 						'type' => 'objectStdClass',
 					]);
 					
+					//Backward compatibility
+					$aRunParams->cache = \ddTools::verifyRenamedParams([
+						'params' => $aRunParams->cache,
+						'compliance' => [
+							'resourceId' => 'docId',
+						],
+						'returnCorrectedOnly' => false,
+					]);
+					
 					//Validate cache params
 					if (
-						!empty($aRunParams->cache->docId)
-						&& is_numeric($aRunParams->cache->docId)
+						!empty($aRunParams->cache->resourceId)
+						&& is_numeric($aRunParams->cache->resourceId)
 						&& !empty($aRunParams->cache->name)
 					){
 						$aSnippetResultFromCache = $this->cacheObject->getCache($aRunParams->cache);
@@ -186,7 +195,7 @@ class Snippet extends \DDTools\Snippet {
 				if (!empty($aRunParams->cache)){
 					//Save result to cache
 					$this->cacheObject->createCache([
-						'docId' => $aRunParams->cache->docId,
+						'resourceId' => $aRunParams->cache->resourceId,
 						'name' => $aRunParams->cache->name,
 						'data' => $resultArray[$aSnippetAlias],
 					]);

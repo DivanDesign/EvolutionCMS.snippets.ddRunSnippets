@@ -124,8 +124,8 @@ require_once(
 	* Valid values: `object`
 	* Default value: —
 	
-* `snippets->{$snippetName}->runParams->cache->docId`
-	* Desctription: Document ID related to cache.  
+* `snippets->{$snippetName}->runParams->cache->resourceId`
+	* Desctription: Resource ID (e. g. document) related to cache.  
 		It means that the cache file will be destroyed when the document will be updated or deleted.
 	* Valid values: `string`
 	* **Required**

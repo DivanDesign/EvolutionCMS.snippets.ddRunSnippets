@@ -29,10 +29,10 @@ class Cache {
 	
 	/**
 	 * getCache
-	 * @version 1.0.1 (2024-07-29)
+	 * @version 2.0 (2024-07-29)
 	 * 
 	 * @param $params {stdClass|arrayAssociative} — Parameters, the pass-by-name style is used.
-	 * @param $params->docId {integer} — Document ID related to cache.
+	 * @param $params->resourceId {integer} — Document ID related to cache.
 	 * @param $params->name {string} — Unique cache name for the document.
 	 * @param $params->data {string|array|stdClass} — Data to save.
 	 * 
@@ -75,10 +75,10 @@ class Cache {
 	
 	/**
 	 * getCache
-	 * @version 1.0.1 (2024-07-29)
+	 * @version 2.0 (2024-07-29)
 	 * 
 	 * @param $params {stdClass|arrayAssociative} — Parameters, the pass-by-name style is used.
-	 * @param $params->docId {integer} — Document ID related to cache.
+	 * @param $params->resourceId {integer} — Document ID related to cache.
 	 * @param $params->name {string} — Unique cache name for the document.
 	 * 
 	 * @return {null|string|array|stdClass} — `null` means cache is not exist.
@@ -125,12 +125,12 @@ class Cache {
 	
 	/**
 	 * clearCache
-	 * @version 1.0.1 (2024-07-29)
+	 * @version 2.0 (2024-07-29)
 	 * 
 	 * @param Clear cache files for specified document or every documents.
 	 * 
 	 * @param $params {stdClass|arrayAssociative} — Parameters, the pass-by-name style is used. Default: —.
-	 * @param $params->docId {integer|null} — Document ID related to cache. Default: null (cache of all docs will be cleared).
+	 * @param $params->resourceId {integer|null} — Document ID related to cache. Default: null (cache of all docs will be cleared).
 	 * 
 	 * @return {void}
 	 */
@@ -138,20 +138,20 @@ class Cache {
 		\DDTools\ObjectTools::extend([
 			'objects' => [
 				(object) [
-					'docId' => null,
+					'resourceId' => null,
 				],
 				$params,
 			],
 		]);
 		
 		//Clear all cache
-		if (empty($params->docId)){
+		if (empty($params->resourceId)){
 			\DDTools\FilesTools::removeDir($this->cacheDir);
 		//Clear cache for specified documents
 		}else{
 			$files = glob(
 				$this->cacheDir
-				. '/doc' . $params->docId . '-*.php'
+				. '/doc' . $params->resourceId . '-*.php'
 			);
 			
 			foreach (
@@ -165,10 +165,10 @@ class Cache {
 	
 	/**
 	 * buildCacheFilePath
-	 * @version 1.0.1 (2024-07-29)
+	 * @version 2.0 (2024-07-29)
 	 * 
 	 * @param $params {stdClass|arrayAssociative} — Parameters, the pass-by-name style is used.
-	 * @param $params->docId {integer} — Document ID related to cache.
+	 * @param $params->resourceId {integer} — Document ID related to cache.
 	 * @param $params->name {string} — Unique cache name for the document.
 	 * 
 	 * @return {string}
@@ -178,7 +178,7 @@ class Cache {
 		
 		return
 			$this->cacheDir
-			. '/doc' . $params->docId . '-' . $params->name . '.php'
+			. '/doc' . $params->resourceId . '-' . $params->name . '.php'
 		;
 	}
 }
