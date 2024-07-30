@@ -16,7 +16,10 @@
 		"divandesign",
 		"ddrunsnippets",
 		"run snippets",
-		"run nested snippets"
+		"run nested snippets",
+		"cache snippets",
+		"advanced cache",
+		"custom cache"
 	],
 	"homepage": "https://code.divandesign.ru/modx/ddrunsnippets",
 	"support": {
