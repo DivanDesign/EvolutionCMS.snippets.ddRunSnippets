@@ -58,7 +58,7 @@ require_once(
 #### 1. Elements → Snippets: Create a new snippet with the following data
 
 1. Snippet name: `ddRunSnippets`.
-2. Description: `<b>4.1.1</b> Snippet runs necessary snippets with necessary params.`.
+2. Description: `<b>4.2</b> Snippet runs necessary snippets with necessary params.`.
 3. Category: `Core`.
 4. Parse DocBlock: `no`.
 5. Snippet code (php): Insert content of the `ddRunSnippets_snippet.php` file from the archive.

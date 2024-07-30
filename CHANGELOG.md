@@ -1,6 +1,17 @@
 # (MODX)EvolutionCMS.snippets.ddRunSnippets changelog
 
 
+## Version 4.2 (2024-07-30)
+
+* \+ Parameters → `snippets->{$snippetName}->runParams->cache`:
+	* \+ `prefix`: The new optional parameter. Allows you to set a custom cache file prefix. Useful if you want to cache some custom data that is not related to any documents.
+	* \* `resourceId`: Has been renamed from `docId` (with backward compatibility).
+* \* `\ddRunSnippets\Cache::clearCache` → Parameters:
+	* \* Fixed a bug, previously parameters were not used and the all cache was cleared regardless of what was passed.
+	* \* Fixed incorrect declaration of optional parameters.
+* \* Attention! (MODX)EvolutionCMS.libraries.ddTools >= 0.62 is required.
+
+
 ## Version 4.1.1 (2024-04-14)
 
 * \* Parameters → `outputterParams->tpl`: Snippet placeholders will be replaced even with empty results.
