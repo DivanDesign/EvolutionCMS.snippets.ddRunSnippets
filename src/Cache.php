@@ -29,12 +29,13 @@ class Cache {
 	
 	/**
 	 * getCache
-	 * @version 2.0 (2024-07-29)
+	 * @version 2.1 (2024-07-29)
 	 * 
 	 * @param $params {stdClass|arrayAssociative} — Parameters, the pass-by-name style is used.
 	 * @param $params->resourceId {integer} — Document ID related to cache.
 	 * @param $params->name {string} — Unique cache name for the document.
 	 * @param $params->data {string|array|stdClass} — Data to save.
+	 * @param [$params->prefix='doc'] {string} — Cache prefix.
 	 * 
 	 * @return {void}
 	 */
@@ -75,11 +76,12 @@ class Cache {
 	
 	/**
 	 * getCache
-	 * @version 2.0 (2024-07-29)
+	 * @version 2.1 (2024-07-29)
 	 * 
 	 * @param $params {stdClass|arrayAssociative} — Parameters, the pass-by-name style is used.
 	 * @param $params->resourceId {integer} — Document ID related to cache.
 	 * @param $params->name {string} — Unique cache name for the document.
+	 * @param [$params->prefix='doc'] {string} — Cache prefix.
 	 * 
 	 * @return {null|string|array|stdClass} — `null` means cache is not exist.
 	 */
@@ -125,12 +127,13 @@ class Cache {
 	
 	/**
 	 * clearCache
-	 * @version 2.0.1 (2024-07-29)
+	 * @version 2.1 (2024-07-29)
 	 * 
 	 * @param Clear cache files for specified document or every documents.
 	 * 
 	 * @param [$params] {stdClass|arrayAssociative} — Parameters, the pass-by-name style is used.
 	 * @param $params->resourceId {integer|null} — Document ID related to cache. Default: null (cache of all docs will be cleared).
+	 * @param [$params->prefix='doc'] {string} — Cache prefix.
 	 * 
 	 * @return {void}
 	 */
@@ -139,6 +142,7 @@ class Cache {
 			'objects' => [
 				(object) [
 					'resourceId' => null,
+					'prefix' => 'doc',
 				],
 				$params,
 			],
@@ -151,7 +155,7 @@ class Cache {
 		}else{
 			$files = glob(
 				$this->cacheDir
-				. '/doc' . $params->resourceId . '-*.php'
+				. '/' . $params->prefix . $params->resourceId . '-*.php'
 			);
 			
 			foreach (
@@ -165,20 +169,28 @@ class Cache {
 	
 	/**
 	 * buildCacheFilePath
-	 * @version 2.0 (2024-07-29)
+	 * @version 2.1 (2024-07-29)
 	 * 
 	 * @param $params {stdClass|arrayAssociative} — Parameters, the pass-by-name style is used.
 	 * @param $params->resourceId {integer} — Document ID related to cache.
 	 * @param $params->name {string} — Unique cache name for the document.
+	 * @param [$params->prefix='doc'] {string} — Cache prefix.
 	 * 
 	 * @return {string}
 	 */
 	private function buildCacheFilePath($params): string {
-		$params = (object) $params;
+		$params = \DDTools\ObjectTools::extend([
+			'objects' => [
+				(object) [
+					'prefix' => 'doc',
+				],
+				$params,
+			],
+		]);
 		
 		return
 			$this->cacheDir
-			. '/doc' . $params->resourceId . '-' . $params->name . '.php'
+			. '/' . $params->prefix . $params->resourceId . '-' . $params->name . '.php'
 		;
 	}
 }

@@ -135,6 +135,11 @@ require_once(
 	* Valid values: `string`
 	* **Required**
 	
+* `snippets->{$snippetName}->runParams->cache->prefix`
+	* Desctription: Cache file prefix. Useful if you want to cache some custom data that is not related to any documents.
+	* Valid values: `string`
+	* Default value: `'doc'`
+	
 * `snippets_parseEachResultCompletely`
 	* Desctription: Parse result of each snippet by CMS parser.  
 		Immediately after running each snippet, its result will be parsed by `$modx->parseDocumentSource()`.

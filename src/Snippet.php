@@ -74,7 +74,7 @@ class Snippet extends \DDTools\Snippet {
 	}
 	/**
 	 * run
-	 * @version 3.2.5 (2024-07-29)
+	 * @version 3.3 (2024-07-30)
 	 * 
 	 * @return {string}
 	 */
@@ -194,11 +194,16 @@ class Snippet extends \DDTools\Snippet {
 				//Cache file is not exist but cache is used
 				if (!\ddTools::isEmpty($aRunParams->cache)){
 					//Save result to cache
-					$this->cacheObject->createCache([
-						'resourceId' => $aRunParams->cache->resourceId,
-						'name' => $aRunParams->cache->name,
-						'data' => $resultArray[$aSnippetAlias],
-					]);
+					$this->cacheObject->createCache(
+						\DDTools\ObjectTools::extend([
+							'objects' => [
+								(object) [
+									'data' => $resultArray[$aSnippetAlias],
+								],
+								$aRunParams->cache,
+							]
+						])
+					);
 				}
 			}
 		}
