@@ -81,7 +81,7 @@ require_once(
 ### Snippets execution parameters
 
 * `snippets`
-	* Desctription: List of snippets to be run. Snippets are called in accordance with the specified order.
+	* Description: List of snippets to be run. Snippets are called in accordance with the specified order.
 	* Valid values:
 		* `stringJsonObject` — as [JSON](https://en.wikipedia.org/wiki/JSON)
 		* `stringHjsonObject` — as [HJSON](https://hjson.github.io/)
@@ -92,7 +92,7 @@ require_once(
 	* **Required**
 	
 * `snippets->{$snippetName}`
-	* Desctription: A snippet, when the key is the snippet name and the value is the snippet parameters.
+	* Description: A snippet, when the key is the snippet name and the value is the snippet parameters.
 		* By default a snippet result will be equal to `[+snippetName+]` in parameters and chunk (where `snippetName` is the snippet name).
 		* But also you can set custom snippet aliases in this parameter using the `'='` delimiter (e. g. `ddGetDocuments=docs`).
 		* Every snippet can return either a string or a native PHP array (it is convenient to use with “nested” placeholders, see examples below).
@@ -102,7 +102,7 @@ require_once(
 	* **Required**
 	
 * `snippets->{$snippetName}->{$paramName}`
-	* Desctription: A snippet parameter, when the key is the parameter name and the value is the parameter value.
+	* Description: A snippet parameter, when the key is the parameter name and the value is the parameter value.
 		* Use `[+snippetName+]` for substitution by any previous snippet execution result in the parameter name or value (where `snippetName` is the snippet name).
 		* Or use `[+snippetAlias+]` if specified (e. g. `docs` if the snippet name set as `ddGetDocuments=docs`).
 	* Valid values:
@@ -110,38 +110,38 @@ require_once(
 	* Default value: —
 	
 * `snippets->{$snippetName}->runParams`
-	* Desctription: Additional parameters of snippet running.
+	* Description: Additional parameters of snippet running.
 	* Valid values: `object`
 	* Default value: —
 	
 * `snippets->{$snippetName}->runParams->parseResultCompletely`
-	* Desctription: Completely parse result of the snippet by CMS parser.
+	* Description: Completely parse result of the snippet by CMS parser.
 	* Valid values: `boolean`
 	* Default value: — (depends on `snippets_parseEachResultCompletely`)
 	
 * `snippets->{$snippetName}->runParams->cache`
-	* Desctription: You can cache snippet result to a specific file.
+	* Description: You can cache snippet result to a specific file.
 	* Valid values: `object`
 	* Default value: —
 	
 * `snippets->{$snippetName}->runParams->cache->resourceId`
-	* Desctription: Resource ID (e. g. document) related to cache.  
+	* Description: Resource ID (e. g. document) related to cache.  
 		It means that the cache file will be destroyed when the document will be updated or deleted.
 	* Valid values: `string`
 	* **Required**
 	
 * `snippets->{$snippetName}->runParams->cache->name`
-	* Desctription: Unique cache name for the document.
+	* Description: Unique cache name for the document.
 	* Valid values: `string`
 	* **Required**
 	
 * `snippets->{$snippetName}->runParams->cache->prefix`
-	* Desctription: Cache file prefix. Useful if you want to cache some custom data that is not related to any documents.
+	* Description: Cache file prefix. Useful if you want to cache some custom data that is not related to any documents.
 	* Valid values: `string`
 	* Default value: `'doc'`
 	
 * `snippets_parseEachResultCompletely`
-	* Desctription: Parse result of each snippet by CMS parser.  
+	* Description: Parse result of each snippet by CMS parser.  
 		Immediately after running each snippet, its result will be parsed by `$modx->parseDocumentSource()`.
 	* Valid values: `boolean`
 	* Default value: `false`
@@ -150,7 +150,7 @@ require_once(
 ### Output parameters
 	
 * `outputterParams`
-	* Desctription: Parameters to be passed to the specified outputter.
+	* Description: Parameters to be passed to the specified outputter.
 	* Valid values:
 		* `stringJsonObject` — as [JSON](https://en.wikipedia.org/wiki/JSON)
 		* `stringHjsonObject` — as [HJSON](https://hjson.github.io/)
@@ -161,7 +161,7 @@ require_once(
 	* Default value: —
 	
 * `outputterParams->tpl`
-	* Desctription: Chunk for output results.  
+	* Description: Chunk for output results.  
 		Available placeholders:
 		* `[+`_snippetName_`+]` — a snippet result (where `snippetName` is a snippet name)
 		* `[+ddRunSnippetsResult.all+]` — results of all executed snippets combined by `''`
@@ -173,7 +173,7 @@ require_once(
 	* Default value: `''`
 	
 * `outputterParams->placeholders`
-	* Desctription:
+	* Description:
 		Additional data has to be passed into `outputterParams->tpl`.  
 		Nested objects and arrays are supported too:
 		* `{"someOne": "1", "someTwo": "test" }` => `[+someOne+], [+someTwo+]`.
