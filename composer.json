@@ -32,5 +32,10 @@
 	"require": {
 		"php": ">=7.4.0",
 		"dd/evolutioncms-libraries-ddtools": ">=0.62.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"ddRunSnippets\\": "src/"
+		}
 	}
 }
