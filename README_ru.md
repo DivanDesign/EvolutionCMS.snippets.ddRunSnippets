@@ -24,29 +24,6 @@ ___
 ## Установка
 
 
-### Вручную
-
-
-#### 1. Элементы → Сниппеты: Создайте новый сниппет со следующими параметрами
-
-1. Название сниппета: `ddRunSnippets`.
-2. Описание: `<b>4.1.1</b> Сниппет запускает необходимые сниппеты с необходимыми параметрами.`.
-3. Категория: `Core`.
-4. Анализировать DocBlock: `no`.
-5. Код сниппета (php): Вставьте содержимое файла `ddRunSnippets_snippet.php` из архива.
-
-
-#### 2. Элементы → Управление файлами
-
-1. Создайте новую папку `assets/snippets/ddRunSnippets/`.
-2. Извлеките содержимое архива в неё (кроме файла `ddRunSnippets_snippet.php`).
-
-
-#### 3. Установите [(MODX)EvolutionCMS.plugins.ddRunSnippets](https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets)
-
-Плагин обязателен, если хотите использовать параметры `snippets->{$snippetName}->runParams->cache`
-
-
 ### Используя [(MODX)EvolutionCMS.libraries.ddInstaller](https://github.com/DivanDesign/EvolutionCMS.libraries.ddInstaller)
 
 Просто вызовите следующий код в своих исходинках или модуле [Console](https://github.com/vanchelo/MODX-Evolution-Ajax-Console):
@@ -73,6 +50,29 @@ require_once(
 
 * Если `ddRunSnippets` отсутствует на вашем сайте, `ddInstaller` просто установит его.
 * Если `ddRunSnippets` уже есть на вашем сайте, `ddInstaller` проверит его версию и обновит, если нужно. 
+
+
+### Вручную
+
+
+#### 1. Элементы → Сниппеты: Создайте новый сниппет со следующими параметрами
+
+1. Название сниппета: `ddRunSnippets`.
+2. Описание: `<b>4.1.1</b> Сниппет запускает необходимые сниппеты с необходимыми параметрами.`.
+3. Категория: `Core`.
+4. Анализировать DocBlock: `no`.
+5. Код сниппета (php): Вставьте содержимое файла `ddRunSnippets_snippet.php` из архива.
+
+
+#### 2. Элементы → Управление файлами
+
+1. Создайте новую папку `assets/snippets/ddRunSnippets/`.
+2. Извлеките содержимое архива в неё (кроме файла `ddRunSnippets_snippet.php`).
+
+
+#### 3. Установите [(MODX)EvolutionCMS.plugins.ddRunSnippets](https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets)
+
+Плагин обязателен, если хотите использовать параметры `snippets->{$snippetName}->runParams->cache`
 
 
 ## Описание параметров

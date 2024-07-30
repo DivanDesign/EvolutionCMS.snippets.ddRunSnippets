@@ -24,29 +24,6 @@ Please give us feedback via [Telegram chat](https://t.me/dd_code) if this is cri
 ## Installation
 
 
-### Manually
-
-
-#### 1. Elements → Snippets: Create a new snippet with the following data
-
-1. Snippet name: `ddRunSnippets`.
-2. Description: `<b>4.1.1</b> Snippet runs necessary snippets with necessary params.`.
-3. Category: `Core`.
-4. Parse DocBlock: `no`.
-5. Snippet code (php): Insert content of the `ddRunSnippets_snippet.php` file from the archive.
-
-
-#### 2. Elements → Manage Files
-
-1. Create a new folder `assets/snippets/ddRunSnippets/`.
-2. Extract the archive to the folder (except `ddRunSnippets_snippet.php`).
-
-
-#### 3. Install [(MODX)EvolutionCMS.plugins.ddRunSnippets](https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets)
-
-The plugin is required if you want to use the `snippets->{$snippetName}->runParams->cache` parameters.
-
-
 ### Using [(MODX)EvolutionCMS.libraries.ddInstaller](https://github.com/DivanDesign/EvolutionCMS.libraries.ddInstaller)
 
 Just run the following PHP code in your sources or [Console](https://github.com/vanchelo/MODX-Evolution-Ajax-Console):
@@ -73,6 +50,29 @@ require_once(
 
 * If `ddRunSnippets` is not exist on your site, `ddInstaller` will just install it.
 * If `ddRunSnippets` is already exist on your site, `ddInstaller` will check it version and update it if needed.
+
+
+### Manually
+
+
+#### 1. Elements → Snippets: Create a new snippet with the following data
+
+1. Snippet name: `ddRunSnippets`.
+2. Description: `<b>4.1.1</b> Snippet runs necessary snippets with necessary params.`.
+3. Category: `Core`.
+4. Parse DocBlock: `no`.
+5. Snippet code (php): Insert content of the `ddRunSnippets_snippet.php` file from the archive.
+
+
+#### 2. Elements → Manage Files
+
+1. Create a new folder `assets/snippets/ddRunSnippets/`.
+2. Extract the archive to the folder (except `ddRunSnippets_snippet.php`).
+
+
+#### 3. Install [(MODX)EvolutionCMS.plugins.ddRunSnippets](https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets)
+
+The plugin is required if you want to use the `snippets->{$snippetName}->runParams->cache` parameters.
 
 
 ## Parameters description
