@@ -1,7 +1,7 @@
 {
 	"name": "dd/evolutioncms-snippets-ddrunsnippets",
 	"type": "modxevo-snippet",
-	"version": "4.1.1",
+	"version": "4.2.0",
 	"description": "Snippet runs necessary snippets with necessary params.",
 	"keywords": [
 		"modx",
@@ -16,7 +16,10 @@
 		"divandesign",
 		"ddrunsnippets",
 		"run snippets",
-		"run nested snippets"
+		"run nested snippets",
+		"cache snippets",
+		"advanced cache",
+		"custom cache"
 	],
 	"homepage": "https://code.divandesign.ru/modx/ddrunsnippets",
 	"support": {
@@ -25,13 +28,17 @@
 	"authors": [
 		{
 			"name": "Ilyas Ronef",
-			"email": "ilyas@DivanDesign.ru",
-			"homepage": "https://ronef.ru",
+			"homepage": "https://ronef.me",
 			"role": "Owner"
 		}
 	],
 	"require": {
 		"php": ">=7.4.0",
-		"dd/evolutioncms-libraries-ddtools": ">=0.60.0"
+		"dd/evolutioncms-libraries-ddtools": ">=0.62.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"ddRunSnippets\\": "src/"
+		}
 	}
 }

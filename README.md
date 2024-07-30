@@ -18,10 +18,38 @@ Please give us feedback via [Telegram chat](https://t.me/dd_code) if this is cri
 ## Requires
 
 * PHP >= 7.4
-* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.ru/modx/ddtools) >= 0.60
+* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.ru/modx/ddtools) >= 0.62
 
 
 ## Installation
+
+
+### Using [(MODX)EvolutionCMS.libraries.ddInstaller](https://github.com/DivanDesign/EvolutionCMS.libraries.ddInstaller)
+
+Just run the following PHP code in your sources or [Console](https://github.com/vanchelo/MODX-Evolution-Ajax-Console):
+
+```php
+//Include (MODX)EvolutionCMS.libraries.ddInstaller
+require_once(
+	$modx->getConfig('base_path')
+	. 'assets/libs/ddInstaller/require.php'
+);
+
+//Install (MODX)EvolutionCMS.snippets.ddRunSnippets
+\DDInstaller::install([
+	'url' => 'https://github.com/DivanDesign/EvolutionCMS.snippets.ddRunSnippets',
+	'type' => 'snippet',
+]);
+
+//Install (MODX)EvolutionCMS.plugins.ddRunSnippets (it is required if you want to use the `snippets->{$snippetName}->runParams->cache` parameters)
+\DDInstaller::install([
+	'url' => 'https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets',
+	'type' => 'plugin',
+]);
+```
+
+* If `ddRunSnippets` is not exist on your site, `ddInstaller` will just install it.
+* If `ddRunSnippets` is already exist on your site, `ddInstaller` will check it version and update it if needed.
 
 
 ### Manually
@@ -30,7 +58,7 @@ Please give us feedback via [Telegram chat](https://t.me/dd_code) if this is cri
 #### 1. Elements → Snippets: Create a new snippet with the following data
 
 1. Snippet name: `ddRunSnippets`.
-2. Description: `<b>4.1.1</b> Snippet runs necessary snippets with necessary params.`.
+2. Description: `<b>4.2</b> Snippet runs necessary snippets with necessary params.`.
 3. Category: `Core`.
 4. Parse DocBlock: `no`.
 5. Snippet code (php): Insert content of the `ddRunSnippets_snippet.php` file from the archive.
@@ -47,41 +75,13 @@ Please give us feedback via [Telegram chat](https://t.me/dd_code) if this is cri
 The plugin is required if you want to use the `snippets->{$snippetName}->runParams->cache` parameters.
 
 
-### Using [(MODX)EvolutionCMS.libraries.ddInstaller](https://github.com/DivanDesign/EvolutionCMS.libraries.ddInstaller)
-
-Just run the following PHP code in your sources or [Console](https://github.com/vanchelo/MODX-Evolution-Ajax-Console):
-
-```php
-//Include (MODX)EvolutionCMS.libraries.ddInstaller
-require_once(
-	$modx->getConfig('base_path') .
-	'assets/libs/ddInstaller/require.php'
-);
-
-//Install (MODX)EvolutionCMS.snippets.ddRunSnippets
-\DDInstaller::install([
-	'url' => 'https://github.com/DivanDesign/EvolutionCMS.snippets.ddRunSnippets',
-	'type' => 'snippet'
-]);
-
-//Install (MODX)EvolutionCMS.plugins.ddRunSnippets (it is required if you want to use the `snippets->{$snippetName}->runParams->cache` parameters)
-\DDInstaller::install([
-	'url' => 'https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets',
-	'type' => 'plugin'
-]);
-```
-
-* If `ddRunSnippets` is not exist on your site, `ddInstaller` will just install it.
-* If `ddRunSnippets` is already exist on your site, `ddInstaller` will check it version and update it if needed.
-
-
 ## Parameters description
 
 
 ### Snippets execution parameters
 
 * `snippets`
-	* Desctription: List of snippets to be run. Snippets are called in accordance with the specified order.
+	* Description: List of snippets to be run. Snippets are called in accordance with the specified order.
 	* Valid values:
 		* `stringJsonObject` — as [JSON](https://en.wikipedia.org/wiki/JSON)
 		* `stringHjsonObject` — as [HJSON](https://hjson.github.io/)
@@ -92,7 +92,7 @@ require_once(
 	* **Required**
 	
 * `snippets->{$snippetName}`
-	* Desctription: A snippet, when the key is the snippet name and the value is the snippet parameters.
+	* Description: A snippet, when the key is the snippet name and the value is the snippet parameters.
 		* By default a snippet result will be equal to `[+snippetName+]` in parameters and chunk (where `snippetName` is the snippet name).
 		* But also you can set custom snippet aliases in this parameter using the `'='` delimiter (e. g. `ddGetDocuments=docs`).
 		* Every snippet can return either a string or a native PHP array (it is convenient to use with “nested” placeholders, see examples below).
@@ -102,7 +102,7 @@ require_once(
 	* **Required**
 	
 * `snippets->{$snippetName}->{$paramName}`
-	* Desctription: A snippet parameter, when the key is the parameter name and the value is the parameter value.
+	* Description: A snippet parameter, when the key is the parameter name and the value is the parameter value.
 		* Use `[+snippetName+]` for substitution by any previous snippet execution result in the parameter name or value (where `snippetName` is the snippet name).
 		* Or use `[+snippetAlias+]` if specified (e. g. `docs` if the snippet name set as `ddGetDocuments=docs`).
 	* Valid values:
@@ -110,33 +110,38 @@ require_once(
 	* Default value: —
 	
 * `snippets->{$snippetName}->runParams`
-	* Desctription: Additional parameters of snippet running.
+	* Description: Additional parameters of snippet running.
 	* Valid values: `object`
 	* Default value: —
 	
 * `snippets->{$snippetName}->runParams->parseResultCompletely`
-	* Desctription: Completely parse result of the snippet by CMS parser.
+	* Description: Completely parse result of the snippet by CMS parser.
 	* Valid values: `boolean`
 	* Default value: — (depends on `snippets_parseEachResultCompletely`)
 	
 * `snippets->{$snippetName}->runParams->cache`
-	* Desctription: You can cache snippet result to a specific file.
+	* Description: You can cache snippet result to a specific file.
 	* Valid values: `object`
 	* Default value: —
 	
-* `snippets->{$snippetName}->runParams->cache->docId`
-	* Desctription: Document ID related to cache.  
+* `snippets->{$snippetName}->runParams->cache->resourceId`
+	* Description: Resource ID (e. g. document) related to cache.  
 		It means that the cache file will be destroyed when the document will be updated or deleted.
 	* Valid values: `string`
 	* **Required**
 	
 * `snippets->{$snippetName}->runParams->cache->name`
-	* Desctription: Unique cache name for the document.
+	* Description: Unique cache name for the document.
 	* Valid values: `string`
 	* **Required**
 	
+* `snippets->{$snippetName}->runParams->cache->prefix`
+	* Description: Cache file prefix. Useful if you want to cache some custom data that is not related to any documents.
+	* Valid values: `string`
+	* Default value: `'doc'`
+	
 * `snippets_parseEachResultCompletely`
-	* Desctription: Parse result of each snippet by CMS parser.  
+	* Description: Parse result of each snippet by CMS parser.  
 		Immediately after running each snippet, its result will be parsed by `$modx->parseDocumentSource()`.
 	* Valid values: `boolean`
 	* Default value: `false`
@@ -145,7 +150,7 @@ require_once(
 ### Output parameters
 	
 * `outputterParams`
-	* Desctription: Parameters to be passed to the specified outputter.
+	* Description: Parameters to be passed to the specified outputter.
 	* Valid values:
 		* `stringJsonObject` — as [JSON](https://en.wikipedia.org/wiki/JSON)
 		* `stringHjsonObject` — as [HJSON](https://hjson.github.io/)
@@ -156,7 +161,7 @@ require_once(
 	* Default value: —
 	
 * `outputterParams->tpl`
-	* Desctription: Chunk for output results.  
+	* Description: Chunk for output results.  
 		Available placeholders:
 		* `[+`_snippetName_`+]` — a snippet result (where `snippetName` is a snippet name)
 		* `[+ddRunSnippetsResult.all+]` — results of all executed snippets combined by `''`
@@ -168,7 +173,7 @@ require_once(
 	* Default value: `''`
 	
 * `outputterParams->placeholders`
-	* Desctription:
+	* Description:
 		Additional data has to be passed into `outputterParams->tpl`.  
 		Nested objects and arrays are supported too:
 		* `{"someOne": "1", "someTwo": "test" }` => `[+someOne+], [+someTwo+]`.
@@ -299,8 +304,8 @@ return [
 	'birthdate' => '1959.12.15',
 	'links' => [
 		'youtube' => 'https://youtube.com/c/TamaraEidelmanHistory',
-		'site' => 'https://eidelman.ru'
-	]
+		'site' => 'https://eidelman.ru',
+	],
 ];
 ```
 
@@ -336,8 +341,8 @@ Then execute some snippets via ddRunSnippets:
 ```php
 //Include (MODX)EvolutionCMS.libraries.ddTools
 require_once(
-	$modx->getConfig('base_path') .
-	'assets/libs/ddTools/modx.ddtools.class.php'
+	$modx->getConfig('base_path')
+	. 'assets/libs/ddTools/modx.ddtools.class.php'
 );
 
 //Run (MODX)EvolutionCMS.snippets.ddRunSnippets
@@ -346,19 +351,19 @@ require_once(
 	'params' => [
 		'snippets' => [
 			'someSnippet' => [
-				'exampleParam' => 'Example value.'
+				'exampleParam' => 'Example value.',
 			],
 			'otherSnippet' => [
-				'someParam' => '[+someSnippet+]'
+				'someParam' => '[+someSnippet+]',
 			],
 			'anotherSnippet' => [
-				'[+otherSnippet+]' => '[+someSnippet+]'
-			]
+				'[+otherSnippet+]' => '[+someSnippet+]',
+			],
 		],
 		'outputterParams' => [
-			'tpl' => '@CODE:[+anotherSnippet+]'
-		]
-	]
+			'tpl' => '@CODE:[+anotherSnippet+]',
+		],
+	],
 ]);
 ```
 

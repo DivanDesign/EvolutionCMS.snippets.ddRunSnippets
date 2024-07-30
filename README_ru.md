@@ -18,10 +18,38 @@ ___
 ## Использует
 
 * PHP >= 7.4
-* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.ru/modx/ddtools) >= 0.60
+* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.ru/modx/ddtools) >= 0.62
 
 
 ## Установка
+
+
+### Используя [(MODX)EvolutionCMS.libraries.ddInstaller](https://github.com/DivanDesign/EvolutionCMS.libraries.ddInstaller)
+
+Просто вызовите следующий код в своих исходинках или модуле [Console](https://github.com/vanchelo/MODX-Evolution-Ajax-Console):
+
+```php
+//Подключение (MODX)EvolutionCMS.libraries.ddInstaller
+require_once(
+	$modx->getConfig('base_path')
+	. 'assets/libs/ddInstaller/require.php'
+);
+
+//Установка (MODX)EvolutionCMS.snippets.ddRunSnippets
+\DDInstaller::install([
+	'url' => 'https://github.com/DivanDesign/EvolutionCMS.snippets.ddRunSnippets',
+	'type' => 'snippet',
+]);
+
+//Установка (MODX)EvolutionCMS.plugins.ddRunSnippets (обязателен, если хотите использовать параметры `snippets->{$snippetName}->runParams->cache`)
+\DDInstaller::install([
+	'url' => 'https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets',
+	'type' => 'plugin',
+]);
+```
+
+* Если `ddRunSnippets` отсутствует на вашем сайте, `ddInstaller` просто установит его.
+* Если `ddRunSnippets` уже есть на вашем сайте, `ddInstaller` проверит его версию и обновит, если нужно. 
 
 
 ### Вручную
@@ -30,7 +58,7 @@ ___
 #### 1. Элементы → Сниппеты: Создайте новый сниппет со следующими параметрами
 
 1. Название сниппета: `ddRunSnippets`.
-2. Описание: `<b>4.1.1</b> Сниппет запускает необходимые сниппеты с необходимыми параметрами.`.
+2. Описание: `<b>4.2</b> Сниппет запускает необходимые сниппеты с необходимыми параметрами.`.
 3. Категория: `Core`.
 4. Анализировать DocBlock: `no`.
 5. Код сниппета (php): Вставьте содержимое файла `ddRunSnippets_snippet.php` из архива.
@@ -45,34 +73,6 @@ ___
 #### 3. Установите [(MODX)EvolutionCMS.plugins.ddRunSnippets](https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets)
 
 Плагин обязателен, если хотите использовать параметры `snippets->{$snippetName}->runParams->cache`
-
-
-### Используя [(MODX)EvolutionCMS.libraries.ddInstaller](https://github.com/DivanDesign/EvolutionCMS.libraries.ddInstaller)
-
-Просто вызовите следующий код в своих исходинках или модуле [Console](https://github.com/vanchelo/MODX-Evolution-Ajax-Console):
-
-```php
-//Подключение (MODX)EvolutionCMS.libraries.ddInstaller
-require_once(
-	$modx->getConfig('base_path') .
-	'assets/libs/ddInstaller/require.php'
-);
-
-//Установка (MODX)EvolutionCMS.snippets.ddRunSnippets
-\DDInstaller::install([
-	'url' => 'https://github.com/DivanDesign/EvolutionCMS.snippets.ddRunSnippets',
-	'type' => 'snippet'
-]);
-
-//Установка (MODX)EvolutionCMS.plugins.ddRunSnippets (обязателен, если хотите использовать параметры `snippets->{$snippetName}->runParams->cache`)
-\DDInstaller::install([
-	'url' => 'https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets',
-	'type' => 'plugin'
-]);
-```
-
-* Если `ddRunSnippets` отсутствует на вашем сайте, `ddInstaller` просто установит его.
-* Если `ddRunSnippets` уже есть на вашем сайте, `ddInstaller` проверит его версию и обновит, если нужно. 
 
 
 ## Описание параметров
@@ -124,8 +124,8 @@ require_once(
 	* Допустимые значения: `object`
 	* Значение по умолчанию: —
 	
-* `snippets->{$snippetName}->runParams->cache->docId`
-	* Описание: ID документа, связанного с кэшем.  
+* `snippets->{$snippetName}->runParams->cache->resourceId`
+	* Описание: ID ресурса (например, документа), связанного с кэшем.  
 		Это означает, что файл кэша будет уничтожен, когда документ будет обновлен или удален.
 	* Допустимые значения: `string`
 	* **Обязателен**
@@ -134,6 +134,11 @@ require_once(
 	* Описание: Уникальное имя файла кэша в пределах документа.
 	* Допустимые значения: `string`
 	* **Обязателен**
+	
+* `snippets->{$snippetName}->runParams->cache->prefix`
+	* Описание: Префикс файла кэша. Удобно, если вы хотите кэшировать какие-то произвольные данные, не связанные ни с какими документами.
+	* Допустимые значения: `string`
+	* Значение по умолчанию: `'doc'`
 	
 * `snippets_parseEachResultCompletely`
 	* Описание: Парсить результат каждого сниппета парсером CMS.  
@@ -297,8 +302,8 @@ return [
 	'birthdate' => '1959.12.15',
 	'links' => [
 		'youtube' => 'https://youtube.com/c/TamaraEidelmanHistory',
-		'site' => 'https://eidelman.ru'
-	]
+		'site' => 'https://eidelman.ru',
+	],
 ];
 ```
 
@@ -334,8 +339,8 @@ return [
 ```php
 //Подключение (MODX)EvolutionCMS.libraries.ddTools
 require_once(
-	$modx->getConfig('base_path') .
-	'assets/libs/ddTools/modx.ddtools.class.php'
+	$modx->getConfig('base_path')
+	. 'assets/libs/ddTools/modx.ddtools.class.php'
 );
 
 //Запуск (MODX)EvolutionCMS.snippets.ddRunSnippets
@@ -344,19 +349,19 @@ require_once(
 	'params' => [
 		'snippets' => [
 			'someSnippet' => [
-				'exampleParam' => 'Какое-то значение параметра.'
+				'exampleParam' => 'Какое-то значение параметра.',
 			],
 			'otherSnippet' => [
-				'someParam' => '[+someSnippet+]'
+				'someParam' => '[+someSnippet+]',
 			],
 			'anotherSnippet' => [
-				'[+otherSnippet+]' => '[+someSnippet+]'
-			]
+				'[+otherSnippet+]' => '[+someSnippet+]',
+			],
 		],
 		'outputterParams' => [
-			'tpl' => '@CODE:[+anotherSnippet+]'
-		]
-	]
+			'tpl' => '@CODE:[+anotherSnippet+]',
+		],
+	],
 ]);
 ```
 

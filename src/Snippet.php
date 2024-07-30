@@ -3,7 +3,7 @@ namespace ddRunSnippets;
 
 class Snippet extends \DDTools\Snippet {
 	protected
-		$version = '4.1.1',
+		$version = '4.2.0',
 		
 		$params = [
 			//Defaults
@@ -12,17 +12,17 @@ class Snippet extends \DDTools\Snippet {
 			'outputterParams' => [
 				'tpl' => '',
 				'placeholders' => [],
-			]
+			],
 		],
 		
 		$paramsTypes = [
 			'snippets' => 'objectArray',
 			'snippets_parseEachResultCompletely' => 'boolean',
-			'outputterParams' => 'objectStdClass'
+			'outputterParams' => 'objectStdClass',
 		],
 		
 		$renamedParamsCompliance = [
-			'snippets_parseEachResultCompletely' => 'snippets_parseResults'
+			'snippets_parseEachResultCompletely' => 'snippets_parseResults',
 		]
 	;
 	
@@ -42,7 +42,7 @@ class Snippet extends \DDTools\Snippet {
 	
 	/**
 	 * prepareParams
-	 * @version 1.0 (2023-03-29)
+	 * @version 1.0.1 (2024-07-29)
 	 * 
 	 * @param $params {stdClass|arrayAssociative|stringJsonObject|stringHjsonObject|stringQueryFormatted}
 	 * 
@@ -55,7 +55,7 @@ class Snippet extends \DDTools\Snippet {
 		if (
 			\DDTools\ObjectTools::isPropExists([
 				'object' => $this->params,
-				'propName' => 'tpl'
+				'propName' => 'tpl',
 			])
 		){
 			$this->params->outputterParams->tpl = $this->params->tpl;
@@ -63,18 +63,18 @@ class Snippet extends \DDTools\Snippet {
 		if (
 			\DDTools\ObjectTools::isPropExists([
 				'object' => $this->params,
-				'propName' => 'tpl_placeholders'
+				'propName' => 'tpl_placeholders',
 			])
 		){
 			$this->params->outputterParams->placeholders = \DDTools\ObjectTools::convertType([
 				'object' => $this->params->tpl_placeholders,
-				'type' => 'objectStdClass'
+				'type' => 'objectStdClass',
 			]);
 		}
 	}
 	/**
 	 * run
-	 * @version 3.2.2 (2024-04-14)
+	 * @version 3.3 (2024-07-30)
 	 * 
 	 * @return {string}
 	 */
@@ -85,16 +85,17 @@ class Snippet extends \DDTools\Snippet {
 		$resultArray = [];
 		
 		foreach (
-			$this->params->snippets as
-			$aSnippetName =>
-			$aSnippetParams
+			$this->params->snippets
+			as $aSnippetName
+			=> $aSnippetParams
 		){
 			//If snippet alias is set
 			if (
 				strpos(
 					$aSnippetName,
 					'='
-				) !== false
+				)
+				!== false
 			){
 				$aSnippetName = explode(
 					'=',
@@ -108,7 +109,7 @@ class Snippet extends \DDTools\Snippet {
 			}
 			
 			$aRunParams = (object) [
-				'parseResultCompletely' => $this->params->snippets_parseEachResultCompletely
+				'parseResultCompletely' => $this->params->snippets_parseEachResultCompletely,
 			];
 			$aSnippetResultFromCache = null;
 			
@@ -117,7 +118,7 @@ class Snippet extends \DDTools\Snippet {
 				//Fill parameters with previous snippets execution results
 				$aSnippetParams = $this->parseObject([
 					'object' => $aSnippetParams,
-					'data' => $resultArray
+					'data' => $resultArray,
 				]);
 				
 				$aRunParams = \DDTools\ObjectTools::extend([
@@ -125,31 +126,40 @@ class Snippet extends \DDTools\Snippet {
 						$aRunParams,
 						\DDTools\ObjectTools::getPropValue([
 							'object' => $aSnippetParams,
-							'propName' => 'runParams'
-						])
-					]
+							'propName' => 'runParams',
+						]),
+					],
 				]);
 				
 				//If cache is used
 				if (
 					\DDTools\ObjectTools::isPropExists([
 						'object' => $aRunParams,
-						'propName' => 'cache'
+						'propName' => 'cache',
 					])
 				){
 					$aRunParams->cache = \DDTools\ObjectTools::convertType([
 						'object' => \DDTools\ObjectTools::getPropValue([
 							'object' => $aRunParams,
-							'propName' => 'cache'
+							'propName' => 'cache',
 						]),
-						'type' => 'objectStdClass'
+						'type' => 'objectStdClass',
+					]);
+					
+					//Backward compatibility
+					$aRunParams->cache = \ddTools::verifyRenamedParams([
+						'params' => $aRunParams->cache,
+						'compliance' => [
+							'resourceId' => 'docId',
+						],
+						'returnCorrectedOnly' => false,
 					]);
 					
 					//Validate cache params
 					if (
-						!empty($aRunParams->cache->docId) &&
-						is_numeric($aRunParams->cache->docId) &&
-						!empty($aRunParams->cache->name)
+						!empty($aRunParams->cache->resourceId)
+						&& is_numeric($aRunParams->cache->resourceId)
+						&& !empty($aRunParams->cache->name)
 					){
 						$aSnippetResultFromCache = $this->cacheObject->getCache($aRunParams->cache);
 					}else{
@@ -167,39 +177,45 @@ class Snippet extends \DDTools\Snippet {
 				$resultArray[$aSnippetAlias] = \DDTools\Snippet::runSnippet([
 					'name' => $aSnippetName,
 					'params' =>
-						is_array($aSnippetParams) ?
-						$aSnippetParams :
-						[]
+						is_array($aSnippetParams)
+						? $aSnippetParams
+						: []
+					,
 				]);
 				
 				if (
-					$aRunParams->parseResultCompletely &&
+					$aRunParams->parseResultCompletely
 					//Only string results can be parsed
-					is_string($resultArray[$aSnippetAlias])
+					&& is_string($resultArray[$aSnippetAlias])
 				){
 					$resultArray[$aSnippetAlias] = \ddTools::parseSource($resultArray[$aSnippetAlias]);
 				}
 				
 				//Cache file is not exist but cache is used
-				if (!empty($aRunParams->cache)){
+				if (!\ddTools::isEmpty($aRunParams->cache)){
 					//Save result to cache
-					$this->cacheObject->createCache([
-						'docId' => $aRunParams->cache->docId,
-						'name' => $aRunParams->cache->name,
-						'data' => $resultArray[$aSnippetAlias],
-					]);
+					$this->cacheObject->createCache(
+						\DDTools\ObjectTools::extend([
+							'objects' => [
+								(object) [
+									'data' => $resultArray[$aSnippetAlias],
+								],
+								$aRunParams->cache,
+							]
+						])
+					);
 				}
 			}
 		}
 		
 		if (
-			!empty($resultArray) &&
+			!\ddTools::isEmpty($resultArray)
 			//If template is not empty (if set as empty, the empty string must be returned)
-			!empty($this->params->outputterParams->tpl)
+			&& !empty($this->params->outputterParams->tpl)
 		){
 			//Если есть хоть один не пустой результат
 			if (
-				!empty(
+				!\ddTools::isEmpty(
 					//Remove empty results
 					array_filter(
 						$resultArray,
@@ -217,13 +233,13 @@ class Snippet extends \DDTools\Snippet {
 				$resultArray = \DDTools\ObjectTools::extend([
 					'objects' => [
 						$resultArray,
-						$this->params->outputterParams->placeholders
-					]
+						$this->params->outputterParams->placeholders,
+					],
 				]);
 				
 				$result .= \ddTools::parseText([
 					'text' => \ddTools::getTpl($this->params->outputterParams->tpl),
-					'data' => $resultArray
+					'data' => $resultArray,
 				]);
 			}
 		}
@@ -233,18 +249,18 @@ class Snippet extends \DDTools\Snippet {
 	
 	/**
 	 * parseObject
-	 * @version 1.2 (2021-04-30)
+	 * @version 1.2.2 (2024-07-29)
 	 * 
-	 * @param $params {stdClass|arrayAssociative|stringJsonObject|stringHjsonObject|stringQueryFormatted} @required
-	 * @param $params->object {stdClass|arrayAssociative} — Source object. @required
-	 * @param $params->data {stdClass|arrayAssociative|stringJsonObject|stringHjsonObject|stringQueryFormatted} — Data has to be replaced in keys and values of `$params->object`. @required
+	 * @param $params {stdClass|arrayAssociative|stringJsonObject|stringHjsonObject|stringQueryFormatted}
+	 * @param $params->object {stdClass|arrayAssociative} — Source object.
+	 * @param $params->data {stdClass|arrayAssociative|stringJsonObject|stringHjsonObject|stringQueryFormatted} — Data has to be replaced in keys and values of `$params->object`.
 	 * 
 	 * @return {arrayAssociative|stdClass}
 	 */
 	private function parseObject($params){
 		$params = \DDTools\ObjectTools::convertType([
 			'object' => $params,
-			'type' => 'objectStdClass'
+			'type' => 'objectStdClass',
 		]);
 		
 		$isResultObject = is_object($params->object);
@@ -253,25 +269,26 @@ class Snippet extends \DDTools\Snippet {
 		$result = \DDTools\ObjectTools::extend([
 			'objects' => [
 				(
-					$isResultObject ?
-					new \stdClass() :
-					[]
+					$isResultObject
+					? new \stdClass()
+					: []
 				),
-				$params->object
-			]
+				$params->object,
+			],
 		]);
 		
 		foreach (
-			$result as
-			$propName =>
-			$propValue
+			$result
+			as $propName
+			=> $propValue
 		){
 			//If prop name contains placeholders
 			if (
 				strpos(
 					$propName,
 					'[+'
-				) !== false
+				)
+				!== false
 			){
 				//Remove unprepared name
 				if ($isResultObject){
@@ -284,7 +301,7 @@ class Snippet extends \DDTools\Snippet {
 				$propName = \ddTools::parseText([
 					'text' => $propName,
 					'data' => $params->data,
-					'mergeAll' => false
+					'isCompletelyParsingEnabled' => false,
 				]);
 				
 				//Save parameter with the new name
@@ -296,27 +313,28 @@ class Snippet extends \DDTools\Snippet {
 			}
 			
 			if (
-				is_object($propValue) ||
-				is_array($propValue)
+				is_object($propValue)
+				|| is_array($propValue)
 			){
 				//Start recursion
 				$propValue = $this->parseObject([
 					'object' => $propValue,
-					'data' => $params->data
+					'data' => $params->data,
 				]);
 			}elseif (
-				is_string($propValue) &&
+				is_string($propValue)
 				//If parameter value contains placeholders
-				strpos(
+				&& strpos(
 					$propValue,
 					'[+'
-				) !== false
+				)
+				!== false
 			){
 				//Replace placeholders
 				$propValue = \ddTools::parseText([
 					'text' => $propValue,
 					'data' => $params->data,
-					'mergeAll' => false
+					'isCompletelyParsingEnabled' => false,
 				]);
 			}
 			
