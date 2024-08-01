@@ -2,34 +2,40 @@
 namespace ddRunSnippets;
 
 class Cache {
-	private string $cacheDir = '';
-	private string $contentPrefix = '<?php die("Unauthorized access."); ?>';
-	private int $contentPrefixLen = 37;
+	private static ?string $cacheDir = null;
+	private static string $contentPrefix = '<?php die("Unauthorized access."); ?>';
+	private static int $contentPrefixLen = 37;
 	
 	/**
-	 * __construct
-	 * @version 1.0.1 (2024-07-29)
+	 * initStatic
+	 * @version 2.0 (2024-08-01)
+	 * 
+	 * @desc Static “constructor”.
+	 * 
+	 * @return {void}
 	 */
-	public function __construct(){
-		$this->cacheDir =
-			//path to `assets`
-			dirname(
-				__DIR__,
-				3
-			)
-			. '/cache/ddRunSnippets'
-		;
-		
-		if (!is_dir($this->cacheDir)){
-			\DDTools\FilesTools::createDir([
-				'path' => $this->cacheDir,
-			]);
+	private static function initStatic(): void {
+		if (is_null(static::$cacheDir)){
+			static::$cacheDir =
+				//path to `assets`
+				dirname(
+					__DIR__,
+					3
+				)
+				. '/cache/ddCache'
+			;
+			
+			if (!is_dir(static::$cacheDir)){
+				\DDTools\FilesTools::createDir([
+					'path' => static::$cacheDir,
+				]);
+			}
 		}
 	}
 	
 	/**
-	 * getCache
-	 * @version 2.1 (2024-07-29)
+	 * create
+	 * @version 2.1.2 (2024-08-01)
 	 * 
 	 * @param $params {stdClass|arrayAssociative} — Parameters, the pass-by-name style is used.
 	 * @param $params->resourceId {integer} — Document ID related to cache.
@@ -39,7 +45,9 @@ class Cache {
 	 * 
 	 * @return {void}
 	 */
-	public function createCache($params): void {
+	public static function create($params): void {
+		static::initStatic();
+		
 		$params = (object) $params;
 		
 		//str|obj|arr
@@ -64,10 +72,10 @@ class Cache {
 		//Save cache file
 		file_put_contents(
 			//Cache file path
-			$this->buildCacheFilePath($params),
+			static::buildCacheFilePath($params),
 			//Cache content
 			(
-				$this->contentPrefix
+				static::$contentPrefix
 				. $dataType
 				. $params->data
 			)
@@ -75,8 +83,8 @@ class Cache {
 	}
 	
 	/**
-	 * getCache
-	 * @version 2.1 (2024-07-29)
+	 * get
+	 * @version 2.1.2 (2024-08-01)
 	 * 
 	 * @param $params {stdClass|arrayAssociative} — Parameters, the pass-by-name style is used.
 	 * @param $params->resourceId {integer} — Document ID related to cache.
@@ -85,16 +93,18 @@ class Cache {
 	 * 
 	 * @return {null|string|array|stdClass} — `null` means cache is not exist.
 	 */
-	public function getCache($params){
+	public static function get($params){
+		static::initStatic();
+		
 		$result = null;
 		
-		$filePath = $this->buildCacheFilePath($params);
+		$filePath = static::buildCacheFilePath($params);
 		
 		if (is_file($filePath)){
 			//Cut PHP-code prefix
 			$result = substr(
 				file_get_contents($filePath),
-				$this->contentPrefixLen
+				static::$contentPrefixLen
 			);
 			
 			//str|obj|arr
@@ -126,8 +136,8 @@ class Cache {
 	}
 	
 	/**
-	 * clearCache
-	 * @version 2.1 (2024-07-29)
+	 * clear
+	 * @version 2.1.2 (2024-08-01)
 	 * 
 	 * @param Clear cache files for specified document or every documents.
 	 * 
@@ -137,7 +147,9 @@ class Cache {
 	 * 
 	 * @return {void}
 	 */
-	public function clearCache($params = []): void {
+	public static function clear($params = []): void {
+		static::initStatic();
+		
 		$params = \DDTools\ObjectTools::extend([
 			'objects' => [
 				(object) [
@@ -150,11 +162,11 @@ class Cache {
 		
 		//Clear all cache
 		if (empty($params->resourceId)){
-			\DDTools\FilesTools::removeDir($this->cacheDir);
+			\DDTools\FilesTools::removeDir(static::$cacheDir);
 		//Clear cache for specified documents
 		}else{
 			$files = glob(
-				$this->cacheDir
+				static::$cacheDir
 				. '/' . $params->prefix . $params->resourceId . '-*.php'
 			);
 			
@@ -169,7 +181,7 @@ class Cache {
 	
 	/**
 	 * buildCacheFilePath
-	 * @version 2.1 (2024-07-29)
+	 * @version 2.1.1 (2024-08-01)
 	 * 
 	 * @param $params {stdClass|arrayAssociative} — Parameters, the pass-by-name style is used.
 	 * @param $params->resourceId {integer} — Document ID related to cache.
@@ -178,7 +190,7 @@ class Cache {
 	 * 
 	 * @return {string}
 	 */
-	private function buildCacheFilePath($params): string {
+	private static function buildCacheFilePath($params): string {
 		$params = \DDTools\ObjectTools::extend([
 			'objects' => [
 				(object) [
@@ -189,7 +201,7 @@ class Cache {
 		]);
 		
 		return
-			$this->cacheDir
+			static::$cacheDir
 			. '/' . $params->prefix . $params->resourceId . '-' . $params->name . '.php'
 		;
 	}

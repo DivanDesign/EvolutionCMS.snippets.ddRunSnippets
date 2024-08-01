@@ -26,20 +26,6 @@ class Snippet extends \DDTools\Snippet {
 		]
 	;
 	
-	private \ddRunSnippets\Cache $cacheObject;
-	
-	/**
-	 * __construct
-	 * @version 1.0 (2023-05-03)
-	 *
-	 * @param $params {stdClass|arrayAssociative|stringJsonObject|stringQueryFormatted}
-	 */
-	public function __construct($params = []){
-		parent::__construct($params);
-		
-		$this->cacheObject = new \ddRunSnippets\Cache();
-	}
-	
 	/**
 	 * prepareParams
 	 * @version 1.0.1 (2024-07-29)
@@ -74,7 +60,7 @@ class Snippet extends \DDTools\Snippet {
 	}
 	/**
 	 * run
-	 * @version 3.3 (2024-07-30)
+	 * @version 3.3.1 (2024-08-01)
 	 * 
 	 * @return {string}
 	 */
@@ -161,7 +147,7 @@ class Snippet extends \DDTools\Snippet {
 						&& is_numeric($aRunParams->cache->resourceId)
 						&& !empty($aRunParams->cache->name)
 					){
-						$aSnippetResultFromCache = $this->cacheObject->getCache($aRunParams->cache);
+						$aSnippetResultFromCache = \ddRunSnippets\Cache::getCache($aRunParams->cache);
 					}else{
 						//Mark that cache is not used because of invalid parameters
 						$aRunParams->cache = null;
@@ -194,7 +180,7 @@ class Snippet extends \DDTools\Snippet {
 				//Cache file is not exist but cache is used
 				if (!\ddTools::isEmpty($aRunParams->cache)){
 					//Save result to cache
-					$this->cacheObject->createCache(
+					\ddRunSnippets\Cache::createCache(
 						\DDTools\ObjectTools::extend([
 							'objects' => [
 								(object) [
