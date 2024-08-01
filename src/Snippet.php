@@ -60,7 +60,7 @@ class Snippet extends \DDTools\Snippet {
 	}
 	/**
 	 * run
-	 * @version 3.3.2 (2024-08-01)
+	 * @version 3.3.3 (2024-08-01)
 	 * 
 	 * @return {string}
 	 */
@@ -147,7 +147,7 @@ class Snippet extends \DDTools\Snippet {
 						&& is_numeric($aRunParams->cache->resourceId)
 						&& !empty($aRunParams->cache->name)
 					){
-						$aSnippetResultFromCache = \ddRunSnippets\Cache::getCache($aRunParams->cache);
+						$aSnippetResultFromCache = \ddRunSnippets\Cache::get($aRunParams->cache);
 					}else{
 						//Mark that cache is not used because of invalid parameters
 						$aRunParams->cache = null;
