@@ -60,7 +60,7 @@ class Snippet extends \DDTools\Snippet {
 	}
 	/**
 	 * run
-	 * @version 3.3.1 (2024-08-01)
+	 * @version 3.3.2 (2024-08-01)
 	 * 
 	 * @return {string}
 	 */
@@ -180,7 +180,7 @@ class Snippet extends \DDTools\Snippet {
 				//Cache file is not exist but cache is used
 				if (!\ddTools::isEmpty($aRunParams->cache)){
 					//Save result to cache
-					\ddRunSnippets\Cache::createCache(
+					\ddRunSnippets\Cache::create(
 						\DDTools\ObjectTools::extend([
 							'objects' => [
 								(object) [
