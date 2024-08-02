@@ -1,6 +1,13 @@
 # (MODX)EvolutionCMS.snippets.ddRunSnippets changelog
 
 
+## Версия 4.2.1 (2024-08-02)
+
+* \* Параметры → `snippets->{$snippetName}->runParams->cache->suffix`: Переименован из `name` (с обратной совместимостью).
+* \- `\ddRunSnippets\Cache`: Класс удалён, вместо него используется `\DDTools\Tools\Cache`.
+* \* Внимание! Требуется (MODX)EvolutionCMS.libraries.ddTools >= 0.63.
+
+
 ## Версия 4.2 (2024-07-30)
 
 * \+ Параметры → `snippets->{$snippetName}->runParams->cache`:

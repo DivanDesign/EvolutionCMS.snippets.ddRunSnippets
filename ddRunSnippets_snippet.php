@@ -1,13 +1,13 @@
 <?php
 /**
  * ddRunSnippets
- * @version 4.2 (2024-07-30)
+ * @version 4.2.1 (2024-08-02)
  * 
  * @see README.md
  * 
  * @link https://code.divandesign.ru/modx/ddrunsnippets
  * 
- * @copyright 2011–2024 Ronef {@link https://Ronef.me }
+ * @copyright 2011–2024 https://Ronef.me
  */
 
 //Include (MODX)EvolutionCMS.libraries.ddTools

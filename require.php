@@ -5,10 +5,9 @@ require_once(
 	dirname(
 		__DIR__,
 		2
-	) .
-	'/libs/ddTools/modx.ddtools.class.php'
+	)
+	. '/libs/ddTools/modx.ddtools.class.php'
 );
 
-require_once('src/Cache.php');
 require_once('src/Snippet.php');
 ?>

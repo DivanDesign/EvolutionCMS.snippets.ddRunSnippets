@@ -18,7 +18,7 @@ Please give us feedback via [Telegram chat](https://t.me/dd_code) if this is cri
 ## Requires
 
 * PHP >= 7.4
-* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.ru/modx/ddtools) >= 0.62
+* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.ru/modx/ddtools) >= 0.63
 
 
 ## Installation
@@ -58,7 +58,7 @@ require_once(
 #### 1. Elements → Snippets: Create a new snippet with the following data
 
 1. Snippet name: `ddRunSnippets`.
-2. Description: `<b>4.2</b> Snippet runs necessary snippets with necessary params.`.
+2. Description: `<b>4.2.1</b> Snippet runs necessary snippets with necessary params.`.
 3. Category: `Core`.
 4. Parse DocBlock: `no`.
 5. Snippet code (php): Insert content of the `ddRunSnippets_snippet.php` file from the archive.
@@ -130,7 +130,7 @@ The plugin is required if you want to use the `snippets->{$snippetName}->runPara
 	* Valid values: `string`
 	* **Required**
 	
-* `snippets->{$snippetName}->runParams->cache->name`
+* `snippets->{$snippetName}->runParams->cache->suffix`
 	* Description: Unique cache name for the document.
 	* Valid values: `string`
 	* **Required**
