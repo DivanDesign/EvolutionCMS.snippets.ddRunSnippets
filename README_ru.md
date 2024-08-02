@@ -18,7 +18,7 @@ ___
 ## Использует
 
 * PHP >= 7.4
-* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.ru/modx/ddtools) >= 0.62
+* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.ru/modx/ddtools) >= 0.63
 
 
 ## Установка
@@ -130,7 +130,7 @@ require_once(
 	* Допустимые значения: `string`
 	* **Обязателен**
 	
-* `snippets->{$snippetName}->runParams->cache->name`
+* `snippets->{$snippetName}->runParams->cache->suffix`
 	* Описание: Уникальное имя файла кэша в пределах документа.
 	* Допустимые значения: `string`
 	* **Обязателен**

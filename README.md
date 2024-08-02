@@ -18,7 +18,7 @@ Please give us feedback via [Telegram chat](https://t.me/dd_code) if this is cri
 ## Requires
 
 * PHP >= 7.4
-* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.ru/modx/ddtools) >= 0.62
+* [(MODX)EvolutionCMS.libraries.ddTools](https://code.divandesign.ru/modx/ddtools) >= 0.63
 
 
 ## Installation
@@ -130,7 +130,7 @@ The plugin is required if you want to use the `snippets->{$snippetName}->runPara
 	* Valid values: `string`
 	* **Required**
 	
-* `snippets->{$snippetName}->runParams->cache->name`
+* `snippets->{$snippetName}->runParams->cache->suffix`
 	* Description: Unique cache name for the document.
 	* Valid values: `string`
 	* **Required**

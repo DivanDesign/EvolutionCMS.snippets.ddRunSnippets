@@ -60,7 +60,7 @@ class Snippet extends \DDTools\Snippet {
 	}
 	/**
 	 * run
-	 * @version 3.3.3 (2024-08-01)
+	 * @version 3.3.4 (2024-08-02)
 	 * 
 	 * @return {string}
 	 */
@@ -137,6 +137,7 @@ class Snippet extends \DDTools\Snippet {
 						'params' => $aRunParams->cache,
 						'compliance' => [
 							'resourceId' => 'docId',
+							'suffix' => 'name',
 						],
 						'returnCorrectedOnly' => false,
 					]);
@@ -145,9 +146,9 @@ class Snippet extends \DDTools\Snippet {
 					if (
 						!empty($aRunParams->cache->resourceId)
 						&& is_numeric($aRunParams->cache->resourceId)
-						&& !empty($aRunParams->cache->name)
+						&& !empty($aRunParams->cache->suffix)
 					){
-						$aSnippetResultFromCache = \ddRunSnippets\Cache::get($aRunParams->cache);
+						$aSnippetResultFromCache = \DDTools\Tools\Cache::get($aRunParams->cache);
 					}else{
 						//Mark that cache is not used because of invalid parameters
 						$aRunParams->cache = null;
@@ -180,7 +181,7 @@ class Snippet extends \DDTools\Snippet {
 				//Cache file is not exist but cache is used
 				if (!\ddTools::isEmpty($aRunParams->cache)){
 					//Save result to cache
-					\ddRunSnippets\Cache::create(
+					\DDTools\Tools\Cache::save(
 						\DDTools\ObjectTools::extend([
 							'objects' => [
 								(object) [

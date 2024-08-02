@@ -9,6 +9,5 @@ require_once(
 	'/libs/ddTools/modx.ddtools.class.php'
 );
 
-require_once('src/Cache.php');
 require_once('src/Snippet.php');
 ?>
