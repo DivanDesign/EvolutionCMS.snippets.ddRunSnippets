@@ -3,7 +3,7 @@ namespace ddRunSnippets;
 
 class Snippet extends \DDTools\Snippet {
 	protected
-		$version = '4.2.0',
+		$version = '4.2.1',
 		
 		$params = [
 			//Defaults
