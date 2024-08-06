@@ -29,19 +29,19 @@ Please give us feedback via [Telegram chat](https://t.me/dd_code) if this is cri
 Just run the following PHP code in your sources or [Console](https://github.com/vanchelo/MODX-Evolution-Ajax-Console):
 
 ```php
-//Include (MODX)EvolutionCMS.libraries.ddInstaller
+// Include (MODX)EvolutionCMS.libraries.ddInstaller
 require_once(
 	$modx->getConfig('base_path')
 	. 'assets/libs/ddInstaller/require.php'
 );
 
-//Install (MODX)EvolutionCMS.snippets.ddRunSnippets
+// Install (MODX)EvolutionCMS.snippets.ddRunSnippets
 \DDInstaller::install([
 	'url' => 'https://github.com/DivanDesign/EvolutionCMS.snippets.ddRunSnippets',
 	'type' => 'snippet',
 ]);
 
-//Install (MODX)EvolutionCMS.plugins.ddRunSnippets (it is required if you want to use the `snippets->{$snippetName}->runParams->cache` parameters)
+// Install (MODX)EvolutionCMS.plugins.ddRunSnippets (it is required if you want to use the `snippets->{$snippetName}->runParams->cache` parameters)
 \DDInstaller::install([
 	'url' => 'https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets',
 	'type' => 'plugin',
@@ -202,7 +202,7 @@ All examples are written using [HJSON](https://hjson.github.io/), but if you wan
 		}
 		
 		anotherSnippet: {
-			//Results of previous snippets can be used both in parameters names and their values
+			// Results of previous snippets can be used both in parameters names and their values
 			"[+otherSnippet+]": "[+someSnippet+]"
 		}
 	}`
@@ -218,15 +218,15 @@ All examples are written using [HJSON](https://hjson.github.io/), but if you wan
 ```
 [[ddRunSnippets?
 	&snippets=`{
-		//Run “someSnippet” and save it's result as “snippet1”
+		// Run “someSnippet” and save it's result as “snippet1”
 		someSnippet=snippet1: {
 			exampleParam: First example value.
 		}
 		
-		//Run “someSnippet” and save it's result as “snippet2”
+		// Run “someSnippet” and save it's result as “snippet2”
 		someSnippet=snippet2: {
 			exampleParam: Second example value.
-			//Placeholder “[+snippet1+]” will be replaced to results of previous “someSnippet” call
+			// Placeholder “[+snippet1+]” will be replaced to results of previous “someSnippet” call
 			exampleParam2: "[+snippet1+]"
 		}
 		
@@ -252,13 +252,13 @@ As opposed to standard CMS calling you can pass not only string parameters to a 
 [[ddRunSnippets?
 	&snippets=`{
 		someSnippet: {
-			//Object as parameter value
+			// Object as parameter value
 			exampleParam1: {
 				objectField: “exampleParam1” is an object, not a string.
 				otherField: true
 			}
 			
-			//Array as parameter value
+			// Array as parameter value
 			exampleParam2: [
 				“exampleParam2” is an array, not a string
 				2.71
@@ -298,7 +298,7 @@ As opposed to standard CMS calling you can pass not only string parameters to a 
 Let the example snippet named `personData` that returs a native PHP array instead of usual string:
 
 ```php
-//Just for example let the snippet do nothing but only return an array :)
+// Just for example let the snippet do nothing but only return an array :)
 return [
 	'name' => 'Tamara Eidelman',
 	'birthdate' => '1959.12.15',
@@ -314,21 +314,21 @@ Then execute some snippets via ddRunSnippets:
 ```
 [[ddRunSnippets?
 	&snippets=`{
-		//Run our example snippet that returns a native PHP array (without parameters in this example case)
+		// Run our example snippet that returns a native PHP array (without parameters in this example case)
 		personData: true
 		
-		//Run other snippet
+		// Run other snippet
 		someSnippet: {
-			//If we need to pass whole result of the first snippet, just use usual placeholder
-			//ddRunSnippet will convert the native PHP array to JSON in this case
+			// If we need to pass whole result of the first snippet, just use usual placeholder
+			// ddRunSnippet will convert the native PHP array to JSON in this case
 			personData: "[+personData+]"
 		}
 		
-		//Run another snippet
+		// Run another snippet
 		anotherSnippet: {
-			//Also we can use “nested” placeholders to get an item of the snippet result array
+			// Also we can use “nested” placeholders to get an item of the snippet result array
 			info: "[+personData.name+], [+personData.birthdate+]"
-			//And it works with depth
+			// And it works with depth
 			youtube: "[+personData.links.youtube+]"
 		}
 	}`
@@ -339,13 +339,13 @@ Then execute some snippets via ddRunSnippets:
 ### Run the snippet through `\DDTools\Snippet::runSnippet` without DB and eval
 
 ```php
-//Include (MODX)EvolutionCMS.libraries.ddTools
+// Include (MODX)EvolutionCMS.libraries.ddTools
 require_once(
 	$modx->getConfig('base_path')
 	. 'assets/libs/ddTools/modx.ddtools.class.php'
 );
 
-//Run (MODX)EvolutionCMS.snippets.ddRunSnippets
+// Run (MODX)EvolutionCMS.snippets.ddRunSnippets
 \DDTools\Snippet::runSnippet([
 	'name' => 'ddRunSnippets',
 	'params' => [

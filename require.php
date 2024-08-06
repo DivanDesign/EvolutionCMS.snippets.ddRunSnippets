@@ -1,7 +1,7 @@
 <?php
-//Include (MODX)EvolutionCMS.libraries.ddTools
+// Include (MODX)EvolutionCMS.libraries.ddTools
 require_once(
-	//path to `assets`
+	// Path to `assets`
 	dirname(
 		__DIR__,
 		2

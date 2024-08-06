@@ -29,19 +29,19 @@ ___
 Просто вызовите следующий код в своих исходинках или модуле [Console](https://github.com/vanchelo/MODX-Evolution-Ajax-Console):
 
 ```php
-//Подключение (MODX)EvolutionCMS.libraries.ddInstaller
+// Подключение (MODX)EvolutionCMS.libraries.ddInstaller
 require_once(
 	$modx->getConfig('base_path')
 	. 'assets/libs/ddInstaller/require.php'
 );
 
-//Установка (MODX)EvolutionCMS.snippets.ddRunSnippets
+// Установка (MODX)EvolutionCMS.snippets.ddRunSnippets
 \DDInstaller::install([
 	'url' => 'https://github.com/DivanDesign/EvolutionCMS.snippets.ddRunSnippets',
 	'type' => 'snippet',
 ]);
 
-//Установка (MODX)EvolutionCMS.plugins.ddRunSnippets (обязателен, если хотите использовать параметры `snippets->{$snippetName}->runParams->cache`)
+// Установка (MODX)EvolutionCMS.plugins.ddRunSnippets (обязателен, если хотите использовать параметры `snippets->{$snippetName}->runParams->cache`)
 \DDInstaller::install([
 	'url' => 'https://github.com/DivanDesign/EvolutionCMS.plugins.ddRunSnippets',
 	'type' => 'plugin',
@@ -201,7 +201,7 @@ require_once(
 		}
 		
 		anotherSnippet: {
-			//Результаты предыдущих сниппетов могут быть использованы как в именах параметров, так и в их значениях
+			// Результаты предыдущих сниппетов могут быть использованы как в именах параметров, так и в их значениях
 			"[+otherSnippet+]": "[+someSnippet+]"
 		}
 	}`
@@ -217,15 +217,15 @@ require_once(
 ```
 [[ddRunSnippets?
 	&snippets=`{
-		//Запускаем «someSnippet» и сохраняем его результат как «snippet1»
+		// Запускаем «someSnippet» и сохраняем его результат как «snippet1»
 		someSnippet=snippet1: {
 			exampleParam: Какое-то значение параметра.
 		}
 		
-		//Запускаем «someSnippet» и сохраняем его результат как «snippet2»
+		// Запускаем «someSnippet» и сохраняем его результат как «snippet2»
 		someSnippet=snippet2: {
 			exampleParam: Ещё какое-то значение параметра.
-			//Плейсхолдер «[+snippet1+]» будет заменён на результат предыдущего вызова «someSnippet»
+			// Плейсхолдер «[+snippet1+]» будет заменён на результат предыдущего вызова «someSnippet»
 			exampleParam2: "[+snippet1+]"
 		}
 		
@@ -251,13 +251,13 @@ require_once(
 [[ddRunSnippets?
 	&snippets=`{
 		someSnippet: {
-			//Объект в качестве значения параметра
+			// Объект в качестве значения параметра
 			exampleParam1: {
 				objectField: Параметр «exampleParam1» — объект, не строка.
 				anotherField: true
 			}
 			
-			//Массив в качестве значения параметра
+			// Массив в качестве значения параметра
 			exampleParam2: [
 				Параметр «exampleParam2» — массив, не строка.
 				2.71
@@ -296,7 +296,7 @@ require_once(
 Сделаем для примера тестовый сниппет с названием `personData`, который вернёт нативный PHP объект вместо привычной строки:
 
 ```php
-//Просто для примера пусть сниппет ничего не делает, только возвращает массив :)
+// Просто для примера пусть сниппет ничего не делает, только возвращает массив :)
 return [
 	'name' => 'Тамара Эйдельман',
 	'birthdate' => '1959.12.15',
@@ -312,21 +312,21 @@ return [
 ```
 [[ddRunSnippets?
 	&snippets=`{
-		//Запустим наш тестовый сниппет, который верёнт нативный PHP-массив (без параметров в этом тестовом примере)
+		// Запустим наш тестовый сниппет, который верёнт нативный PHP-массив (без параметров в этом тестовом примере)
 		personData: true
 		
-		//Запустим другой сниппет
+		// Запустим другой сниппет
 		someSnippet: {
-			//Если нам нужно передать весь результат первого сниппета, просто используем обычный плейсхолдер
-			//ddRunSnippet сконвертирует нативный PHP-массив в JSON в этом случае
+			// Если нам нужно передать весь результат первого сниппета, просто используем обычный плейсхолдер
+			// ddRunSnippet сконвертирует нативный PHP-массив в JSON в этом случае
 			personData: "[+personData+]"
 		}
 		
-		//Запустим ещё один сниппет
+		// Запустим ещё один сниппет
 		anotherSnippet: {
-			//Также мы можем использовать «вложенные» плейсхолдеры, чтобы получить конкретный элемент массива, который вернул наш тестовый сниппет
+			// Также мы можем использовать «вложенные» плейсхолдеры, чтобы получить конкретный элемент массива, который вернул наш тестовый сниппет
 			info: "[+personData.name+], [+personData.birthdate+]"
-			//И это работает с любой глубиной вложенности
+			// И это работает с любой глубиной вложенности
 			youtube: "[+personData.links.youtube+]"
 		}
 	}`
@@ -337,13 +337,13 @@ return [
 ### Запустить сниппет через `\DDTools\Snippet::runSnippet` без DB и eval
 
 ```php
-//Подключение (MODX)EvolutionCMS.libraries.ddTools
+// Подключение (MODX)EvolutionCMS.libraries.ddTools
 require_once(
 	$modx->getConfig('base_path')
 	. 'assets/libs/ddTools/modx.ddtools.class.php'
 );
 
-//Запуск (MODX)EvolutionCMS.snippets.ddRunSnippets
+// Запуск (MODX)EvolutionCMS.snippets.ddRunSnippets
 \DDTools\Snippet::runSnippet([
 	'name' => 'ddRunSnippets',
 	'params' => [
